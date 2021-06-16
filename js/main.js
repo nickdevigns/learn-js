@@ -1,11 +1,11 @@
 function logger (arg) {
-    console.log("What's up logger " + arg + "?")
+  console.log("What's up logger " + arg + '?')
 }
-logger("bro")
+logger('bro')
 
 const ten = () => 10
 // const ten = _ => 10;
-console.log(ten);
+console.log(ten)
 
 const loggerz = (arg) => {
   console.log(arg)
@@ -13,14 +13,14 @@ const loggerz = (arg) => {
 // const loggerz = arg => {
 //     console.log(arg)
 // }
-loggerz("What's up logger");
+loggerz("What's up logger")
 
 // Normal Function (with Function expression)
 function addNormalFunction (num1, num2) {
-    return num1 + num2
+  return num1 + num2
 }
 function multiplyNormalFunction (num1, num2) {
-    return num1 * num2
+  return num1 * num2
 }
 // Arrow Function with implicit return
 const addArrowFunction1 = (num1, num2) => num1 + num2
@@ -28,10 +28,10 @@ const multiplyArrowFunction1 = (num1, num2) => num1 * num2
 
 // Arrow Function without implicit return
 const addArrowFunction2 = (num1, num2) => {
-    return num1 + num2
+  return num1 + num2
 }
 const multiplyArrowFunction2 = (num1, num2) => {
-    return num1 * num2
+  return num1 * num2
 }
 
 // const addResult = addNormalFunction(43, 44)
@@ -45,11 +45,11 @@ const multiplyResult = multiplyArrowFunction2(20, 18)
 console.log(multiplyResult)
 
 const car = {
-    engine : "2.5L V4",
-    'wheel size' : "17 inch",
-    drive: function(speed) {
-        console.log("You are driving " + speed + " miles per hour")
-    }
+  engine: '2.5L V4',
+  'wheel size': '17 inch',
+  drive: function (speed) {
+    console.log('You are driving ' + speed + ' miles per hour')
+  }
 }
 
 console.log(car.engine)
@@ -58,7 +58,7 @@ console.log(car['wheel size'])
 car.navigation = true
 console.log(car.navigation)
 
-car['wheel type'] = "aluminum"
+car['wheel type'] = 'aluminum'
 console.log(car['wheel type'])
 
 car.drive(60)
@@ -69,11 +69,11 @@ const kenneth = 27
 const nick = 43
 
 if (nick < james) {
-    console.log("Nick is younger than James")
+  console.log('Nick is younger than James')
 } else if (nick > valerie) {
-    console.log("Nick is older than Valerie")
+  console.log('Nick is older than Valerie')
 } else if (nick >= kenneth) {
-    console.log("Nick is as old as Kenneth")
+  console.log('Nick is as old as Kenneth')
 }
 
 // const characters = document.querySelector(ul)
@@ -86,7 +86,6 @@ const yoda = characters.querySelector('[data-type=master]')
 // const vader = characters.querySelector('.badboy')
 const vader = characters.querySelector('[data-type=villain]')
 
-
 const buttonToggler = document.querySelector('.toggler')
 const add = document.querySelector('.add')
 const remove = document.querySelector('.remove')
@@ -94,21 +93,38 @@ const contains1 = document.querySelector('.contains1')
 const contains2 = document.querySelector('.contains2')
 
 buttonToggler.addEventListener('click', function () {
-    if (remove.classList.contains('.remove')) {
-        remove.classList.remove('remove')
-    } else {
-        remove.classList.add('remove')
-    }
+  if (remove.classList.contains('.remove')) {
+    remove.classList.remove('remove')
+  } else {
+    remove.classList.add('remove')
+  }
 
-    add.classList.toggle('red')
+  add.classList.toggle('red')
 })
 
 if (contains1.classList.contains('blue')) {
-    console.log("Contains 1 contains the blue class")
+  console.log('Contains 1 contains the blue class')
 } else if (contains2.classList.contains('blue')) {
-    console.log("Contains 2 contains the blue class")
+  console.log('Contains 2 contains the blue class')
 } else {
-    console.log("Contains 1 or 2 does not contain the blue class")
+  console.log('Contains 1 or 2 does not contain the blue class')
 }
-const toggle = document.querySelector('.toggle')
-toggle.classList.toggle('red')
+const toggler = document.querySelector('.toggle')
+toggler.classList.toggle('red')
+
+const button = document.querySelector('button')
+const body = document.body
+button.addEventListener('click', evt => {
+  console.log('Push the screen!')
+  body.classList.toggle('offcanvas-is-open')
+})
+
+const modalButton = document.querySelector('.jsModalButton')
+modalButton.addEventListener('click', evt => {
+  document.body.classList.add('modal-is-open')
+})
+
+const modalCloseButton = document.querySelector('.jsModalClose')
+modalCloseButton.addEventListener('click', evt => {
+  document.body.classList.remove('modal-is-open')
+})

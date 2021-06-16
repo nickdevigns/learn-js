@@ -6,45 +6,91 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link href="https://fonts.googleapis.com/css?family=Nunito:400,700&display=swap" rel="stylesheet" />
-    <!-- <link rel="stylesheet" href="css/normalize.css" />
-    <link rel="stylesheet" href="css/reset.css" /> -->
+    <link rel="stylesheet" href="css/normalize.css" />
+    <link rel="stylesheet" href="css/reset.css" />
     <link rel="stylesheet" href="css/styles.min.css" />
 </head>
 <body>
 
-    <ul id="star-wars-characters">
-        <li class="character luke" data-type="hero">Luke Skywalker</li>
-        <li class="character yoda" data-type="master">Yoda</li>
-        <li class="character badboy" data-type="villain">Darth Vader</li>
-    </ul>
+    <!-- Off-canvas Menu-->
+    <div class="offcanvas-menu">
+        <nav class="nav">
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Work</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </nav>
+    </div>
 
-    <button class="toggler">Click Me</button>
-    <div class="add">Add a "red" class to me!</div>
-    <div class="remove">Remove the class, "remove" from me!</div>
-    <div class="contains1">Do I have a "blue" class?</div>
-    <div class="contains2 blue">Do I have a "blue" class?</div>
-    <div class="toggle">Do I have a "red" class? If yes, remove it. If no, add it.</div>
+
 
     <!-- Main content here -->
     <div class="container">
+        <h1>Click the button the open the sidebar!</h1>
+        <button>
+            <span>Menu</span>
+        </button> 
+
         
+        
+        <main>
+            <div class="wrap">
+                <h1>Click the button the open the modal!</h1>
+                <button class="button jsModalButton">Click me!</button>
+                <svg class="point-hand" viewBox="0 0 58 66">
+                    <use xlink:href="images/sprite.svg#point-hand" />
+                </svg>
+            </div>
+        </main>
+
+        <!-- Modal Overlay-->
+        <div class="modal-overlay jsModalOverlay">
+            <div class="modal">
+                <div class="modal__content">
+                    <svg class="wave-hand" width="112" height="139" viewBox="0 0 112 139">
+                        <use xlink:href="images/sprite.svg#wave-hand" />
+                    </svg>
+                    <button class="modal__close-button jsModalClose">
+                        <svg width="1em" height="1em" viewBox="0 0 18 18">
+                            <use xlink:href="images/sprite.svg#close" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    
+        <ul id="star-wars-characters">
+                <li class="character luke" data-type="hero">Luke Skywalker</li>
+                <li class="character yoda" data-type="master">Yoda</li>
+                <li class="character badboy" data-type="villain">Darth Vader</li>
+            </ul>
+        
+            <button class="toggler">Click Me</button>
+            <div class="add">Add a "red" class to me!</div>
+            <div class="remove">Remove the class, "remove" from me!</div>
+            <div class="contains1">Do I have a "blue" class?</div>
+            <div class="contains2 blue">Do I have a "blue" class?</div>
+            <div class="toggle">Do I have a "red" class? If yes, remove it. If no, add it.</div>
+
+        <!-- ACCORDION -->
+        <div class="accordion">
+
+        </div>
+
+
+        <!-- TABBY -->
+        <div class="tabby">
+
+        </div>
+
+        <!-- ACCORDION -->
+        <section class="carousel">
+
+        </section> 
+    
     </div>
-
-    <!-- ACCORDION -->
-    <div class="accordion">
-
-    </div>
-
-
-    <!-- TABBY -->
-    <div class="tabby">
-
-    </div>
-
-    <!-- ACCORDION -->
-    <section class="carousel">
-
-    </section> 
 
     <script src="js/all.min.js"></script>
 
