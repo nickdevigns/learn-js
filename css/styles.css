@@ -1,7 +1,5 @@
 /* line 1, scss/styles.scss */
 :root {
-  --textColor: #031129;
-  --backgroundColor: #41b89a;
   --menuTextColor: #9ebed0;
   --menuTextHoverColor: #eaf0f3;
   --menuBackgroundColor: #031129;
@@ -27,22 +25,27 @@
   --blue-grey-700: #334e68;
   --blue-grey-800: #243b53;
   --blue-grey-900: #102a43;
+  --link-color: #2900b4;
+  --link-color-dark: #190070;
 }
 
-/* line 32, scss/styles.scss */
+/* line 35, scss/styles.scss */
 html {
   font-size: 125%;
   font-family: "Roboto", sans-serif;
   line-height: 1.4;
 }
 
-/* line 38, scss/styles.scss */
+/* line 41, scss/styles.scss */
 body {
+  background-image: linear-gradient(135deg, #ffc96a, #ffbfdd);
+  min-height: 100vh;
+  padding: 3em;
   background-color: var(--blue-grey-100);
   color: var(--blue-grey-900);
 }
 
-/* line 45, scss/styles.scss */
+/* line 51, scss/styles.scss */
 h1 {
   margin-top: 3rem;
   margin-bottom: 1rem;
@@ -50,9 +53,20 @@ h1 {
   line-height: 1.25;
 }
 
-/* line 52, scss/styles.scss */
+/* line 58, scss/styles.scss */
 h2 {
   font-weight: 400;
+}
+
+/* line 62, scss/styles.scss */
+a {
+  color: var(--link-color);
+}
+
+/* line 66, scss/styles.scss */
+a:hover,
+a:active {
+  color: var(--link-color-dark);
 }
 
 /*
@@ -60,15 +74,155 @@ h2 {
  * =====================================
  */
 /**
+ * Accordion
+ */
+/* line 79, scss/styles.scss */
+[data-theme="cheese"] {
+  --background-color: #f3ca5f;
+  --text-color: #3a1e0e;
+}
+
+/* line 84, scss/styles.scss */
+[data-theme="lettuce"] {
+  --background-color: #88d28b;
+  --text-color: #091e0a;
+}
+
+/* line 89, scss/styles.scss */
+[data-theme="tomato"] {
+  --background-color: #f46e6e;
+  --text-color: #1a0201;
+}
+
+/* line 94, scss/styles.scss */
+[data-theme="beef"] {
+  --background-color: #ac5a30;
+  --text-color: #170005;
+}
+
+/* line 99, scss/styles.scss */
+.accordion-container {
+  max-width: 30em;
+}
+
+/* line 103, scss/styles.scss */
+.accordion {
+  position: relative;
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+/* line 109, scss/styles.scss */
+.accordion::before {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 1em;
+  background-color: rgba(125, 89, 69, 0.6);
+  content: "";
+}
+
+/* line 119, scss/styles.scss */
+.accordion:first-child {
+  border-top-left-radius: 1.5em;
+  border-top-right-radius: 1.5em;
+}
+
+/* line 124, scss/styles.scss */
+.accordion:first-child::before {
+  border-top-left-radius: 1.5em;
+}
+
+/* line 128, scss/styles.scss */
+.accordion:last-child {
+  border-bottom-left-radius: 1.5em;
+  border-bottom-right-radius: 1.5em;
+}
+
+/* line 133, scss/styles.scss */
+.accordion:last-child::before {
+  border-bottom-left-radius: 1.5em;
+}
+
+/* line 137, scss/styles.scss */
+.accordion__header button {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: calc(100% - 1rem);
+  margin-left: 1rem;
+  padding: 1.5rem 2rem 1.5rem;
+  border: 0;
+  text-align: left;
+}
+
+/* line 148, scss/styles.scss */
+.accordion__title {
+  font-size: 1.5rem;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+/* Indicators */
+/* line 155, scss/styles.scss */
+.accordion__indicator > * {
+  width: 1rem;
+}
+
+/* line 159, scss/styles.scss */
+.accordion .indicator__plus {
+  display: block;
+}
+
+/* line 163, scss/styles.scss */
+.accordion .indicator__minus {
+  display: none;
+}
+
+/* line 167, scss/styles.scss */
+.accordion.is-open .indicator__minus {
+  display: block;
+}
+
+/* line 171, scss/styles.scss */
+.accordion.is-open .indicator__plus {
+  display: none;
+}
+
+/* Accordion content */
+/* line 176, scss/styles.scss */
+.accordion.is-open .accordion__content {
+  display: grid;
+}
+
+/* line 180, scss/styles.scss */
+.accordion__content {
+  display: none;
+  grid-template-columns: 7.5em 1fr;
+  grid-column-gap: 1.5em;
+  align-items: center;
+  padding-right: 3em;
+  padding-bottom: 1.5em;
+  padding-left: 3em;
+}
+
+/* line 190, scss/styles.scss */
+.accordion__content svg {
+  width: 10em;
+  max-width: 100%;
+}
+
+/**
  * Off-Canvas Menu
  */
-/* line 64, scss/styles.scss */
+/* line 198, scss/styles.scss */
 .offcanvas-is-open .offcanvas-menu,
 .offcanvas-is-open .container {
   transform: translateX(14rem);
 }
 
-/* line 68, scss/styles.scss */
+/* line 202, scss/styles.scss */
 .offcanvas-menu {
   position: fixed;
   top: 0;
@@ -81,7 +235,7 @@ h2 {
 /**
  * Containers
  */
-/* line 80, scss/styles.scss */
+/* line 214, scss/styles.scss */
 .container {
   padding-top: 3rem;
   padding-left: 2.5rem;
@@ -91,12 +245,12 @@ h2 {
 /**
  * Menu button
  */
-/* line 89, scss/styles.scss */
+/* line 223, scss/styles.scss */
 button {
   border: 2px solid currentColor;
 }
 
-/* line 93, scss/styles.scss */
+/* line 227, scss/styles.scss */
 button:hover,
 button:focus,
 .offcanvas-is-open button {
@@ -105,7 +259,7 @@ button:focus,
   border-color: var(--textColor);
 }
 
-/* line 101, scss/styles.scss */
+/* line 235, scss/styles.scss */
 main {
   display: flex;
   align-items: center;
@@ -113,7 +267,7 @@ main {
   height: 100vh;
 }
 
-/* line 108, scss/styles.scss */
+/* line 242, scss/styles.scss */
 .wrap {
   position: relative;
   max-width: 30em;
@@ -123,7 +277,7 @@ main {
  * START EDITING HERE
  * ==================
  */
-/* line 117, scss/styles.scss */
+/* line 251, scss/styles.scss */
 .point-hand {
   position: absolute;
   left: 0;
@@ -138,7 +292,7 @@ main {
 /**
  * Modal
  */
-/* line 131, scss/styles.scss */
+/* line 265, scss/styles.scss */
 .modal-overlay {
   display: flex;
   justify-content: center;
@@ -154,13 +308,13 @@ main {
   z-index: -1;
 }
 
-/* line 145, scss/styles.scss */
+/* line 279, scss/styles.scss */
 .modal-is-open .modal-overlay {
   opacity: 1;
   z-index: 1;
 }
 
-/* line 150, scss/styles.scss */
+/* line 284, scss/styles.scss */
 .modal {
   display: grid;
   place-items: center;
@@ -173,7 +327,7 @@ main {
   min-height: 50vmin;
 }
 
-/* line 162, scss/styles.scss */
+/* line 296, scss/styles.scss */
 .modal__close-button {
   position: absolute;
   top: -1.5em;
@@ -187,12 +341,12 @@ main {
   opacity: 0;
 }
 
-/* line 175, scss/styles.scss */
+/* line 309, scss/styles.scss */
 .modal:hover .modal__close-button {
   opacity: 1;
 }
 
-/* line 179, scss/styles.scss */
+/* line 313, scss/styles.scss */
 .modal__close-button:hover,
 .modal__close-button:active,
 .modal__close-button:focus {
@@ -204,7 +358,7 @@ main {
 /**
  * Modal button
  */
-/* line 190, scss/styles.scss */
+/* line 324, scss/styles.scss */
 .button {
   padding: 0.75em 0.75em;
   border: none;
@@ -213,7 +367,7 @@ main {
   color: #fff;
 }
 
-/* line 198, scss/styles.scss */
+/* line 332, scss/styles.scss */
 .button:hover,
 .button:active {
   background-color: var(--magenta-600);
@@ -223,12 +377,12 @@ main {
  *  Navigation
  * -----------
  */
-/* line 207, scss/styles.scss */
+/* line 341, scss/styles.scss */
 .nav {
   margin-top: 6rem;
 }
 
-/* line 211, scss/styles.scss */
+/* line 345, scss/styles.scss */
 .nav a {
   display: block;
   margin: 0;
@@ -237,12 +391,12 @@ main {
   text-decoration: none;
 }
 
-/* line 219, scss/styles.scss */
+/* line 353, scss/styles.scss */
 .nav a:hover {
   background-color: #010b13;
 }
 
-/* line 223, scss/styles.scss */
+/* line 357, scss/styles.scss */
 .nav a:hover,
 .nav a:focus,
 .nav a:active {
