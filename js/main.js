@@ -362,3 +362,26 @@ const legolas = glorifindel.previousElementSibling
 // Select the.characters div from Nazgûl
 const nazgul = document.querySelector('.enemies').children[1]
 const LORcharacterz = nazgul.closest('.characters')
+
+// Tabby
+// Select all tabs
+const tabs = Array.from(document.querySelectorAll('.tab'))
+const tabby = document.querySelector('.tabby')
+const tabContents = Array.from(tabby.querySelectorAll('.tab-content'))
+// Loop through all tab and add an event listener to each tab
+tabs.forEach(tab => {
+  tab.addEventListener('click', evt => {
+    // console.log(tab)
+    // When the user clicks a tab, we get the target from data-target
+    const target = tab.dataset.target
+    // console.log(target)
+    const tabContent = tabby.querySelector('#' + target)
+    // console.log(tabContent)
+    // Remove is-selected class from every tab and from all tab content boxes
+    tabs.forEach(t => t.classList.remove('is-selected'))
+    tabContents.forEach(c => c.classList.remove('is-selected'))
+    // Add is-selected class to the clicked tab and the corresponding tab content box
+    tab.classList.add('is-selected')
+    tabContent.classList.add('is-selected')
+  })
+})
