@@ -215,7 +215,7 @@ const multipliedBy5Numbers = []
 
 // For...of loop alternative to for loop
 for (const num of numbers) {
-// for (let i = 0; i < numbers.length; i++) { // regular for loop
+  // for (let i = 0; i < numbers.length; i++) { // regular for loop
 
   console.log(num) // Loop through the numbers and console.log each number within
   //   console.log(numbers[i])
@@ -315,3 +315,50 @@ accordions.forEach(accordion => {
     accordion.classList.toggle('is-open')
   })
 })
+
+const offcanvasBtn = document.querySelector('.offcanvas__button')
+offcanvasBtn.addEventListener('click', evt => {
+  offcanvasBtn.style.setProperty('color', 'white')
+  offcanvasBtn.style.setProperty('background-color', 'purple')
+  offcanvasBtn.style.setProperty('width', '400px')
+  offcanvasBtn.style.setProperty('height', '200px')
+})
+
+// Set and get attributes with setAttribute and getAttribute
+offcanvasBtn.setAttribute('data-border-width', '2')
+const offcanvasBtnBorderWidth = offcanvasBtn.getAttribute('data-border-width')
+console.log(parseInt(offcanvasBtnBorderWidth)) // parseInt turns string '2' into number
+
+// Set and get attributes with dataset
+offcanvasBtn.dataset.borderStyle = 'solid'
+const offcanvasBtnBorderStyle = offcanvasBtn.dataset.borderStyle
+console.log(offcanvasBtnBorderStyle)
+
+// Remove attribute
+offcanvasBtn.removeAttribute('data-border-style')
+console.log(offcanvasBtn)
+
+// Traversing the DOM
+
+// Select.characters with document.querySelector
+const LORcharacters = document.querySelector('.characters')
+// Select.humans from.characters
+const LORhumanList = LORcharacters.querySelector('.humans')
+// Select all humans with querySelectorAll, starting from.humans
+const LORhumans = LORhumanList.querySelectorAll('li')
+// Select all hobbits with children
+const LORhobbitsList = LORcharacters.querySelector('.hobbits')
+const LORhobbitChildren = LORhobbitsList.children
+// Select the Merry(the hobbit)
+const merry = LORhobbitChildren[2]
+// Select.elves from Merry
+const elves = merry.parentElement.nextElementSibling.nextElementSibling
+// Select Glorfindel from.elves
+const glorifindel = elves.children[1]
+// Select Elrond from Glorfindel
+const elrond = glorifindel.nextElementSibling
+// Select Legolas from Glorfindel
+const legolas = glorifindel.previousElementSibling
+// Select the.characters div from Nazgûl
+const nazgul = document.querySelector('.enemies').children[1]
+const LORcharacterz = nazgul.closest('.characters')
