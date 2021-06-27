@@ -29,16 +29,19 @@
   --link-color-dark: #190070;
   --indigo-050: #e0e8f9;
   --indigo-100: #bed0f7;
+  --color-default-state: grey;
+  --color-hover-state: rgb(107, 107, 195);
+  --color-selected-state: rgb(17, 26, 101);
 }
 
-/* line 38, scss/styles.scss */
+/* line 42, scss/styles.scss */
 html {
   font-size: 125%;
   font-family: "Roboto", sans-serif;
   line-height: 1.4;
 }
 
-/* line 44, scss/styles.scss */
+/* line 48, scss/styles.scss */
 body {
   background-image: linear-gradient(135deg, #ffc96a, #ffbfdd);
   min-height: 100vh;
@@ -47,7 +50,7 @@ body {
   color: var(--blue-grey-900);
 }
 
-/* line 54, scss/styles.scss */
+/* line 61, scss/styles.scss */
 h1 {
   margin-top: 3rem;
   margin-bottom: 1rem;
@@ -55,24 +58,24 @@ h1 {
   line-height: 1.25;
 }
 
-/* line 61, scss/styles.scss */
+/* line 68, scss/styles.scss */
 h2 {
   font-size: 2.352637em;
   font-weight: 400;
 }
 
-/* line 66, scss/styles.scss */
+/* line 73, scss/styles.scss */
 p + *,
 * + p {
   margin-top: 1em;
 }
 
-/* line 71, scss/styles.scss */
+/* line 78, scss/styles.scss */
 a {
   color: var(--link-color);
 }
 
-/* line 75, scss/styles.scss */
+/* line 82, scss/styles.scss */
 a:hover,
 a:active {
   color: var(--link-color-dark);
@@ -85,43 +88,43 @@ a:active {
 /**
  * Accordion
  */
-/* line 88, scss/styles.scss */
+/* line 95, scss/styles.scss */
 [data-theme="cheese"] {
   --background-color: #f3ca5f;
   --text-color: #3a1e0e;
 }
 
-/* line 93, scss/styles.scss */
+/* line 100, scss/styles.scss */
 [data-theme="lettuce"] {
   --background-color: #88d28b;
   --text-color: #091e0a;
 }
 
-/* line 98, scss/styles.scss */
+/* line 105, scss/styles.scss */
 [data-theme="tomato"] {
   --background-color: #f46e6e;
   --text-color: #1a0201;
 }
 
-/* line 103, scss/styles.scss */
+/* line 110, scss/styles.scss */
 [data-theme="beef"] {
   --background-color: #ac5a30;
   --text-color: #170005;
 }
 
-/* line 108, scss/styles.scss */
+/* line 115, scss/styles.scss */
 .accordion-container {
   max-width: 30em;
 }
 
-/* line 112, scss/styles.scss */
+/* line 119, scss/styles.scss */
 .accordion {
   position: relative;
   background-color: var(--background-color);
   color: var(--text-color);
 }
 
-/* line 118, scss/styles.scss */
+/* line 125, scss/styles.scss */
 .accordion::before {
   position: absolute;
   top: 0;
@@ -132,29 +135,29 @@ a:active {
   content: "";
 }
 
-/* line 128, scss/styles.scss */
+/* line 135, scss/styles.scss */
 .accordion:first-child {
   border-top-left-radius: 1.5em;
   border-top-right-radius: 1.5em;
 }
 
-/* line 133, scss/styles.scss */
+/* line 140, scss/styles.scss */
 .accordion:first-child::before {
   border-top-left-radius: 1.5em;
 }
 
-/* line 137, scss/styles.scss */
+/* line 144, scss/styles.scss */
 .accordion:last-child {
   border-bottom-left-radius: 1.5em;
   border-bottom-right-radius: 1.5em;
 }
 
-/* line 142, scss/styles.scss */
+/* line 149, scss/styles.scss */
 .accordion:last-child::before {
   border-bottom-left-radius: 1.5em;
 }
 
-/* line 146, scss/styles.scss */
+/* line 153, scss/styles.scss */
 .accordion__header button {
   display: flex;
   justify-content: space-between;
@@ -166,7 +169,7 @@ a:active {
   text-align: left;
 }
 
-/* line 157, scss/styles.scss */
+/* line 164, scss/styles.scss */
 .accordion__title {
   font-size: 1.5rem;
   text-transform: uppercase;
@@ -174,38 +177,38 @@ a:active {
 }
 
 /* Indicators */
-/* line 164, scss/styles.scss */
+/* line 171, scss/styles.scss */
 .accordion__indicator > * {
   width: 1rem;
 }
 
-/* line 168, scss/styles.scss */
+/* line 175, scss/styles.scss */
 .accordion .indicator__plus {
   display: block;
 }
 
-/* line 172, scss/styles.scss */
+/* line 179, scss/styles.scss */
 .accordion .indicator__minus {
   display: none;
 }
 
-/* line 176, scss/styles.scss */
+/* line 183, scss/styles.scss */
 .accordion.is-open .indicator__minus {
   display: block;
 }
 
-/* line 180, scss/styles.scss */
+/* line 187, scss/styles.scss */
 .accordion.is-open .indicator__plus {
   display: none;
 }
 
 /* Accordion content */
-/* line 185, scss/styles.scss */
+/* line 192, scss/styles.scss */
 .accordion.is-open .accordion__content {
   display: grid;
 }
 
-/* line 189, scss/styles.scss */
+/* line 196, scss/styles.scss */
 .accordion__content {
   display: none;
   grid-template-columns: 7.5em 1fr;
@@ -216,7 +219,7 @@ a:active {
   padding-left: 3em;
 }
 
-/* line 199, scss/styles.scss */
+/* line 206, scss/styles.scss */
 .accordion__content svg {
   width: 10em;
   max-width: 100%;
@@ -225,13 +228,13 @@ a:active {
 /**
  * Off-Canvas Menu
  */
-/* line 207, scss/styles.scss */
+/* line 214, scss/styles.scss */
 .offcanvas-is-open .offcanvas-menu,
 .offcanvas-is-open .container {
   transform: translateX(14rem);
 }
 
-/* line 211, scss/styles.scss */
+/* line 218, scss/styles.scss */
 .offcanvas-menu {
   position: fixed;
   top: 0;
@@ -244,7 +247,7 @@ a:active {
 /**
  * Containers
  */
-/* line 223, scss/styles.scss */
+/* line 230, scss/styles.scss */
 .container {
   padding-top: 3rem;
   padding-left: 2.5rem;
@@ -254,12 +257,12 @@ a:active {
 /**
  * Menu button
  */
-/* line 232, scss/styles.scss */
+/* line 239, scss/styles.scss */
 button {
   border: 2px solid currentColor;
 }
 
-/* line 236, scss/styles.scss */
+/* line 243, scss/styles.scss */
 button:hover,
 button:focus,
 .offcanvas-is-open button {
@@ -268,7 +271,7 @@ button:focus,
   border-color: var(--textColor);
 }
 
-/* line 244, scss/styles.scss */
+/* line 251, scss/styles.scss */
 main {
   display: flex;
   align-items: center;
@@ -276,7 +279,7 @@ main {
   height: 100vh;
 }
 
-/* line 251, scss/styles.scss */
+/* line 258, scss/styles.scss */
 .wrap {
   position: relative;
   max-width: 30em;
@@ -286,7 +289,7 @@ main {
  * START EDITING HERE
  * ==================
  */
-/* line 260, scss/styles.scss */
+/* line 267, scss/styles.scss */
 .point-hand {
   position: absolute;
   left: 0;
@@ -301,7 +304,7 @@ main {
 /**
  * Modal
  */
-/* line 274, scss/styles.scss */
+/* line 281, scss/styles.scss */
 .modal-overlay {
   display: flex;
   justify-content: center;
@@ -317,13 +320,13 @@ main {
   z-index: -1;
 }
 
-/* line 288, scss/styles.scss */
+/* line 295, scss/styles.scss */
 .modal-is-open .modal-overlay {
   opacity: 1;
   z-index: 1;
 }
 
-/* line 293, scss/styles.scss */
+/* line 300, scss/styles.scss */
 .modal {
   display: grid;
   place-items: center;
@@ -336,7 +339,7 @@ main {
   min-height: 50vmin;
 }
 
-/* line 305, scss/styles.scss */
+/* line 312, scss/styles.scss */
 .modal__close-button {
   position: absolute;
   top: -1.5em;
@@ -350,12 +353,12 @@ main {
   opacity: 0;
 }
 
-/* line 318, scss/styles.scss */
+/* line 325, scss/styles.scss */
 .modal:hover .modal__close-button {
   opacity: 1;
 }
 
-/* line 322, scss/styles.scss */
+/* line 329, scss/styles.scss */
 .modal__close-button:hover,
 .modal__close-button:active,
 .modal__close-button:focus {
@@ -367,7 +370,7 @@ main {
 /**
  * Modal button
  */
-/* line 333, scss/styles.scss */
+/* line 340, scss/styles.scss */
 .button {
   padding: 0.75em 0.75em;
   border: none;
@@ -376,7 +379,7 @@ main {
   color: #fff;
 }
 
-/* line 341, scss/styles.scss */
+/* line 348, scss/styles.scss */
 .button:hover,
 .button:active {
   background-color: var(--magenta-600);
@@ -386,12 +389,12 @@ main {
  *  Navigation
  * -----------
  */
-/* line 350, scss/styles.scss */
+/* line 357, scss/styles.scss */
 .nav {
   margin-top: 6rem;
 }
 
-/* line 354, scss/styles.scss */
+/* line 361, scss/styles.scss */
 .nav a {
   display: block;
   margin: 0;
@@ -400,12 +403,12 @@ main {
   text-decoration: none;
 }
 
-/* line 362, scss/styles.scss */
+/* line 369, scss/styles.scss */
 .nav a:hover {
   background-color: #010b13;
 }
 
-/* line 366, scss/styles.scss */
+/* line 373, scss/styles.scss */
 .nav a:hover,
 .nav a:focus,
 .nav a:active {
@@ -415,38 +418,38 @@ main {
 /**
  * Tabby
  */
-/* line 376, scss/styles.scss */
+/* line 383, scss/styles.scss */
 [data-theme="tamagotchi"] {
   --border-color: hsl(352, 100%, 40%);
   --text-color: hsl(352, 97%, 23%);
 }
 
-/* line 381, scss/styles.scss */
+/* line 388, scss/styles.scss */
 [data-theme="digimon"] {
   --border-color: hsl(215, 46%, 42%);
   --text-color: hsl(215, 63%, 23%);
 }
 
-/* line 386, scss/styles.scss */
+/* line 393, scss/styles.scss */
 [data-theme="pokemon"] {
   --border-color: hsl(46, 100%, 52%);
   --text-color: hsl(43, 26%, 26%);
 }
 
-/* line 391, scss/styles.scss */
+/* line 398, scss/styles.scss */
 .tabby {
   max-width: 45em;
   margin: auto;
 }
 
 /* Tabs */
-/* line 397, scss/styles.scss */
+/* line 404, scss/styles.scss */
 .tabs {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
 }
 
-/* line 402, scss/styles.scss */
+/* line 409, scss/styles.scss */
 .tab {
   position: relative;
   margin-bottom: -0.5em;
@@ -457,13 +460,13 @@ main {
   color: var(--text-color);
 }
 
-/* line 412, scss/styles.scss */
+/* line 419, scss/styles.scss */
 .tab.is-selected {
   filter: none;
   background-color: white;
 }
 
-/* line 417, scss/styles.scss */
+/* line 424, scss/styles.scss */
 .tab.is-selected::after {
   position: absolute;
   z-index: 1;
@@ -476,12 +479,12 @@ main {
 }
 
 /* Tab-content */
-/* line 429, scss/styles.scss */
+/* line 436, scss/styles.scss */
 .tab-contents {
   position: relative;
 }
 
-/* line 433, scss/styles.scss */
+/* line 440, scss/styles.scss */
 .tab-content {
   display: none;
   padding: 2.5em;
@@ -489,22 +492,141 @@ main {
   background-color: white;
 }
 
-/* line 440, scss/styles.scss */
+/* line 447, scss/styles.scss */
 .tab-content.is-selected {
   display: block;
 }
 
-/* line 444, scss/styles.scss */
+/* line 451, scss/styles.scss */
 .tab-content p {
   max-width: 30em;
 }
 
-/* line 448, scss/styles.scss */
+/* line 455, scss/styles.scss */
 .tab-content img {
   float: right;
   width: calc((100% - 1em) / 2);
   margin-left: 1em;
   margin-bottom: 1em;
+}
+
+/**
+ * Carousel
+ */
+/* line 466, scss/styles.scss */
+.carousel {
+  display: grid;
+  grid-template-columns: 3em 80vw 3em;
+  grid-template-rows: 70vh 3em;
+  align-items: center;
+  grid-gap: 1em;
+}
+
+/* line 474, scss/styles.scss */
+.carousel > *:nth-child(2) {
+  grid-column: 2;
+  align-self: stretch;
+}
+
+/**
+ * Carousel contents
+ */
+/* line 482, scss/styles.scss */
+.carousel__contents-container {
+  overflow: hidden;
+}
+
+/* line 485, scss/styles.scss */
+.carousel__contents {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+/* line 491, scss/styles.scss */
+.carousel__slide {
+  position: absolute;
+  width: inherit;
+  height: inherit;
+}
+
+/* This code works if the width of one slide is 800px */
+/* line 505, scss/styles.scss */
+.carousel__slide > a {
+  display: block;
+  width: inherit;
+  height: inherit;
+}
+
+/* line 511, scss/styles.scss */
+.carousel__slide img {
+  width: inherit;
+  height: inherit;
+  object-fit: cover;
+  object-position: center center;
+}
+
+/**
+ * Buttons
+ */
+/* line 521, scss/styles.scss */
+.carousel__button {
+  padding: 0.25em;
+  border: none;
+}
+
+/* line 525, scss/styles.scss */
+.carousel__button svg {
+  fill: var(--color-default-state);
+}
+
+/* line 529, scss/styles.scss */
+.carousel__button:hover svg,
+.carousel__button:active svg {
+  fill: var(--color-hover-state);
+}
+
+/* line 534, scss/styles.scss */
+.carousel__button.is-hidden {
+  display: none;
+}
+
+/**
+ * Dots
+ */
+/* line 541, scss/styles.scss */
+.carousel__dots {
+  grid-column: 1 / -1;
+  justify-self: center;
+}
+
+/* line 546, scss/styles.scss */
+.carousel__dot {
+  width: 1em;
+  height: 1em;
+  padding: 0;
+  border-radius: 100%;
+  background-color: var(--color-default-state);
+}
+
+/* line 554, scss/styles.scss */
+.carousel__dot + .carousel__dot {
+  margin-left: 1em;
+}
+
+/* line 558, scss/styles.scss */
+.carousel__dot:hover {
+  background-color: var(--color-hover-state);
+}
+
+/* line 562, scss/styles.scss */
+.carousel__dot.is-selected {
+  background-color: var(--color-selected-state);
+}
+
+/* line 566, scss/styles.scss */
+.is-hidden {
+  display: none;
 }
 
 /*# sourceMappingURL=styles.css.map */
