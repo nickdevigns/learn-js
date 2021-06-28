@@ -1,4 +1,4 @@
-function logger(arg) {
+function logger (arg) {
   console.log("What's up logger " + arg + '?')
 }
 logger('bro')
@@ -16,10 +16,10 @@ const loggerz = (arg) => {
 loggerz("What's up logger")
 
 // Normal Function (with Function expression)
-function addNormalFunction(num1, num2) {
+function addNormalFunction (num1, num2) {
   return num1 + num2
 }
-function multiplyNormalFunction(num1, num2) {
+function multiplyNormalFunction (num1, num2) {
   return num1 * num2
 }
 // Arrow Function with implicit return
@@ -112,7 +112,7 @@ if (contains1.classList.contains('blue')) {
 const toggler = document.querySelector('.toggle')
 toggler.classList.toggle('red')
 
-// Modal
+// Offcanvas and Modal Buttons
 const button = document.querySelector('button')
 const body = document.body
 button.addEventListener('click', evt => {
@@ -315,15 +315,38 @@ accordions.forEach(accordion => {
     accordion.classList.toggle('is-open')
   })
 })
+//
+//
+//
+//
+//
+// Alternative listening methods and setting CSS properties
 
+// Listening method #1 with 'this' keyword (work only with normal functions, NOT arrow => functions)
 const offcanvasBtn = document.querySelector('.offcanvas__button')
-offcanvasBtn.addEventListener('click', evt => {
-  offcanvasBtn.style.setProperty('color', 'white')
-  offcanvasBtn.style.setProperty('background-color', 'purple')
-  offcanvasBtn.style.setProperty('width', '400px')
-  offcanvasBtn.style.setProperty('height', '200px')
+offcanvasBtn.addEventListener('click', function (e) {
+  // CSS style method #1
+  // offcanvasBtn.style.setProperty('width', '400px')
+  // offcanvasBtn.style.setProperty('height', '200px')
+
+  // CSS style method #2
+  this.style.width = '400px'
+  this.style.height = '200px'
 })
 
+// Listening method #2 with Event.currentTarget (work with both normal and arrow functions)
+const offcanvasBtnUpdates = e => {
+  // CSS style method #3
+  e.currentTarget.style.color = 'white'
+  e.currentTarget.style.backgroundColor = 'purple'
+}
+const offcanvasBtn2 = document.querySelector('.offcanvas__button')
+offcanvasBtn2.addEventListener('click', offcanvasBtnUpdates)
+//
+//
+//
+//
+//
 // Set and get attributes with setAttribute and getAttribute
 offcanvasBtn.setAttribute('data-border-width', '2')
 const offcanvasBtnBorderWidth = offcanvasBtn.getAttribute('data-border-width')
@@ -500,3 +523,51 @@ const slideWidth = slides[0].getBoundingClientRect().width
 slides.forEach((slide, index) => {
   slide.style.left = slideWidth * index + 'px'
 })
+
+// Event Delegation
+const list = document.querySelector('ul')
+
+list.addEventListener('click', e => {
+  // with 'closest'
+  const item = e.target.closest('li')
+  if (item) {
+    console.log(e.target)
+  }
+
+  // with 'matches' and pointer-events
+  if (e.target.matches('li')) {
+    console.log(e.target)
+  }
+
+  /* Also, put this in the CSS file
+  li a {
+    pointer-events: none
+  }
+  */
+})
+
+// Removing Event Listeners
+
+// Remove after 1 click
+const submitForm = e => {
+  console.log('The form is submitted')
+  e.currentTarget.removeEventListener('click', submitForm)
+}
+const submitButton = document.querySelector('button')
+submitButton.addEventListener('click', submitForm)
+
+// Remove after 5 clicks
+const listenFor5Clicks = e => {
+  const elem = e.currentTarget
+  const prevCount = parseInt(elem.dataset.count) || 0
+  const currentCount = prevCount + 1
+
+  elem.dataset.count = currentCount
+  console.log(`clicked ${currentCount} times`)
+
+  if (currentCount === 5) {
+    elem.removeEventListener('click', listenFor5Clicks)
+  }
+}
+const clickButton = document.querySelector('button')
+clickButton.addEventListener('click', listenFor5Clicks)
