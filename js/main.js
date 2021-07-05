@@ -130,6 +130,22 @@ modalCloseButton.addEventListener('click', evt => {
   document.body.classList.remove('modal-is-open')
 })
 
+// Close the modal when clicking on the modal overlay
+const modalOverlay = document.querySelector('.modal-overlay')
+
+modalOverlay.addEventListener('click', evt => {
+  if (evt.target.closest('.modal')) {
+    evt.stopPropagation() // Stop event from bubbling - prevent the modal from closing when clicking inside modal
+  } else {
+    body.classList.remove('modal-is-open') // Close Modal
+  }
+
+  // // Easier way to write the code above
+  // if (!evt.target.closest('.modal')) {
+  //   body.classList.remove('modal-is-open')
+  // }
+})
+
 // Array of oldest to youngest pets
 const pets = ['Sammy', 'Finley', 'Shelby']
 console.log(pets)
@@ -305,16 +321,28 @@ Array.from(characterz).forEach(character => character.classList.add('star-wars')
 //   firstAccordion.classList.toggle('is-open')
 // })
 
-const accordions = Array.from(document.querySelectorAll('.accordion'))
-accordions.forEach(accordion => {
-  // Find accordion header
-  const accordionHeader = accordion.querySelector('.accordion__header')
-  // Add event listener to the accordion header
-  accordionHeader.addEventListener('click', evt => {
-    // Open/close toggle for accordion (if close=>open=>close)
-    accordion.classList.toggle('is-open')
-  })
+// const accordions = Array.from(document.querySelectorAll('.accordion'))
+// accordions.forEach(accordion => {
+//   // Find accordion header
+//   const accordionHeader = accordion.querySelector('.accordion__header')
+//   // Add event listener to the accordion header
+//   accordionHeader.addEventListener('click', evt => {
+//     // Open/close toggle for accordion (if close=>open=>close)
+//     accordion.classList.toggle('is-open')
+//   })
+// })
+
+// Alternative way to do the above function but with Event Delegation
+const accordionContainer = document.querySelector('.accordion-container')
+accordionContainer.addEventListener('click', evt => {
+  // If the user clicked the accordion header or within, close the accordion
+  const accordionHeader = evt.target.closest('.accordion__header')
+  if (accordionHeader) {
+    const accordion = accordionHeader.parentElement
+    accordion.classList.toggle('is-open') // add or remove the 'is-open' class to the parent element of the accordion header in order to open/close
+  }
 })
+
 //
 //
 //
@@ -382,15 +410,17 @@ const glorifindel = elves.children[1]
 const elrond = glorifindel.nextElementSibling
 // Select Legolas from Glorfindel
 const legolas = glorifindel.previousElementSibling
-// Select the.characters div from Nazgûl
+// Select the characters div from Nazgûl
 const nazgul = document.querySelector('.enemies').children[1]
 const LORcharacterz = nazgul.closest('.characters')
 
 // Tabby
+const tabby = document.querySelector('.tabby')
+
 // Select all tabs
 const tabs = Array.from(document.querySelectorAll('.tab'))
-const tabby = document.querySelector('.tabby')
 const tabContents = Array.from(tabby.querySelectorAll('.tab-content'))
+
 // Loop through all tab and add an event listener to each tab
 tabs.forEach(tab => {
   tab.addEventListener('click', evt => {
@@ -407,6 +437,25 @@ tabs.forEach(tab => {
     tab.classList.add('is-selected')
     tabContent.classList.add('is-selected')
   })
+})
+
+// Alternate (easier) method of the above using Event Delegation
+const tabsList = tabby.querySelector('.tabs')
+tabsList.addEventListener('click', evt => {
+  // 1. Find the clicked tab
+  const tab = evt.target
+  // 2. Find the associated tab content
+  const target = tab.dataset.target
+  // 3. Associate the tab content with the tab
+  const tabContent = tabby.querySelector('#' + target)
+  // 4. Remove 'is-selected' class from all tabs to de-emphasize them
+  tabs.forEach(t => t.classList.remove('is-selected'))
+  // 5. Add 'is-selected' class to clicked tab to emphasize it
+  tab.classList.add('is-selected')
+  // 6. Remove 'is-selected' class from all tab content to hide them
+  tabContents.forEach(c => c.classList.remove('is-selected'))
+  // 7. Add 'is-selected' class to corresponding tab to show it
+  tabContent.classList.add('is-selected')
 })
 
 // Carousel
@@ -467,50 +516,53 @@ previousButton.addEventListener('click', evt => {
   previousDot.classList.add('is-selected')
 })
 
-dots.forEach(dot => {
-  dot.addEventListener('click', evt => {
-    // console.log(dot)
-    // When a dot gets clicked, we need to find the corresponding slide
-    let clickedDotIndex
-    // loop through dots and check which dot was clicked
-    for (let i = 0; i < dots.length; i++) {
-      if (dots[i] === dot) {
-        clickedDotIndex = i
+dotsContainer.addEventListener('click', evt => {
+  const dot = evt.target.closest('button')
+  if (dot) {
+    dot.addEventListener('click', evt => {
+      // console.log(dot)
+      // When a dot gets clicked, we need to find the corresponding slide
+      let clickedDotIndex
+      // loop through dots and check which dot was clicked
+      for (let i = 0; i < dots.length; i++) {
+        if (dots[i] === dot) {
+          clickedDotIndex = i
+        }
       }
-    }
-    // console.log(clickedDotIndex) // returns 0,1,2
+      // console.log(clickedDotIndex) // returns 0,1,2
 
-    // Once we know clickedDotIndex, we can use it to find the slide to show.
-    const slideToShow = slides[clickedDotIndex]
-    // console.log(slideToShow)
+      // Once we know clickedDotIndex, we can use it to find the slide to show.
+      const slideToShow = slides[clickedDotIndex]
+      // console.log(slideToShow)
 
-    // Once we know the slide to show, we can get its left position with getComputedStyle.
-    const destination = getComputedStyle(slideToShow).left
-    // console.log(destination) // 0px, 800px, 1600px
+      // Once we know the slide to show, we can get its left position with getComputedStyle.
+      const destination = getComputedStyle(slideToShow).left
+      // console.log(destination) // 0px, 800px, 1600px
 
-    // And we can show the slide by changing .carousel__content's left position.
-    contents.style.left = '-' + destination
+      // And we can show the slide by changing .carousel__content's left position.
+      contents.style.left = '-' + destination
 
-    // After changing the selected slide, we need to update the location of the is-selected class, so we need to remove the is-selected class from all slides and add the is-selected class to the selected slide
-    slides.forEach(slide => { slide.classList.remove('is-selected') })
-    slideToShow.classList.add('is-selected')
+      // After changing the selected slide, we need to update the location of the is-selected class, so we need to remove the is-selected class from all slides and add the is-selected class to the selected slide
+      slides.forEach(slide => { slide.classList.remove('is-selected') })
+      slideToShow.classList.add('is-selected')
 
-    // Update the active/inactive dot styles
-    dots.forEach(d => { d.classList.remove('is-selected') })
-    dot.classList.add('is-selected')
+      // Update the active/inactive dot styles
+      dots.forEach(d => { d.classList.remove('is-selected') })
+      dot.classList.add('is-selected')
 
-    // Show/hide buttons
-    if (clickedDotIndex === 0) {
-      previousButton.setAttribute('hidden', true)
-      nextButton.removeAttribute('hidden')
-    } else if (clickedDotIndex === dots.length - 1) {
-      previousButton.removeAttribute('hidden')
-      nextButton.setAttribute('hidden', true)
-    } else {
-      previousButton.removeAttribute('hidden')
-      nextButton.removeAttribute('hidden')
-    }
-  })
+      // Show/hide buttons
+      if (clickedDotIndex === 0) {
+        previousButton.setAttribute('hidden', true)
+        nextButton.removeAttribute('hidden')
+      } else if (clickedDotIndex === dots.length - 1) {
+        previousButton.removeAttribute('hidden')
+        nextButton.setAttribute('hidden', true)
+      } else {
+        previousButton.removeAttribute('hidden')
+        nextButton.removeAttribute('hidden')
+      }
+    })
+  }
 })
 
 // Positioning the slides
@@ -529,8 +581,7 @@ const list = document.querySelector('ul')
 
 list.addEventListener('click', e => {
   // with 'closest'
-  const item = e.target.closest('li')
-  if (item) {
+  if (e.target.closest('li')) {
     console.log(e.target)
   }
 
