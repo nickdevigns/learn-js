@@ -204,13 +204,30 @@ a:active {
 
 /* Accordion content */
 /* line 192, scss/styles.scss */
-.accordion.is-open .accordion__content {
-  display: grid;
+.accordion__content {
+  height: 0;
+  overflow: hidden;
+  transition: height 0.3s ease-out;
 }
 
 /* line 196, scss/styles.scss */
-.accordion__content {
-  display: none;
+.accordion__content svg {
+  position: relative;
+  transition: top 0.3s ease-out, opacity 0.3s ease-out;
+  opacity: 0;
+  top: -50px;
+}
+
+/* line 202, scss/styles.scss */
+.accordion__content p {
+  position: relative;
+  left: 150px;
+  transition: left 0.3s ease-out;
+}
+
+/* line 209, scss/styles.scss */
+.accordion__inner {
+  display: grid;
   grid-template-columns: 7.5em 1fr;
   grid-column-gap: 1.5em;
   align-items: center;
@@ -219,7 +236,7 @@ a:active {
   padding-left: 3em;
 }
 
-/* line 206, scss/styles.scss */
+/* line 219, scss/styles.scss */
 .accordion__content svg {
   width: 10em;
   max-width: 100%;
@@ -228,13 +245,13 @@ a:active {
 /**
  * Off-Canvas Menu
  */
-/* line 214, scss/styles.scss */
+/* line 227, scss/styles.scss */
 .offcanvas-is-open .offcanvas-menu,
 .offcanvas-is-open .container {
   transform: translateX(14rem);
 }
 
-/* line 218, scss/styles.scss */
+/* line 231, scss/styles.scss */
 .offcanvas-menu {
   position: fixed;
   top: 0;
@@ -242,35 +259,29 @@ a:active {
   left: -14rem;
   width: 14rem;
   background-color: var(--menuBackgroundColor);
+  transition: transform 0.3s ease-in;
 }
 
 /**
  * Containers
  */
-/* line 230, scss/styles.scss */
+/* line 244, scss/styles.scss */
 .container {
   padding-top: 3rem;
   padding-left: 2.5rem;
   max-width: 33rem;
+  transition: transform 0.3s ease-in;
 }
 
 /**
  * Menu button
  */
-/* line 239, scss/styles.scss */
+/* line 254, scss/styles.scss */
 button {
   border: 2px solid currentColor;
 }
 
-/* line 243, scss/styles.scss */
-button:hover,
-button:focus,
-.offcanvas-is-open button {
-  background-color: var(--textColor);
-  border-color: var(--textColor);
-}
-
-/* line 250, scss/styles.scss */
+/* line 258, scss/styles.scss */
 main {
   display: flex;
   align-items: center;
@@ -278,7 +289,7 @@ main {
   height: 100vh;
 }
 
-/* line 257, scss/styles.scss */
+/* line 265, scss/styles.scss */
 .wrap {
   position: relative;
   max-width: 30em;
@@ -288,32 +299,33 @@ main {
  * START EDITING HERE
  * ==================
  */
-/* line 266, scss/styles.scss */
+@keyframes point {
+  0% {
+    transform: translateY(3em);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* line 285, scss/styles.scss */
 .point-hand {
   position: absolute;
   left: 0;
   right: 0;
   max-width: 3em;
   margin-top: 1em;
-  margin-right: auto;
-  margin-left: auto;
+  margin-left: 1em;
   color: var(--magenta-300);
-}
-
-/* line 277, scss/styles.scss */
-.wave-hand {
-  animation: wave 1s ease 1s 5 reverse paused;
-}
-
-/* line 292, scss/styles.scss */
-.wave-hand:hover {
-  animation-play-state: running;
+  animation: point 1s cubic-bezier(0.18, 0.89, 0.32, 1.28);
 }
 
 /**
  * Modal
  */
-/* line 300, scss/styles.scss */
+/* line 345, scss/styles.scss */
 .modal-overlay {
   display: flex;
   justify-content: center;
@@ -327,16 +339,17 @@ main {
   right: 0;
   opacity: 0;
   z-index: -1;
-  transition: opacity 0.5s ease-in;
+  transition: opacity 0.5s ease-in z-index 0s 3s linear;
 }
 
-/* line 316, scss/styles.scss */
+/* line 361, scss/styles.scss */
 .modal-is-open .modal-overlay {
   opacity: 1;
   z-index: 1;
+  transition-delay: 0s;
 }
 
-/* line 321, scss/styles.scss */
+/* line 367, scss/styles.scss */
 .modal {
   display: grid;
   place-items: center;
@@ -349,25 +362,7 @@ main {
   min-height: 50vmin;
 }
 
-@keyframes wave {
-  0% {
-    transform: rotate(0deg);
-  }
-  25% {
-    transform: scale(1.1) rotate(-45deg);
-  }
-  50% {
-    transform: scale(1.3) rotate(45deg);
-  }
-  75% {
-    transform: scale(1.1) rotate(-45deg);
-  }
-  100% {
-    transform: rotate(0deg);
-  }
-}
-
-/* line 351, scss/styles.scss */
+/* line 379, scss/styles.scss */
 .modal__close-button {
   position: absolute;
   top: -1.5em;
@@ -375,30 +370,24 @@ main {
   padding: 1em 1em;
   font-size: 0.6em;
   border-radius: 50%;
-  border: 2px solid var(--blue-grey-400);
-  background: var(--blue-grey-400);
+  background: var(--magenta-300);
+  border: 2px solid var(--magenta-600);
   color: white;
-  opacity: 0;
+  transition: background 0.25s ease-in, border 0.25s ease-in;
 }
 
-/* line 364, scss/styles.scss */
-.modal:hover .modal__close-button {
-  opacity: 1;
-}
-
-/* line 368, scss/styles.scss */
+/* line 395, scss/styles.scss */
 .modal__close-button:hover,
 .modal__close-button:active,
 .modal__close-button:focus {
-  opacity: 1;
-  background: var(--magenta-300);
-  border-color: var(--magenta-600);
+  background: var(--magenta-900);
+  border-color: var(--magenta-100);
 }
 
 /**
  * Modal button
  */
-/* line 379, scss/styles.scss */
+/* line 405, scss/styles.scss */
 .button {
   padding: 0.75em 0.75em;
   border: none;
@@ -408,7 +397,7 @@ main {
   transition: background-color 0.5s ease-out;
 }
 
-/* line 388, scss/styles.scss */
+/* line 414, scss/styles.scss */
 .button:hover,
 .button:active {
   background-color: var(--magenta-600);
@@ -418,12 +407,12 @@ main {
  *  Navigation
  * -----------
  */
-/* line 397, scss/styles.scss */
+/* line 423, scss/styles.scss */
 .nav {
   margin-top: 6rem;
 }
 
-/* line 401, scss/styles.scss */
+/* line 427, scss/styles.scss */
 .nav a {
   display: block;
   margin: 0;
@@ -432,12 +421,12 @@ main {
   text-decoration: none;
 }
 
-/* line 409, scss/styles.scss */
+/* line 435, scss/styles.scss */
 .nav a:hover {
   background-color: #010b13;
 }
 
-/* line 413, scss/styles.scss */
+/* line 439, scss/styles.scss */
 .nav a:hover,
 .nav a:focus,
 .nav a:active {
@@ -447,38 +436,38 @@ main {
 /**
  * Tabby
  */
-/* line 423, scss/styles.scss */
+/* line 449, scss/styles.scss */
 [data-theme="tamagotchi"] {
   --border-color: hsl(352, 100%, 40%);
   --text-color: hsl(352, 97%, 23%);
 }
 
-/* line 428, scss/styles.scss */
+/* line 454, scss/styles.scss */
 [data-theme="digimon"] {
   --border-color: hsl(215, 46%, 42%);
   --text-color: hsl(215, 63%, 23%);
 }
 
-/* line 433, scss/styles.scss */
+/* line 459, scss/styles.scss */
 [data-theme="pokemon"] {
   --border-color: hsl(46, 100%, 52%);
   --text-color: hsl(43, 26%, 26%);
 }
 
-/* line 438, scss/styles.scss */
+/* line 464, scss/styles.scss */
 .tabby {
   max-width: 45em;
   margin: auto;
 }
 
 /* Tabs */
-/* line 444, scss/styles.scss */
+/* line 470, scss/styles.scss */
 .tabs {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
 }
 
-/* line 449, scss/styles.scss */
+/* line 475, scss/styles.scss */
 .tab {
   position: relative;
   margin-bottom: -0.5em;
@@ -489,13 +478,13 @@ main {
   color: var(--text-color);
 }
 
-/* line 459, scss/styles.scss */
+/* line 485, scss/styles.scss */
 .tab.is-selected {
   filter: none;
   background-color: white;
 }
 
-/* line 464, scss/styles.scss */
+/* line 490, scss/styles.scss */
 .tab.is-selected::after {
   position: absolute;
   z-index: 1;
@@ -508,12 +497,12 @@ main {
 }
 
 /* Tab-content */
-/* line 476, scss/styles.scss */
+/* line 502, scss/styles.scss */
 .tab-contents {
   position: relative;
 }
 
-/* line 480, scss/styles.scss */
+/* line 506, scss/styles.scss */
 .tab-content {
   display: none;
   padding: 2.5em;
@@ -521,17 +510,17 @@ main {
   background-color: white;
 }
 
-/* line 487, scss/styles.scss */
+/* line 513, scss/styles.scss */
 .tab-content.is-selected {
   display: block;
 }
 
-/* line 491, scss/styles.scss */
+/* line 517, scss/styles.scss */
 .tab-content p {
   max-width: 30em;
 }
 
-/* line 495, scss/styles.scss */
+/* line 521, scss/styles.scss */
 .tab-content img {
   float: right;
   width: calc((100% - 1em) / 2);
@@ -542,7 +531,7 @@ main {
 /**
  * Carousel
  */
-/* line 506, scss/styles.scss */
+/* line 532, scss/styles.scss */
 .carousel {
   display: grid;
   grid-template-columns: 3em 80vw 3em;
@@ -551,7 +540,7 @@ main {
   grid-gap: 1em;
 }
 
-/* line 514, scss/styles.scss */
+/* line 540, scss/styles.scss */
 .carousel > *:nth-child(2) {
   grid-column: 2;
   align-self: stretch;
@@ -560,19 +549,21 @@ main {
 /**
  * Carousel contents
  */
-/* line 522, scss/styles.scss */
+/* line 548, scss/styles.scss */
 .carousel__contents-container {
   overflow: hidden;
 }
 
-/* line 525, scss/styles.scss */
+/* line 551, scss/styles.scss */
 .carousel__contents {
   position: relative;
   width: 100%;
   height: 100%;
+  transform: translateX(0);
+  transition: transform 0.3s ease-out;
 }
 
-/* line 531, scss/styles.scss */
+/* line 559, scss/styles.scss */
 .carousel__slide {
   position: absolute;
   width: inherit;
@@ -580,14 +571,14 @@ main {
 }
 
 /* This code works if the width of one slide is 800px */
-/* line 545, scss/styles.scss */
+/* line 573, scss/styles.scss */
 .carousel__slide > a {
   display: block;
   width: inherit;
   height: inherit;
 }
 
-/* line 551, scss/styles.scss */
+/* line 579, scss/styles.scss */
 .carousel__slide img {
   width: inherit;
   height: inherit;
@@ -598,24 +589,24 @@ main {
 /**
  * Buttons
  */
-/* line 561, scss/styles.scss */
+/* line 589, scss/styles.scss */
 .carousel__button {
   padding: 0.25em;
   border: none;
 }
 
-/* line 565, scss/styles.scss */
+/* line 593, scss/styles.scss */
 .carousel__button svg {
   fill: var(--color-default-state);
 }
 
-/* line 569, scss/styles.scss */
+/* line 597, scss/styles.scss */
 .carousel__button:hover svg,
 .carousel__button:active svg {
   fill: var(--color-hover-state);
 }
 
-/* line 574, scss/styles.scss */
+/* line 602, scss/styles.scss */
 .carousel__button.is-hidden {
   display: none;
 }
@@ -623,13 +614,13 @@ main {
 /**
  * Dots
  */
-/* line 581, scss/styles.scss */
+/* line 609, scss/styles.scss */
 .carousel__dots {
   grid-column: 1 / -1;
   justify-self: center;
 }
 
-/* line 586, scss/styles.scss */
+/* line 614, scss/styles.scss */
 .carousel__dot {
   width: 1em;
   height: 1em;
@@ -638,22 +629,22 @@ main {
   background-color: var(--color-default-state);
 }
 
-/* line 594, scss/styles.scss */
+/* line 622, scss/styles.scss */
 .carousel__dot + .carousel__dot {
   margin-left: 1em;
 }
 
-/* line 598, scss/styles.scss */
+/* line 626, scss/styles.scss */
 .carousel__dot:hover {
   background-color: var(--color-hover-state);
 }
 
-/* line 602, scss/styles.scss */
+/* line 630, scss/styles.scss */
 .carousel__dot.is-selected {
   background-color: var(--color-selected-state);
 }
 
-/* line 606, scss/styles.scss */
+/* line 634, scss/styles.scss */
 .is-hidden {
   display: none;
 }

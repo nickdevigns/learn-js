@@ -123,7 +123,28 @@ button.addEventListener('click', evt => {
 const modalButton = document.querySelector('.jsModalButton')
 modalButton.addEventListener('click', evt => {
   document.body.classList.add('modal-is-open')
+  wave()
 })
+
+// Wave hand animation
+const wavingHand = document.querySelector('.wave-hand')
+
+const wave = _ => {
+  const tl = new TimelineMax({})
+  tl.set(wavingHand, {
+    transformOrigin: 'bottom center'
+  })
+  tl.from(wavingHand, 0.5, {
+    scale: 0.25,
+    opacity: 0,
+    ease: Back.easeOut.config(1.5)
+  })
+  tl.to(wavingHand, 0.2, { rotation: 15 })
+  tl.to(wavingHand, 0.2, { rotation: -15 })
+  tl.to(wavingHand, 0.2, { rotation: 15 })
+  tl.to(wavingHand, 0.2, { rotation: -15 })
+  tl.to(wavingHand, 0.2, { rotation: 0 })
+}
 
 const modalCloseButton = document.querySelector('.jsModalClose')
 modalCloseButton.addEventListener('click', evt => {
@@ -339,9 +360,47 @@ accordionContainer.addEventListener('click', evt => {
   const accordionHeader = evt.target.closest('.accordion__header')
   if (accordionHeader) {
     const accordion = accordionHeader.parentElement
+    const accordionContent = accordionHeader.nextElementSibling
+    const accordionInner = accordionContent.children[0]
+    const foodPic = accordionInner.querySelector('svg')
+    const foodText = accordionInner.querySelector('p')
+
+    let height
+    let top
+    let opacity
+    let left
+
+    if (accordion.classList.contains('is-open')) {
+      height = 0
+      top = -50
+      opacity = 0
+      left = 150
+    } else {
+      height = accordionInner.getBoundingClientRect().height
+      top = 0
+      opacity = 1
+      left = 0
+    }
+
     accordion.classList.toggle('is-open') // add or remove the 'is-open' class to the parent element of the accordion header in order to open/close
+    accordionContent.style.height = height + 'px'
+    foodPic.style.top = top + 'px'
+    foodPic.style.opacity = opacity
+    foodText.style.left = left + 'px'
+
+    // const tl = new TimelineMax({})
+    // tl.from(accordion, 0.5, { ease: 'power4.out', opacity: 0 })
+    // tl.from(foodPic, 0.5, { ease: 'Bounce.easeOut', y: -50 })
+    // tl.from(foodText, 0.5, { ease: 'expo.out', x: 150 })
   }
 })
+
+const clickMeBtn = document.querySelector('.toggler')
+// Create a tween that moves an object from 200px from left to right.
+// Float animation using TweenMax.method(element, duration, vars)
+TweenMax.to(clickMeBtn, 2, { x: 200 })
+// Create a tween that moves an object from 200px from top to bottom and turn an object invisible.
+TweenMax.to(clickMeBtn, 2, { y: 200, delay: 2, opacity: 0 })
 
 //
 //
@@ -474,7 +533,8 @@ nextButton.addEventListener('click', evt => {
   // console.log(nextSlide)
   const destination = getComputedStyle(nextSlide).left
   // console.log(destination) //800
-  contents.style.left = '-' + destination // 800-800=0
+  // contents.style.left = '-' + destination // 800-800=0
+  contents.style.transform = 'translateX(-' + destination + ')' // replaced the above to animate the left transition
   currentSlide.classList.remove('is-selected')
   nextSlide.classList.add('is-selected')
   previousButton.removeAttribute('hidden') // shows previous button
@@ -497,7 +557,8 @@ previousButton.addEventListener('click', evt => {
   const previousSlide = currentSlide.previousElementSibling
   // console.log(previousSlide)
   const destination = getComputedStyle(previousSlide).left
-  contents.style.left = '-' + destination
+  // contents.style.left = '-' + destination
+  contents.style.transform = 'translateX(-' + destination + ')' // replaced the above to animate the left transition
   currentSlide.classList.remove('is-selected')
   previousSlide.classList.add('is-selected')
 
@@ -540,7 +601,8 @@ dotsContainer.addEventListener('click', evt => {
       // console.log(destination) // 0px, 800px, 1600px
 
       // And we can show the slide by changing .carousel__content's left position.
-      contents.style.left = '-' + destination
+      // contents.style.left = '-' + destination
+      contents.style.transform = 'translateX(-' + destination + ')' // replaced the above to animate the left transition
 
       // After changing the selected slide, we need to update the location of the is-selected class, so we need to remove the is-selected class from all slides and add the is-selected class to the selected slide
       slides.forEach(slide => { slide.classList.remove('is-selected') })
