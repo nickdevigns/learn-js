@@ -277,21 +277,21 @@ console.log(newNumbers)
 console.log(multipliedBy5Numbers)
 
 const people2 = [
-  { firstName: 'Benjamin', lastName: 'Franklin', yearOfDeath: 1790 },
-  { firstName: 'Thomas', lastName: 'Edison', yearOfDeath: 1931 },
-  { firstName: 'Franklin', lastName: 'Roosevelt', yearOfDeath: 1945 },
-  { firstName: 'Napolean', lastName: 'Bonaparte', yearOfDeath: 1821 },
-  { firstName: 'Abraham', lastName: 'Lincoln', yearOfDeath: 1865 },
-  { firstName: 'Mother', lastName: 'Theresa', yearOfDeath: 1962 },
-  { firstName: 'Mahatma', lastName: 'Gandhi', yearOfDeath: 1948 },
-  { firstName: 'Winston', lastName: 'Churchill', yearOfDeath: 1965 },
-  { firstName: 'Charles', lastName: 'Darwin', yearOfDeath: 1882 },
-  { firstName: 'Albert', lastName: 'Einstein', yearOfDeath: 1955 },
-  { firstName: 'Pablo', lastName: 'Picasso', yearOfDeath: 1973 },
-  { firstName: 'Ludwig', lastName: 'Beethoven', yearOfDeath: 1827 },
-  { firstName: 'Walt', lastName: 'Disney', yearOfDeath: 1966 },
-  { firstName: 'Henry', lastName: 'Ford', yearOfDeath: 1947 },
-  { firstName: 'Steve', lastName: 'Jobs', yearOfDeath: 2012 }
+  { firstName: 'Benjamin', lastName: 'Franklin', yearBorn: 1706, yearOfDeath: 1790 },
+  { firstName: 'Thomas', lastName: 'Edison', yearBorn: 1847, yearOfDeath: 1931 },
+  { firstName: 'Franklin', lastName: 'Roosevelt', yearBorn: 1882, yearOfDeath: 1945 },
+  { firstName: 'Napolean', lastName: 'Bonaparte', yearBorn: 1769, yearOfDeath: 1821 },
+  { firstName: 'Abraham', lastName: 'Lincoln', yearBorn: 1809, yearOfDeath: 1865 },
+  { firstName: 'Mother', lastName: 'Theresa', yearBorn: 1910, yearOfDeath: 1962 },
+  { firstName: 'Mahatma', lastName: 'Gandhi', yearBorn: 1869, yearOfDeath: 1948 },
+  { firstName: 'Winston', lastName: 'Churchill', yearBorn: 1874, yearOfDeath: 1965 },
+  { firstName: 'Charles', lastName: 'Darwin', yearBorn: 1809, yearOfDeath: 1882 },
+  { firstName: 'Albert', lastName: 'Einstein', yearBorn: 1879, yearOfDeath: 1955 },
+  { firstName: 'Pablo', lastName: 'Picasso', yearBorn: 1881, yearOfDeath: 1973 },
+  { firstName: 'Ludwig', lastName: 'Beethoven', yearBorn: 1770, yearOfDeath: 1827 },
+  { firstName: 'Walt', lastName: 'Disney', yearBorn: 1901, yearOfDeath: 1966 },
+  { firstName: 'Henry', lastName: 'Ford', yearBorn: 1863, yearOfDeath: 1947 },
+  { firstName: 'Steve', lastName: 'Jobs', yearBorn: 1955, yearOfDeath: 2012 }
 ]
 
 // The forEach loop
@@ -325,6 +325,137 @@ people2.forEach((person, index) => {
 })
 console.log(darwinIndex)
 
+// Useful array methods
+
+// FindIndex
+// Find the index of Thomas Edison.
+const edisonIndex = people2.findIndex(person => person.lastName === 'Edison')
+console.log('The index is ' + edisonIndex)
+
+// Find
+// Find the object that contains Winston Churchill.
+const churchill = people2.find(person => person.lastName === 'Churchill')
+console.log(churchill)
+
+// Filter
+// Create an array that contains people that died before 1940.
+const peopleDiedB41940 = people2.filter(person => person.yearOfDeath < 1940)
+console.log(peopleDiedB41940)
+
+// Create an array that contains people that were alive between 1850 and 1970.
+const peopleAliveBtw18501970 = people2.filter(person => person.yearOfDeath > 1850 && person.yearOfDeath < 1970)
+console.log(peopleAliveBtw18501970)
+
+// Map
+// Create an array that contains the firstName, lastName and yearsLived for each person (where yearsLived is the number of years the person lived).
+const peeps = people2.map(person => {
+  const yearsLived = person.yearOfDeath - person.yearBorn
+  return {
+    firstName: person.firstName,
+    lastName: person.lastName,
+    yearsLived
+  }
+})
+console.log(peeps)
+
+// Get the total number of yearsLived of the people who were alive between 1750 and 1900.
+const aliveBetween1750And1900 = people.filter(person => {
+  const { yearBorn, yearOfDeath } = person
+  return yearBorn < 1900 && yearOfDeath > 1750
+})
+
+let totalYearsLived = 0
+aliveBetween1750And1900.forEach(person => {
+  const { yearBorn, yearOfDeath } = person
+  const yearsLived = yearOfDeath - yearBorn
+  totalYearsLived = totalYearsLived + yearsLived
+})
+
+console.log(totalYearsLived) // 891
+
+// Reduce
+
+// Reduce is an array method that helps you convert an array into a single value.
+// initialValue (0) is the value you want to start with.
+// accumulator (acc) is the value returned from the previous iteration. It will be initialValue for the first iteration.
+// currentValue (num) is array item in the current iteration.
+
+const someNumbers = [1, 2, 3, 4, 5]
+const totals = someNumbers.reduce((acc, num) => acc + num, 0)
+// 1st Iteration: someNumbers.reduce((0, 1) => 0 + 1) // returns 1, replaces acc in 2nd
+// 2nd Iteration: someNumbers.reduce((1, 2) => 1 + 2) // returns 3, replaces acc in 3rd
+// 3rd Iteration: someNumbers.reduce((3, 3) => 3 + 3) // returns 6, replaces acc in 4th
+// 4th Iteration: someNumbers.reduce((6, 4) => 6 + 4) // returns 10, replaces acc in 5th
+// 5th Iteration: someNumbers.reduce((10, 5) => 10 + 5) // returns 15
+console.log(totals) // 15
+
+// Reducing an array into an object {}
+const fruits = ['apple', 'apple', 'banana', 'banana', 'orange', 'pear', 'apple']
+const tally = fruits.reduce((acc, fruit) => {
+  const fruitCount = acc[fruit]
+  fruitCount
+    ? acc[fruit] = acc[fruit] + 1
+    : acc[fruit] = 1
+
+  // if (acc[fruit]) {
+  //   acc[fruit] = acc[fruit] + 1
+  // } else {
+  //   acc[fruit] = 1
+  // }
+
+  return acc
+}, {})
+console.log(tally)
+// {
+// apple: 3,
+// banana: 2,
+// orange: 1,
+// pear: 1
+// }
+
+// Reducing multiple arrays into a single array (flattening)
+const multipleArrays = [
+  [1, 2, 3, 4, 5],
+  [6, 7, 8, 9, 10]
+]
+const flattenedArray = multipleArrays.reduce((acc, item) => {
+  return acc.concat(item)
+}, [])
+console.log(flattenedArray) // returns [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+// Looping through objects (using the tally object created above)
+// via Object.keys
+const keys = Object.keys(tally)
+console.log(keys) // returns [apple, banana, orange, pear]
+// Loop through an array created with Object.keys
+keys.forEach(fruit => {
+  console.log(`There are ${fruit}s in the fruit basket`)
+})
+
+// via Object.values
+const valuez = Object.values(tally)
+console.log(valuez) // returns [3, 2, 1, 1]
+// Loop through an array created with Object.values
+valuez.forEach(num => {
+  console.log(num)
+})
+
+// via Object.entries - creates an array of arrays
+const entries = Object.entries(tally)
+console.log(entries)
+// returns
+// [
+//   [apple, 3],
+//   [banana, 2],
+//   [orange, 1],
+//   [pear, 1]
+// ]
+// Loop through an array created with Object.entries
+const bigoleBasket = Object.entries(tally)
+bigoleBasket.forEach(([fruit, num]) => {
+  console.log(`There are ${num} ${fruit}s in the fruit basket`)
+})
+
 const goodGuys = document.querySelectorAll('[data-type="hero"]')
 Array.from(goodGuys).forEach(guy => guy.classList.add('yay'))
 
@@ -333,6 +464,155 @@ Array.from(villains).forEach(villain => villain.classList.add('nay'))
 
 const characterz = document.querySelectorAll('.characters')
 Array.from(characterz).forEach(character => character.classList.add('star-wars'))
+
+// Ternary Operators (replacing if/else statement)
+const fruitBasket = ['apple', 'pear', 'orange']
+const fruitIDX = fruitBasket.indexOf('apple')
+// if (fruitIDX === 2) {
+//   eat()
+// } else {
+//   wash()
+// }
+// fruitIDX === 2 ? eat() : wash()
+
+// Template Literals
+const pet = (name, breed) => {
+  console.log(`My name is ${name}`)
+  console.log(`My name is ${name}
+  and I'm a ${breed}`)
+}
+pet('Sammy', 'Maine Coon')
+
+// Destructuring
+const posts = [{
+  id: 800,
+  title: 'This is 💩'
+}, {
+  id: 801,
+  title: 'Pooing is a natural thing.'
+}, {
+  id: 802,
+  title: 'Poo jokes are getting irritating'
+}]
+
+// 1. Get the first two items in posts with destructuring.
+// const [post1, post2] = posts
+// 2. Get the id and title of the first post with destructuring.
+const [post1, post2] = posts
+const { title, id } = post1
+console.log(title) // This is 💩
+console.log(id) // 800
+// 3. Rename title of the first post to content while you destructure.
+const [postOne] = posts
+const { title: content } = postOne
+console.log(content) // // This is 💩
+// 4. The first post does not have a description. Create one as you destructure.
+// Set it to 'Nothing is better than leaving the description empty'
+const [postNum1] = posts
+const { description = 'Nothing is better than leaving the description empty' } = postNum1
+console.log(description) // Nothing is better than leaving the description empty
+
+// Default Parameters
+const calculateTaxes = (income, taxRate = 0.17) => income * taxRate
+console.log(calculateTaxes(100)) // 17 w/ default tax rate
+console.log(calculateTaxes(100, 0.15)) // 15
+
+// 1. Create a function, signUpForPlan, that takes in one parameter, plan. plan defaults to basic
+const signUpForPlan = (user) => {
+  const {
+    plan = 'basic'
+  } = user
+}
+
+// 2. Create a function, createEmployee that takes in an object that has five properties (firstName, lastName, age, gender, position (defaults to 'associate'))
+const createEmployee = (employee) => {
+  const {
+    firstName,
+    lastName,
+    age,
+    gender,
+    position = 'associate'
+  } = employee
+}
+
+// Enhanced Object Literals
+
+// Property value shorthands
+const address = '2345 South Kenmore Court'
+const phone = '555-555-5555'
+const home = {
+  address,
+  phone
+}
+
+console.log(home.address)
+console.log(home.phone)
+
+// Method shorthands
+const house = {
+  lights () { console.log('Turn it on!') }
+}
+
+// Add two dynamic variables into Javascript with computed property names
+
+const property = 'address'
+const person = {
+  [property]: '2345',
+  ['full' + property]: 'South Kenmore Court'
+}
+
+console.log(person.fulladdress) // 2531 South Kenmore Court
+
+// Rest and Spread
+
+// 1. Spread an array in a console.log
+const houseOfPets = ['Sammy', 'Finley', 'Shelby']
+console.log(...houseOfPets)
+
+// 2. Spread an array when calling a function
+const callPets = (first, second, third) => {
+  console.log(first)
+  console.log(second)
+  console.log(third)
+}
+callPets(...houseOfPets)
+
+// 3. Concatenate arrays with spread
+const dog = ['Shelby']
+const cats = ['Sammy', 'Finley']
+const allPets = [...dog, ...cats]
+console.log(allPets)
+
+// 4. Use the rest operator as a function argument
+const combineAllPets = (...allPets) => {
+  console.log(allPets)
+}
+
+// 5. Destructure an array; pack items into a variable with rest
+const [one, ...restofPets] = allPets
+console.log(one)
+console.log(restofPets)
+
+// 6. Destructure an object; pack remaining properties with rest
+const allThemPets = {
+  firstPet: 'Sammy',
+  secondPet: 'Finley',
+  thirdPet: 'Shelby'
+}
+const { firstPet, ...rest } = allThemPets
+console.log(firstPet)
+console.log(rest)
+
+// 7. Spread an object into another object
+const keeds = {
+  firstBreed: 'Maine Coon',
+  secondPetName: 'American Shorthair'
+}
+const puppers = {
+  thirdPetName: 'Australian Shepherd'
+}
+const critters = { ...keeds, ...puppers }
+console.log(critters)
 
 // Accordion
 // // First accordion - could repeat for other 3 accordions but use a forEach loop instead
