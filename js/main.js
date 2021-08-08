@@ -1,4 +1,4 @@
-function logger (arg) {
+function logger(arg) {
   console.log("What's up logger " + arg + '?')
 }
 logger('bro')
@@ -16,10 +16,10 @@ const loggerz = (arg) => {
 loggerz("What's up logger")
 
 // Normal Function (with Function expression)
-function addNormalFunction (num1, num2) {
+function addNormalFunction(num1, num2) {
   return num1 + num2
 }
-function multiplyNormalFunction (num1, num2) {
+function multiplyNormalFunction(num1, num2) {
   return num1 * num2
 }
 // Arrow Function with implicit return
@@ -550,7 +550,7 @@ console.log(home.phone)
 
 // Method shorthands
 const house = {
-  lights () { console.log('Turn it on!') }
+  lights() { console.log('Turn it on!') }
 }
 
 // Add two dynamic variables into Javascript with computed property names
@@ -638,41 +638,67 @@ const accordionContainer = document.querySelector('.accordion-container')
 accordionContainer.addEventListener('click', evt => {
   // If the user clicked the accordion header or within, close the accordion
   const accordionHeader = evt.target.closest('.accordion__header')
-  if (accordionHeader) {
-    const accordion = accordionHeader.parentElement
-    const accordionContent = accordionHeader.nextElementSibling
-    const accordionInner = accordionContent.children[0]
-    const foodPic = accordionInner.querySelector('svg')
-    const foodText = accordionInner.querySelector('p')
 
-    let height
-    let top
-    let opacity
-    let left
+  if (!accordionHeader) return // using an early return instead of below
+  // if (accordionHeader) {
+  const accordion = accordionHeader.parentElement
+  const accordionContent = accordionHeader.nextElementSibling
+  const accordionInner = accordionContent.children[0]
+  const foodPic = accordionInner.querySelector('svg')
+  const foodText = accordionInner.querySelector('p')
 
-    if (accordion.classList.contains('is-open')) {
-      height = 0
-      top = -50
-      opacity = 0
-      left = 150
-    } else {
-      height = accordionInner.getBoundingClientRect().height
-      top = 0
-      opacity = 1
-      left = 0
-    }
+  // let height
+  // let top
+  // let opacity
+  // let left
 
-    accordion.classList.toggle('is-open') // add or remove the 'is-open' class to the parent element of the accordion header in order to open/close
-    accordionContent.style.height = height + 'px'
-    foodPic.style.top = top + 'px'
-    foodPic.style.opacity = opacity
-    foodText.style.left = left + 'px'
+  // if (accordion.classList.contains('is-open')) {
+  //   height = 0
+  //   top = -50
+  //   opacity = 0
+  //   left = 150
+  // } else {
+  //   height = accordionInner.getBoundingClientRect().height
+  //   top = 0
+  //   opacity = 1
+  //   left = 0
+  // }
 
-    // const tl = new TimelineMax({})
-    // tl.from(accordion, 0.5, { ease: 'power4.out', opacity: 0 })
-    // tl.from(foodPic, 0.5, { ease: 'Bounce.easeOut', y: -50 })
-    // tl.from(foodText, 0.5, { ease: 'expo.out', x: 150 })
-  }
+  // Ternary Operator alternative method from the if/else above
+  const height = accordion.classList.contains('is-open')
+    ? 0
+    : accordionInner.getBoundingClientRect().height
+
+  const top = accordion.classList.contains('is-open')
+    ? -50
+    : 0
+
+  const opacity = accordion.classList.contains('is-open')
+    ? 0
+    : 1
+
+  const left = accordion.classList.contains('is-open')
+    ? 150
+    : 0
+
+  accordion.classList.toggle('is-open') // add or remove the 'is-open' class to the parent element of the accordion header in order to open/close
+
+  // accordionContent.style.height = height + 'px'
+  accordionContent.style.height = `${height}px` // using template literals instead
+
+  // foodPic.style.top = top + 'px'
+  foodPic.style.top = `${top}px` // using template literals instead
+
+  foodPic.style.opacity = opacity
+
+  // foodText.style.left = left + 'px'
+  foodText.style.left = `${left}px` // using template literals instead
+
+  // const tl = new TimelineMax({})
+  // tl.from(accordion, 0.5, { ease: 'power4.out', opacity: 0 })
+  // tl.from(foodPic, 0.5, { ease: 'Bounce.easeOut', y: -50 })
+  // tl.from(foodText, 0.5, { ease: 'expo.out', x: 150 })
+  // }
 })
 
 const clickMeBtn = document.querySelector('.toggler')
@@ -757,8 +783,12 @@ const LORcharacterz = nazgul.closest('.characters')
 const tabby = document.querySelector('.tabby')
 
 // Select all tabs
-const tabs = Array.from(document.querySelectorAll('.tab'))
-const tabContents = Array.from(tabby.querySelectorAll('.tab-content'))
+// const tabs = Array.from(tabby.querySelectorAll('.tab'))
+// const tabContents = Array.from(tabby.querySelectorAll('.tab-content'))
+
+// Using the Array spread operator instead of the above
+const tabs = [...tabby.querySelectorAll('.tab')]
+const tabContents = [...tabby.querySelectorAll('.tab-content')]
 
 // Loop through all tab and add an event listener to each tab
 tabs.forEach(tab => {
@@ -802,8 +832,10 @@ const carousel = document.querySelector('.carousel')
 const previousButton = carousel.querySelector('.previous-button')
 const nextButton = carousel.querySelector('.next-button')
 const contents = carousel.querySelector('.carousel__contents')
-const dots = Array.from(carousel.querySelectorAll('.carousel__dot'))
-const slides = Array.from(carousel.querySelectorAll('.carousel__slide'))
+// const dots = Array.from(carousel.querySelectorAll('.carousel__dot'))
+const dots = [...carousel.querySelectorAll('.carousel__dot')] // Using array spread instead
+// const slides = Array.from(carousel.querySelectorAll('.carousel__slide'))
+const slides = [...carousel.querySelectorAll('.carousel__slide')] // Using array spread instead
 const dotsContainer = carousel.querySelector('.carousel__dots')
 
 nextButton.addEventListener('click', evt => {
@@ -814,7 +846,8 @@ nextButton.addEventListener('click', evt => {
   const destination = getComputedStyle(nextSlide).left
   // console.log(destination) //800
   // contents.style.left = '-' + destination // 800-800=0
-  contents.style.transform = 'translateX(-' + destination + ')' // replaced the above to animate the left transition
+  // contents.style.transform = 'translateX(-' + destination + ')' // replaced the above to animate the left transition
+  contents.style.transform = `translateX(-${destination})` // Using template literals instead replacing the above
   currentSlide.classList.remove('is-selected')
   nextSlide.classList.add('is-selected')
   previousButton.removeAttribute('hidden') // shows previous button
@@ -838,7 +871,8 @@ previousButton.addEventListener('click', evt => {
   // console.log(previousSlide)
   const destination = getComputedStyle(previousSlide).left
   // contents.style.left = '-' + destination
-  contents.style.transform = 'translateX(-' + destination + ')' // replaced the above to animate the left transition
+  // contents.style.transform = 'translateX(-' + destination + ')' // replaced the above to animate the left transition
+  contents.style.transform = `translateX(-${destination})` // Using template literals instead
   currentSlide.classList.remove('is-selected')
   previousSlide.classList.add('is-selected')
 
@@ -859,52 +893,58 @@ previousButton.addEventListener('click', evt => {
 
 dotsContainer.addEventListener('click', evt => {
   const dot = evt.target.closest('button')
-  if (dot) {
-    dot.addEventListener('click', evt => {
-      // console.log(dot)
-      // When a dot gets clicked, we need to find the corresponding slide
-      let clickedDotIndex
-      // loop through dots and check which dot was clicked
-      for (let i = 0; i < dots.length; i++) {
-        if (dots[i] === dot) {
-          clickedDotIndex = i
-        }
-      }
-      // console.log(clickedDotIndex) // returns 0,1,2
+  if (!dot) return // Using early return instead of if statement below
+  // if (dot) {
+  dot.addEventListener('click', evt => {
+    // console.log(dot)
+    // When a dot gets clicked, we need to find the corresponding slide
 
-      // Once we know clickedDotIndex, we can use it to find the slide to show.
-      const slideToShow = slides[clickedDotIndex]
-      // console.log(slideToShow)
+    // let clickedDotIndex
+    // // loop through dots and check which dot was clicked
+    // for (let i = 0; i < dots.length; i++) {
+    //   if (dots[i] === dot) {
+    //     clickedDotIndex = i
+    //   }
+    // }
 
-      // Once we know the slide to show, we can get its left position with getComputedStyle.
-      const destination = getComputedStyle(slideToShow).left
-      // console.log(destination) // 0px, 800px, 1600px
+    // Replaces the above
+    const clickedDotIndex = dots.findIndex(d => d === dot)
+    // console.log(clickedDotIndex) // returns 0,1,2
 
-      // And we can show the slide by changing .carousel__content's left position.
-      // contents.style.left = '-' + destination
-      contents.style.transform = 'translateX(-' + destination + ')' // replaced the above to animate the left transition
+    // Once we know clickedDotIndex, we can use it to find the slide to show.
+    const slideToShow = slides[clickedDotIndex]
+    // console.log(slideToShow)
 
-      // After changing the selected slide, we need to update the location of the is-selected class, so we need to remove the is-selected class from all slides and add the is-selected class to the selected slide
-      slides.forEach(slide => { slide.classList.remove('is-selected') })
-      slideToShow.classList.add('is-selected')
+    // Once we know the slide to show, we can get its left position with getComputedStyle.
+    const destination = getComputedStyle(slideToShow).left
+    // console.log(destination) // 0px, 800px, 1600px
 
-      // Update the active/inactive dot styles
-      dots.forEach(d => { d.classList.remove('is-selected') })
-      dot.classList.add('is-selected')
+    // And we can show the slide by changing .carousel__content's left position.
+    // contents.style.left = '-' + destination
+    // contents.style.transform = 'translateX(-' + destination + ')' // replaced the above to animate the left transition
+    contents.style.transform = `translateX(-${destination})` // Using template literals instead
 
-      // Show/hide buttons
-      if (clickedDotIndex === 0) {
-        previousButton.setAttribute('hidden', true)
-        nextButton.removeAttribute('hidden')
-      } else if (clickedDotIndex === dots.length - 1) {
-        previousButton.removeAttribute('hidden')
-        nextButton.setAttribute('hidden', true)
-      } else {
-        previousButton.removeAttribute('hidden')
-        nextButton.removeAttribute('hidden')
-      }
-    })
-  }
+    // After changing the selected slide, we need to update the location of the is-selected class, so we need to remove the is-selected class from all slides and add the is-selected class to the selected slide
+    slides.forEach(slide => { slide.classList.remove('is-selected') })
+    slideToShow.classList.add('is-selected')
+
+    // Update the active/inactive dot styles
+    dots.forEach(d => { d.classList.remove('is-selected') })
+    dot.classList.add('is-selected')
+
+    // Show/hide buttons
+    if (clickedDotIndex === 0) {
+      previousButton.setAttribute('hidden', true)
+      nextButton.removeAttribute('hidden')
+    } else if (clickedDotIndex === dots.length - 1) {
+      previousButton.removeAttribute('hidden')
+      nextButton.setAttribute('hidden', true)
+    } else {
+      previousButton.removeAttribute('hidden')
+      nextButton.removeAttribute('hidden')
+    }
+  })
+  // }
 })
 
 // Positioning the slides
