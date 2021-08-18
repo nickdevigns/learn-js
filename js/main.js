@@ -679,6 +679,55 @@ console.log(critters)
  */
 
 // Alternative way to do the above function but with Event Delegation
+
+/**
+* Finds the correct height of the accordion content
+* @param {HTMLElement} accordion The accordion
+* @returns {Number} Accordion content's height in px value
+*/
+const getContentHeight = accordion => {
+  const accordionInner = accordion.querySelector('.accordion__inner')
+  return accordion.classList.contains('is-open')
+    ? 0
+    : accordionInner.getBoundingClientRect().height
+}
+const getContentTopPosition = accordion => {
+  return accordion.classList.contains('is-open')
+    ? -50
+    : 0
+}
+const getContentOpacity = accordion => {
+  return accordion.classList.contains('is-open')
+    ? 0
+    : 1
+}
+const getContentLeftPosition = accordion => {
+  return accordion.classList.contains('is-open')
+    ? 150
+    : 0
+}
+
+// Updates the accordion
+const updateAccordion = (accordion, height, top, opacity, left) => {
+  const accordionContent = accordion.querySelector('.accordion__content')
+  const accordionInner = accordion.querySelector('.accordion__inner')
+  const foodPic = accordionInner.querySelector('svg')
+  const foodText = accordionInner.querySelector('p')
+
+  accordion.classList.toggle('is-open') // add or remove the 'is-open' class to the parent element of the accordion header in order to open/close
+
+  // accordionContent.style.height = height + 'px'
+  accordionContent.style.height = `${height}px` // using template literals instead
+
+  // foodPic.style.top = top + 'px'
+  foodPic.style.top = `${top}px` // using template literals instead
+
+  foodPic.style.opacity = opacity
+
+  // foodText.style.left = left + 'px'
+  foodText.style.left = `${left}px` // using template literals instead
+}
+
 const accordionContainer = document.querySelector('.accordion-container')
 accordionContainer.addEventListener('click', evt => {
   // If the user clicked the accordion header or within, close the accordion
@@ -687,10 +736,11 @@ accordionContainer.addEventListener('click', evt => {
   if (!accordionHeader) return // using an early return instead of below
   // if (accordionHeader) {
   const accordion = accordionHeader.parentElement
-  const accordionContent = accordionHeader.nextElementSibling
-  const accordionInner = accordionContent.children[0]
-  const foodPic = accordionInner.querySelector('svg')
-  const foodText = accordionInner.querySelector('p')
+  const height = getContentHeight(accordion)
+  const top = getContentTopPosition(accordion)
+  const opacity = getContentOpacity(accordion)
+  const left = getContentLeftPosition(accordion)
+  updateAccordion(accordion, height, top, opacity, left)
 
   /**
    * let height
@@ -714,34 +764,21 @@ accordionContainer.addEventListener('click', evt => {
    */
 
   // Ternary Operator alternative method from the if/else above
-  const height = accordion.classList.contains('is-open')
-    ? 0
-    : accordionInner.getBoundingClientRect().height
+  // const height = accordion.classList.contains('is-open')
+  //   ? 0
+  //   : accordionInner.getBoundingClientRect().height
 
-  const top = accordion.classList.contains('is-open')
-    ? -50
-    : 0
+  // const top = accordion.classList.contains('is-open')
+  //   ? -50
+  //   : 0
 
-  const opacity = accordion.classList.contains('is-open')
-    ? 0
-    : 1
+  // const opacity = accordion.classList.contains('is-open')
+  //   ? 0
+  //   : 1
 
-  const left = accordion.classList.contains('is-open')
-    ? 150
-    : 0
-
-  accordion.classList.toggle('is-open') // add or remove the 'is-open' class to the parent element of the accordion header in order to open/close
-
-  // accordionContent.style.height = height + 'px'
-  accordionContent.style.height = `${height}px` // using template literals instead
-
-  // foodPic.style.top = top + 'px'
-  foodPic.style.top = `${top}px` // using template literals instead
-
-  foodPic.style.opacity = opacity
-
-  // foodText.style.left = left + 'px'
-  foodText.style.left = `${left}px` // using template literals instead
+  // const left = accordion.classList.contains('is-open')
+  //   ? 150
+  //   : 0
 
   // const tl = new TimelineMax({})
   // tl.from(accordion, 0.5, { ease: 'power4.out', opacity: 0 })
