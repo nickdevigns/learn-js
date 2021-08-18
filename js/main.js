@@ -1,4 +1,4 @@
-function logger(arg) {
+function logger (arg) {
   console.log("What's up logger " + arg + '?')
 }
 logger('bro')
@@ -16,10 +16,10 @@ const loggerz = (arg) => {
 loggerz("What's up logger")
 
 // Normal Function (with Function expression)
-function addNormalFunction(num1, num2) {
+function addNormalFunction (num1, num2) {
   return num1 + num2
 }
-function multiplyNormalFunction(num1, num2) {
+function multiplyNormalFunction (num1, num2) {
   return num1 * num2
 }
 // Arrow Function with implicit return
@@ -98,7 +98,6 @@ buttonToggler.addEventListener('click', function () {
   } else {
     remove.classList.add('remove')
   }
-
   add.classList.toggle('red')
 })
 
@@ -161,10 +160,12 @@ modalOverlay.addEventListener('click', evt => {
     body.classList.remove('modal-is-open') // Close Modal
   }
 
-  // // Easier way to write the code above
-  // if (!evt.target.closest('.modal')) {
-  //   body.classList.remove('modal-is-open')
-  // }
+  /**
+   * // Easier way to write the code above
+    if (!evt.target.closest('.modal')) {
+      body.classList.remove('modal-is-open')
+    }
+   */
 })
 
 // Array of oldest to youngest pets
@@ -181,17 +182,24 @@ console.log(pets) // ['Shelby']
 pets.unshift('Sammy', 'Finley') // Adds Sammy and Finley to the front of the array
 console.log(pets) // ['Sammy', 'Finley', 'Shelby']
 pets.splice(0, 2) // Removes Sammy and Finley from the start of the array
-// First argument (0): Start at index 0.
-// Second argument (2): Delete 2 items.
+/**
+ * First argument (0): Start at index 0.
+ * Second argument (2): Delete 2 items.
+ */
 console.log(pets) // ['Shelby']
 pets.splice(1, 0, 'Finley', 'Sammy') // Adds Finley and Sammy after the first pet, Shelby
-// First argument (1): Start at index 1.
-// Second argument (0): Delete 0 items.
-// Third and fourth argument: Items we want to add.
+/**
+ * First argument (1): Start at index 1.
+ * Second argument (0): Delete 0 items.
+ * Third and fourth argument: Items we want to add.
+ */
 console.log(pets) // ['Shelby','Finley','Sammy']
-pets.splice(pets.length - 2, 2) // Removes Finley and Sammy from the end of the array
-// First argument (pets.length - 2): Modifies the array at index pets.length - 2, which is 3 - 2 = 1. So we remove items from second item onwards.
-// Second argument (2): Delete 2 items.
+pets.splice(pets.length - 2, 2)
+/**
+ * Removes Finley and Sammy from the end of the array
+ * First argument (pets.length - 2): Modifies the array at index pets.length - 2, which is 3 - 2 = 1. So we remove items from second item onwards.
+ * Second argument (2): Delete 2 items.
+ */
 console.log(pets) // ['Shelby']
 pets.splice(0, 0, 'Sammy', 'Finley') // Adds Sammy and Finley to the start of the array
 console.log(pets) // ['Sammy', 'Finley', 'Shelby']
@@ -214,18 +222,29 @@ console.log(gandhi)
 // people.unshift('Winston Churchill', 'Albert Einstein')
 people.splice(0, 0, 'Winston Churchill', 'Albert Einstein')
 console.log(people)
+// Alternative by copying array avoiding mutation
+const addedToStartOfList = ['Winston Churchill', 'Albert Einstein', ...people]
+console.log(addedToStartOfList)
 
 // Add Charles Darwin and Walt Disney to the end of the list.
 const peopleCP1 = people.slice() // copy previous Array
 // people.push('Charles Darwin', 'Walt Disney')
 peopleCP1.splice(peopleCP1.length, 0, 'Charles Darwin', 'Walt Disney')
 console.log(peopleCP1)
+// Alternative method by copying array avoiding mutation
+const addedToEndOfList = [...people, 'Charles Darwin', 'Walt Disney']
+console.log(addedToEndOfList)
 
 // Add Pablo Picasso and Ludwig van Beethoven after Mahatma Gandhi. Use splice.
 const peopleCP2 = peopleCP1.slice() // copy previous Array
-const gandhiIndex = peopleCP2.indexOf('Mahatma Gandhi')
-console.log(gandhiIndex)
-peopleCP2.splice(gandhiIndex + 1, 0, 'Pablo Picasso', 'Ludwig van Beethoven')
+
+// const gandhiIndex = peopleCP2.indexOf('Mahatma Gandhi')
+// Alternative method of the above
+const gandhiIndex = people.findIndex(p => p === 'Mahatma Gandhi')
+
+// peopleCP2.splice(gandhiIndex + 1, 0, 'Pablo Picasso', 'Ludwig van Beethoven')
+// Alternative method of the above
+peopleCP2.splice(gandhiIndex + 1, 0, ...['Pablo Picasso', 'Ludwig van Beethoven'])
 console.log(peopleCP2)
 
 // Remove Benjamin Franklin and Thomas Edison
@@ -235,13 +254,18 @@ console.log(peopleCP3)
 
 // Remove Napoleon Bonaparte and Abraham Lincoln
 const peopleCP4 = peopleCP3.slice() // copy previous Array
-peopleCP4.splice(peopleCP4.length - 4, 2)
+// peopleCP4.splice(peopleCP4.length - 4, 2)
+// Alternative method of the above
+peopleCP4.splice(-4, 2)
 console.log(peopleCP4)
 
 // Remove Mahatma Gandhi with splice
 const peopleCP5 = peopleCP4.slice() // copy previous Array
-const gandhiIDX = peopleCP5.indexOf('Mahatma Gandhi')
+// const gandhiIDX = peopleCP5.indexOf('Mahatma Gandhi')
+// Alternative method of the above
+const gandhiIDX = peopleCP5.findIndex(p => p === 'Mahatma Gandhi')
 console.log(gandhiIDX)
+
 peopleCP5.splice(gandhiIDX, 1)
 console.log(peopleCP5)
 
@@ -269,7 +293,10 @@ for (const num of numbers) {
     newNumbers.push(num)
   }
 
-  // Create a new array (multipliedBy5Numbers). Multiply all numbers by 5 and put them into the new array.
+  /**
+   * Create a new array (multipliedBy5Numbers).
+   * Multiply all numbers by 5 and put them into the new array.
+   */
   multipliedBy5Numbers.push(num * 5)
 }
 
@@ -312,11 +339,12 @@ people2.forEach(person => {
   }
 })
 console.log(people1950)
-
-// Find index of Charles Darwin in the array.
-// array.forEach((currentValue, index, array) => {
-// Your loop here
-// })
+/**
+ * Find index of Charles Darwin in the array.
+ * array.forEach((currentValue, index, array) => {
+ *  Your loop here
+ * })
+ */
 let darwinIndex = -1
 people2.forEach((person, index) => {
   if (person.lastName === 'Darwin') {
@@ -375,18 +403,21 @@ console.log(totalYearsLived) // 891
 
 // Reduce
 
-// Reduce is an array method that helps you convert an array into a single value.
-// initialValue (0) is the value you want to start with.
-// accumulator (acc) is the value returned from the previous iteration. It will be initialValue for the first iteration.
-// currentValue (num) is array item in the current iteration.
-
+/**
+ * Reduce is an array method that helps you convert an array into a single value.
+ * initialValue (0) is the value you want to start with.
+ * accumulator (acc) is the value returned from the previous iteration. It will be initialValue for the first iteration.
+ * currentValue (num) is array item in the current iteration.
+ */
 const someNumbers = [1, 2, 3, 4, 5]
 const totals = someNumbers.reduce((acc, num) => acc + num, 0)
-// 1st Iteration: someNumbers.reduce((0, 1) => 0 + 1) // returns 1, replaces acc in 2nd
-// 2nd Iteration: someNumbers.reduce((1, 2) => 1 + 2) // returns 3, replaces acc in 3rd
-// 3rd Iteration: someNumbers.reduce((3, 3) => 3 + 3) // returns 6, replaces acc in 4th
-// 4th Iteration: someNumbers.reduce((6, 4) => 6 + 4) // returns 10, replaces acc in 5th
-// 5th Iteration: someNumbers.reduce((10, 5) => 10 + 5) // returns 15
+/**
+ * 1st Iteration: someNumbers.reduce((0, 1) => 0 + 1) // returns 1, replaces acc in 2nd
+ * 2nd Iteration: someNumbers.reduce((1, 2) => 1 + 2) // returns 3, replaces acc in 3rd
+ * 3rd Iteration: someNumbers.reduce((3, 3) => 3 + 3) // returns 6, replaces acc in 4th
+ * 4th Iteration: someNumbers.reduce((6, 4) => 6 + 4) // returns 10, replaces acc in 5th
+ * 5th Iteration: someNumbers.reduce((10, 5) => 10 + 5) // returns 15
+ */
 console.log(totals) // 15
 
 // Reducing an array into an object {}
@@ -396,22 +427,24 @@ const tally = fruits.reduce((acc, fruit) => {
   fruitCount
     ? acc[fruit] = acc[fruit] + 1
     : acc[fruit] = 1
-
-  // if (acc[fruit]) {
-  //   acc[fruit] = acc[fruit] + 1
-  // } else {
-  //   acc[fruit] = 1
-  // }
-
+  /**
+   * if (acc[fruit]) {
+   *  acc[fruit] = acc[fruit] + 1
+   * } else {
+   *  acc[fruit] = 1
+   * }
+   */
   return acc
 }, {})
 console.log(tally)
-// {
-// apple: 3,
-// banana: 2,
-// orange: 1,
-// pear: 1
-// }
+/**
+ * {
+ *  apple: 3,
+ *  banana: 2,
+ *  orange: 1,
+ *  pear: 1
+ * }
+ */
 
 // Reducing multiple arrays into a single array (flattening)
 const multipleArrays = [
@@ -443,13 +476,16 @@ valuez.forEach(num => {
 // via Object.entries - creates an array of arrays
 const entries = Object.entries(tally)
 console.log(entries)
-// returns
-// [
-//   [apple, 3],
-//   [banana, 2],
-//   [orange, 1],
-//   [pear, 1]
-// ]
+/**
+ * returns
+ * [
+ *  [apple, 3],
+ *  [banana, 2],
+ *  [orange, 1],
+ *  [pear, 1]
+ * ]
+ */
+
 // Loop through an array created with Object.entries
 const bigoleBasket = Object.entries(tally)
 bigoleBasket.forEach(([fruit, num]) => {
@@ -468,12 +504,15 @@ Array.from(characterz).forEach(character => character.classList.add('star-wars')
 // Ternary Operators (replacing if/else statement)
 const fruitBasket = ['apple', 'pear', 'orange']
 const fruitIDX = fruitBasket.indexOf('apple')
-// if (fruitIDX === 2) {
-//   eat()
-// } else {
-//   wash()
-// }
-// fruitIDX === 2 ? eat() : wash()
+/**
+ * if (fruitIDX === 2) {
+ *  eat()
+ * } else {
+ *  wash()
+ * }
+ *
+ * fruitIDX === 2 ? eat() : wash()
+ */
 
 // Template Literals
 const pet = (name, breed) => {
@@ -495,19 +534,22 @@ const posts = [{
   title: 'Poo jokes are getting irritating'
 }]
 
-// 1. Get the first two items in posts with destructuring.
-// const [post1, post2] = posts
-// 2. Get the id and title of the first post with destructuring.
+/**
+ * 1. Get the first two items in posts with destructuring.
+ *    const [post1, post2] = posts
+ * 2. Get the id and title of the first post with destructuring.
+ */
 const [post1, post2] = posts
 const { title, id } = post1
 console.log(title) // This is 💩
 console.log(id) // 800
-// 3. Rename title of the first post to content while you destructure.
+/** 3. Rename title of the first post to content while you destructure. */
 const [postOne] = posts
 const { title: content } = postOne
 console.log(content) // // This is 💩
-// 4. The first post does not have a description. Create one as you destructure.
-// Set it to 'Nothing is better than leaving the description empty'
+/** 4. The first post does not have a description. Create one as you destructure.
+ *  Set it to 'Nothing is better than leaving the description empty'
+ */
 const [postNum1] = posts
 const { description = 'Nothing is better than leaving the description empty' } = postNum1
 console.log(description) // Nothing is better than leaving the description empty
@@ -536,7 +578,6 @@ const createEmployee = (employee) => {
 }
 
 // Enhanced Object Literals
-
 // Property value shorthands
 const address = '2345 South Kenmore Court'
 const phone = '555-555-5555'
@@ -550,11 +591,10 @@ console.log(home.phone)
 
 // Method shorthands
 const house = {
-  lights() { console.log('Turn it on!') }
+  lights () { console.log('Turn it on!') }
 }
 
 // Add two dynamic variables into Javascript with computed property names
-
 const property = 'address'
 const person = {
   [property]: '2345',
@@ -615,23 +655,28 @@ const critters = { ...keeds, ...puppers }
 console.log(critters)
 
 // Accordion
-// // First accordion - could repeat for other 3 accordions but use a forEach loop instead
-// const firstAccordion = document.querySelector('.accordion')
-// const firstAccordionHeader = firstAccordion.querySelector('.accordion__header')
-// firstAccordionHeader.addEventListener('click', evt => {
-//   firstAccordion.classList.toggle('is-open')
-// })
+// First accordion - could repeat for other 3 accordions but use a forEach loop instead
+/**
+ * const firstAccordion = document.querySelector('.accordion')
+ * const firstAccordionHeader = firstAccordion.querySelector('.accordion__header')
+ * firstAccordionHeader.addEventListener('click', evt => {
+ *  firstAccordion.classList.toggle('is-open')
+ * })
+ */
 
-// const accordions = Array.from(document.querySelectorAll('.accordion'))
-// accordions.forEach(accordion => {
-//   // Find accordion header
-//   const accordionHeader = accordion.querySelector('.accordion__header')
-//   // Add event listener to the accordion header
-//   accordionHeader.addEventListener('click', evt => {
-//     // Open/close toggle for accordion (if close=>open=>close)
-//     accordion.classList.toggle('is-open')
-//   })
-// })
+/**
+ * const accordions = Array.from(document.querySelectorAll('.accordion'))
+ * accordions.forEach(accordion => {
+ *  // Find accordion header
+ *  const accordionHeader = accordion.querySelector('.accordion__header')
+ *
+ *  // Add event listener to the accordion header
+ *  accordionHeader.addEventListener('click', evt => {
+ *    // Open/close toggle for accordion (if close=>open=>close)
+ *    accordion.classList.toggle('is-open')
+ *  })
+ * })
+ */
 
 // Alternative way to do the above function but with Event Delegation
 const accordionContainer = document.querySelector('.accordion-container')
@@ -647,22 +692,26 @@ accordionContainer.addEventListener('click', evt => {
   const foodPic = accordionInner.querySelector('svg')
   const foodText = accordionInner.querySelector('p')
 
-  // let height
-  // let top
-  // let opacity
-  // let left
+  /**
+   * let height
+   * let top
+   * let opacity
+   * let left
+   */
 
-  // if (accordion.classList.contains('is-open')) {
-  //   height = 0
-  //   top = -50
-  //   opacity = 0
-  //   left = 150
-  // } else {
-  //   height = accordionInner.getBoundingClientRect().height
-  //   top = 0
-  //   opacity = 1
-  //   left = 0
-  // }
+  /**
+   * if (accordion.classList.contains('is-open')) {
+   *  height = 0
+   *  top = -50
+   *  opacity = 0
+   *  left = 150
+   * } else {
+   *  height = accordionInner.getBoundingClientRect().height
+   *  top = 0
+   *  opacity = 1
+   *  left = 0
+   * }
+   */
 
   // Ternary Operator alternative method from the if/else above
   const height = accordion.classList.contains('is-open')
@@ -708,11 +757,6 @@ TweenMax.to(clickMeBtn, 2, { x: 200 })
 // Create a tween that moves an object from 200px from top to bottom and turn an object invisible.
 TweenMax.to(clickMeBtn, 2, { y: 200, delay: 2, opacity: 0 })
 
-//
-//
-//
-//
-//
 // Alternative listening methods and setting CSS properties
 
 // Listening method #1 with 'this' keyword (work only with normal functions, NOT arrow => functions)
@@ -735,11 +779,7 @@ const offcanvasBtnUpdates = e => {
 }
 const offcanvasBtn2 = document.querySelector('.offcanvas__button')
 offcanvasBtn2.addEventListener('click', offcanvasBtnUpdates)
-//
-//
-//
-//
-//
+
 // Set and get attributes with setAttribute and getAttribute
 offcanvasBtn.setAttribute('data-border-width', '2')
 const offcanvasBtnBorderWidth = offcanvasBtn.getAttribute('data-border-width')
