@@ -1,4 +1,4 @@
-function logger (arg) {
+function logger(arg) {
   console.log("What's up logger " + arg + '?')
 }
 logger('bro')
@@ -16,10 +16,10 @@ const loggerz = (arg) => {
 loggerz("What's up logger")
 
 // Normal Function (with Function expression)
-function addNormalFunction (num1, num2) {
+function addNormalFunction(num1, num2) {
   return num1 + num2
 }
-function multiplyNormalFunction (num1, num2) {
+function multiplyNormalFunction(num1, num2) {
   return num1 * num2
 }
 // Arrow Function with implicit return
@@ -591,7 +591,7 @@ console.log(home.phone)
 
 // Method shorthands
 const house = {
-  lights () { console.log('Turn it on!') }
+  lights() { console.log('Turn it on!') }
 }
 
 // Add two dynamic variables into Javascript with computed property names
@@ -905,134 +905,170 @@ tabsList.addEventListener('click', evt => {
 })
 
 // Carousel
+/* globals getComputedStyle */
+// This line removes the squiggly underline from `getComputedStyle`. It tells standard that `getComputedStyle` is already defined.
 const carousel = document.querySelector('.carousel')
 const previousButton = carousel.querySelector('.previous-button')
 const nextButton = carousel.querySelector('.next-button')
 const contents = carousel.querySelector('.carousel__contents')
+const dotsContainer = carousel.querySelector('.carousel__dots')
+
 // const dots = Array.from(carousel.querySelectorAll('.carousel__dot'))
 const dots = [...carousel.querySelectorAll('.carousel__dot')] // Using array spread instead
 // const slides = Array.from(carousel.querySelectorAll('.carousel__slide'))
 const slides = [...carousel.querySelectorAll('.carousel__slide')] // Using array spread instead
-const dotsContainer = carousel.querySelector('.carousel__dots')
+
+// Positioning the slides
+const setSlidePositions = _ => {
+  const slideWidth = slides[0].getBoundingClientRect().width
+  /**
+   * slides[0].style.left = slideWidth * 0 + 'px' // First slide's left should be 0px
+   * slides[1].style.left = slideWidth * 1 + 'px' // Second slide’s left should be slideWidth
+   * slides[2].style.left = slideWidth * 2 + 'px' // Third slide’s left should be slideWidth x 2
+   */
+
+  slides.forEach((slide, index) => {
+    slide.style.left = slideWidth * index + 'px'
+  })
+}
+
+/**
+ * Switches slides
+ * @param {HTMLElement} currentSlide
+ * @param {HTMLElement} targetSlide
+ */
+// Shows next -or- previous slide
+const switchSlide = (currentSlide, targetSlide) => {
+  const destination = getComputedStyle(targetSlide).left
+  // console.log(destination) //800
+
+  /**
+   * contents.style.left = '-' + destination // 800-800=0
+   * contents.style.transform = 'translateX(-' + destination + ')' // replaced the above to animate the left transition
+   */
+  contents.style.transform = `translateX(-${destination})` // Using template literals instead replacing the above
+  currentSlide.classList.remove('is-selected')
+  /* nextSlide.classList.add('is-selected')
+  previousSlide.classList.add('is-selected') */
+  targetSlide.classList.add('is-selected')
+}
+
+/**
+ * Highlights selected dot
+ * @param {HTMLElement} currentDot
+ * @param {HTMLElement} targetDot
+ */
+// Highlight dots
+const highlightDot = (currentDot, targetDot) => {
+  currentDot.classList.remove('is-selected')
+  targetDot.classList.add('is-selected')
+}
+
+// ========================
+// Execution
+// ========================
+setSlidePositions()
 
 nextButton.addEventListener('click', evt => {
   const currentSlide = contents.querySelector('.is-selected')
   // console.log(currentSlide)
   const nextSlide = currentSlide.nextElementSibling
   // console.log(nextSlide)
-  const destination = getComputedStyle(nextSlide).left
-  // console.log(destination) //800
-  // contents.style.left = '-' + destination // 800-800=0
-  // contents.style.transform = 'translateX(-' + destination + ')' // replaced the above to animate the left transition
-  contents.style.transform = `translateX(-${destination})` // Using template literals instead replacing the above
-  currentSlide.classList.remove('is-selected')
-  nextSlide.classList.add('is-selected')
-  previousButton.removeAttribute('hidden') // shows previous button
+  const currentDot = dotsContainer.querySelector('.is-selected')
+  const nextDot = currentDot.nextElementSibling
 
-  // Check for 1 more slide after the next slide
-  // If no more slides, we know the next slide is the last slide and we hide the next button by adding the hidden attribute.
+  switchSlide(currentSlide, nextSlide)
+  highlightDot(currentDot, nextDot)
+
+  previousButton.removeAttribute('hidden') // Shows previous button
+
+  // Hides next button
   if (!nextSlide.nextElementSibling) {
     nextButton.setAttribute('hidden', true)
   }
-
-  // Highlight dot
-  const currentDot = dotsContainer.querySelector('.is-selected')
-  const nextDot = currentDot.nextElementSibling
-  currentDot.classList.remove('is-selected')
-  nextDot.classList.add('is-selected')
+  /**
+   * Check for 1 more slide after the next slide
+   * If no more slides, we know the next slide is the last slide and we hide the next button by adding the hidden attribute.
+   */
 })
 
 previousButton.addEventListener('click', evt => {
   const currentSlide = contents.querySelector('.is-selected')
   const previousSlide = currentSlide.previousElementSibling
   // console.log(previousSlide)
-  const destination = getComputedStyle(previousSlide).left
-  // contents.style.left = '-' + destination
-  // contents.style.transform = 'translateX(-' + destination + ')' // replaced the above to animate the left transition
-  contents.style.transform = `translateX(-${destination})` // Using template literals instead
-  currentSlide.classList.remove('is-selected')
-  previousSlide.classList.add('is-selected')
+  const currentDot = dotsContainer.querySelector('.is-selected')
+  const previousDot = currentDot.previousElementSibling
 
-  nextButton.removeAttribute('hidden') // shows next button
+  switchSlide(currentSlide, previousSlide)
+  highlightDot(currentDot, previousDot)
 
-  // Check for 1 more slide before the previous slide
-  // If no more slides, we know the previous slide is the first slide and we hide the previous button by adding the hidden attribute.
+  // Shows next button
+  nextButton.removeAttribute('hidden')
+
+  // Hides previous button
   if (!previousSlide.previousElementSibling) {
     previousButton.setAttribute('hidden', true)
   }
-
-  // Highlight dot
-  const currentDot = dotsContainer.querySelector('.is-selected')
-  const previousDot = currentDot.previousElementSibling
-  currentDot.classList.remove('is-selected')
-  previousDot.classList.add('is-selected')
+  /**
+ * Check for 1 more slide before the previous slide
+ * If no more slides, we know the previous slide is the first slide and we hide the previous button by adding the hidden attribute.
+ */
 })
 
 dotsContainer.addEventListener('click', evt => {
   const dot = evt.target.closest('button')
   if (!dot) return // Using early return instead of if statement below
   // if (dot) {
-  dot.addEventListener('click', evt => {
-    // console.log(dot)
-    // When a dot gets clicked, we need to find the corresponding slide
+  // dot.addEventListener('click', evt => {
+  // console.log(dot)
+  // When a dot gets clicked, we need to find the corresponding slide
 
-    // let clickedDotIndex
-    // // loop through dots and check which dot was clicked
-    // for (let i = 0; i < dots.length; i++) {
-    //   if (dots[i] === dot) {
-    //     clickedDotIndex = i
-    //   }
-    // }
-
-    // Replaces the above
-    const clickedDotIndex = dots.findIndex(d => d === dot)
-    // console.log(clickedDotIndex) // returns 0,1,2
-
-    // Once we know clickedDotIndex, we can use it to find the slide to show.
-    const slideToShow = slides[clickedDotIndex]
-    // console.log(slideToShow)
-
-    // Once we know the slide to show, we can get its left position with getComputedStyle.
-    const destination = getComputedStyle(slideToShow).left
-    // console.log(destination) // 0px, 800px, 1600px
-
-    // And we can show the slide by changing .carousel__content's left position.
-    // contents.style.left = '-' + destination
-    // contents.style.transform = 'translateX(-' + destination + ')' // replaced the above to animate the left transition
-    contents.style.transform = `translateX(-${destination})` // Using template literals instead
-
-    // After changing the selected slide, we need to update the location of the is-selected class, so we need to remove the is-selected class from all slides and add the is-selected class to the selected slide
-    slides.forEach(slide => { slide.classList.remove('is-selected') })
-    slideToShow.classList.add('is-selected')
-
-    // Update the active/inactive dot styles
-    dots.forEach(d => { d.classList.remove('is-selected') })
-    dot.classList.add('is-selected')
-
-    // Show/hide buttons
-    if (clickedDotIndex === 0) {
-      previousButton.setAttribute('hidden', true)
-      nextButton.removeAttribute('hidden')
-    } else if (clickedDotIndex === dots.length - 1) {
-      previousButton.removeAttribute('hidden')
-      nextButton.setAttribute('hidden', true)
-    } else {
-      previousButton.removeAttribute('hidden')
-      nextButton.removeAttribute('hidden')
-    }
-  })
+  // let clickedDotIndex
+  // // loop through dots and check which dot was clicked
+  // for (let i = 0; i < dots.length; i++) {
+  //   if (dots[i] === dot) {
+  //     clickedDotIndex = i
+  //   }
   // }
-})
 
-// Positioning the slides
-const slideWidth = slides[0].getBoundingClientRect().width
+  // Replaces the above
+  const clickedDotIndex = dots.findIndex(d => d === dot)
+  // console.log(clickedDotIndex) // returns 0,1,2
 
-// slides[0].style.left = slideWidth * 0 + 'px' // First slide's left should be 0px
-// slides[1].style.left = slideWidth * 1 + 'px' // Second slide’s left should be slideWidth
-// slides[2].style.left = slideWidth * 2 + 'px' // Third slide’s left should be slideWidth x 2
+  // Once we know clickedDotIndex, we can use it to find the slide to show.
+  const slideToShow = slides[clickedDotIndex]
+  // console.log(slideToShow)
 
-slides.forEach((slide, index) => {
-  slide.style.left = slideWidth * index + 'px'
+  // Once we know the slide to show, we can get its left position with getComputedStyle.
+  const destination = getComputedStyle(slideToShow).left
+  // console.log(destination) // 0px, 800px, 1600px
+
+  // And we can show the slide by changing .carousel__content's left position.
+  // contents.style.left = '-' + destination
+  // contents.style.transform = 'translateX(-' + destination + ')' // replaced the above to animate the left transition
+  contents.style.transform = `translateX(-${destination})` // Using template literals instead
+
+  // After changing the selected slide, we need to update the location of the is-selected class, so we need to remove the is-selected class from all slides and add the is-selected class to the selected slide
+  slides.forEach(slide => { slide.classList.remove('is-selected') })
+  slideToShow.classList.add('is-selected')
+
+  // Update the active/inactive dot styles
+  dots.forEach(d => { d.classList.remove('is-selected') })
+  dot.classList.add('is-selected')
+
+  // Show / hide buttons
+  if (clickedDotIndex === 0) {
+    previousButton.setAttribute('hidden', true)
+    nextButton.removeAttribute('hidden')
+  } else if (clickedDotIndex === dots.length - 1) {
+    previousButton.removeAttribute('hidden')
+    nextButton.setAttribute('hidden', true)
+  } else {
+    previousButton.removeAttribute('hidden')
+    nextButton.removeAttribute('hidden')
+  }
+  // })
+  // }
 })
 
 // Event Delegation
