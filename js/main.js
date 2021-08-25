@@ -1018,20 +1018,19 @@ previousButton.addEventListener('click', evt => {
 dotsContainer.addEventListener('click', evt => {
   const dot = evt.target.closest('button')
   if (!dot) return // Using early return instead of if statement below
-  // if (dot) {
-  // dot.addEventListener('click', evt => {
-  // console.log(dot)
-  // When a dot gets clicked, we need to find the corresponding slide
-
-  // let clickedDotIndex
-  // // loop through dots and check which dot was clicked
-  // for (let i = 0; i < dots.length; i++) {
-  //   if (dots[i] === dot) {
-  //     clickedDotIndex = i
-  //   }
-  // }
-
-  // Replaces the above
+  /**
+   * if (dot) {
+   *    dot.addEventListener('click', evt => {
+   *    console.log(dot)
+   *    // When a dot gets clicked, we need to find the corresponding slide
+   *    let clickedDotIndex
+   *    // loop through dots and check which dot was clicked
+   *    for (let i = 0; i < dots.length; i++) {
+   *      if (dots[i] === dot) {
+   *        clickedDotIndex = i
+   *      }
+   *    }
+   */
   const clickedDotIndex = dots.findIndex(d => d === dot)
   // console.log(clickedDotIndex) // returns 0,1,2
 
@@ -1044,15 +1043,17 @@ dotsContainer.addEventListener('click', evt => {
   // console.log(destination) // 0px, 800px, 1600px
 
   // And we can show the slide by changing .carousel__content's left position.
-  // contents.style.left = '-' + destination
-  // contents.style.transform = 'translateX(-' + destination + ')' // replaced the above to animate the left transition
+  /**
+   * contents.style.left = '-' + destination
+   * contents.style.transform = 'translateX(-' + destination + ')' // replaced the above to animate the left transition
+   */
   contents.style.transform = `translateX(-${destination})` // Using template literals instead
 
   // After changing the selected slide, we need to update the location of the is-selected class, so we need to remove the is-selected class from all slides and add the is-selected class to the selected slide
   slides.forEach(slide => { slide.classList.remove('is-selected') })
   slideToShow.classList.add('is-selected')
 
-  // Update the active/inactive dot styles
+  // Highlight dot
   dots.forEach(d => { d.classList.remove('is-selected') })
   dot.classList.add('is-selected')
 
@@ -1067,8 +1068,10 @@ dotsContainer.addEventListener('click', evt => {
     previousButton.removeAttribute('hidden')
     nextButton.removeAttribute('hidden')
   }
-  // })
-  // }
+  /**
+   * })
+   * }
+   */
 })
 
 // Event Delegation
