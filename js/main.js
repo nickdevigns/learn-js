@@ -918,6 +918,10 @@ const dots = [...carousel.querySelectorAll('.carousel__dot')] // Using array spr
 // const slides = Array.from(carousel.querySelectorAll('.carousel__slide'))
 const slides = [...carousel.querySelectorAll('.carousel__slide')] // Using array spread instead
 
+// ========================
+// Functions
+// ========================
+
 // Positioning the slides
 const setSlidePositions = _ => {
   const slideWidth = slides[0].getBoundingClientRect().width
@@ -964,6 +968,19 @@ const highlightDot = (currentDot, targetDot) => {
   targetDot.classList.add('is-selected')
 }
 
+const showHideArrowButtons = targetSlideIndex => {
+  if (targetSlideIndex === 0) {
+    previousButton.setAttribute('hidden', true)
+    nextButton.removeAttribute('hidden')
+  } else if (targetSlideIndex === dots.length - 1) {
+    previousButton.removeAttribute('hidden')
+    nextButton.setAttribute('hidden', true)
+  } else {
+    previousButton.removeAttribute('hidden')
+    nextButton.removeAttribute('hidden')
+  }
+}
+
 // ========================
 // Execution
 // ========================
@@ -976,19 +993,21 @@ nextButton.addEventListener('click', evt => {
   // console.log(nextSlide)
   const currentDot = dotsContainer.querySelector('.is-selected')
   const nextDot = currentDot.nextElementSibling
+  const nextSlideIndex = slides.findIndex(slide => slide === nextSlide)
 
   switchSlide(currentSlide, nextSlide)
   highlightDot(currentDot, nextDot)
+  showHideArrowButtons(nextSlideIndex)
 
-  previousButton.removeAttribute('hidden') // Shows previous button
+  // previousButton.removeAttribute('hidden') // Shows previous button
 
   // Hides next button
-  if (!nextSlide.nextElementSibling) {
-    nextButton.setAttribute('hidden', true)
-  }
   /**
-   * Check for 1 more slide after the next slide
-   * If no more slides, we know the next slide is the last slide and we hide the next button by adding the hidden attribute.
+   * if (!nextSlide.nextElementSibling) {
+   *  nextButton.setAttribute('hidden', true)
+   * }
+   * // Check for 1 more slide after the next slide
+   * // If no more slides, we know the next slide is the last slide and we hide the next button by adding the hidden attribute.
    */
 })
 
@@ -998,21 +1017,22 @@ previousButton.addEventListener('click', evt => {
   // console.log(previousSlide)
   const currentDot = dotsContainer.querySelector('.is-selected')
   const previousDot = currentDot.previousElementSibling
+  const previousSlideIndex = slides.findIndex(slide => slide === previousSlide)
 
   switchSlide(currentSlide, previousSlide)
   highlightDot(currentDot, previousDot)
+  showHideArrowButtons(previousSlideIndex)
 
-  // Shows next button
-  nextButton.removeAttribute('hidden')
+  // nextButton.removeAttribute('hidden') // Shows next button
 
   // Hides previous button
-  if (!previousSlide.previousElementSibling) {
-    previousButton.setAttribute('hidden', true)
-  }
   /**
- * Check for 1 more slide before the previous slide
- * If no more slides, we know the previous slide is the first slide and we hide the previous button by adding the hidden attribute.
- */
+   * if (!previousSlide.previousElementSibling) {
+   *  previousButton.setAttribute('hidden', true)
+   * }
+   * // Check for 1 more slide after the previous slide
+   * // If no more slides, we know the previous slide is the first slide and we hide the previous button by adding the hidden attribute.
+   */
 })
 
 dotsContainer.addEventListener('click', evt => {
@@ -1023,51 +1043,28 @@ dotsContainer.addEventListener('click', evt => {
    *    dot.addEventListener('click', evt => {
    *    console.log(dot)
    *    // When a dot gets clicked, we need to find the corresponding slide
-   *    let clickedDotIndex
+   *    let targetSlideIndex
    *    // loop through dots and check which dot was clicked
    *    for (let i = 0; i < dots.length; i++) {
    *      if (dots[i] === dot) {
-   *        clickedDotIndex = i
+   *        targetSlideIndex = i
    *      }
    *    }
    */
-  const clickedDotIndex = dots.findIndex(d => d === dot)
-  // console.log(clickedDotIndex) // returns 0,1,2
 
-  // Once we know clickedDotIndex, we can use it to find the slide to show.
-  const slideToShow = slides[clickedDotIndex]
+  const currentSlide = contents.querySelector('.is-selected')
+  const currentDot = dotsContainer.querySelector('.is-selected')
+  const targetSlideIndex = dots.findIndex(d => d === dot)
+  // console.log(targetSlideIndex) // returns 0,1,2
+
+  // Once we know targetSlideIndex, we can use it to find the slide to show.
+  const slideToShow = slides[targetSlideIndex]
   // console.log(slideToShow)
 
-  // Once we know the slide to show, we can get its left position with getComputedStyle.
-  const destination = getComputedStyle(slideToShow).left
-  // console.log(destination) // 0px, 800px, 1600px
-
-  // And we can show the slide by changing .carousel__content's left position.
-  /**
-   * contents.style.left = '-' + destination
-   * contents.style.transform = 'translateX(-' + destination + ')' // replaced the above to animate the left transition
-   */
-  contents.style.transform = `translateX(-${destination})` // Using template literals instead
-
-  // After changing the selected slide, we need to update the location of the is-selected class, so we need to remove the is-selected class from all slides and add the is-selected class to the selected slide
-  slides.forEach(slide => { slide.classList.remove('is-selected') })
-  slideToShow.classList.add('is-selected')
-
-  // Highlight dot
-  dots.forEach(d => { d.classList.remove('is-selected') })
-  dot.classList.add('is-selected')
-
+  switchSlide(currentSlide, slideToShow)
+  hightlightDot(currentDot, dot)
   // Show / hide buttons
-  if (clickedDotIndex === 0) {
-    previousButton.setAttribute('hidden', true)
-    nextButton.removeAttribute('hidden')
-  } else if (clickedDotIndex === dots.length - 1) {
-    previousButton.removeAttribute('hidden')
-    nextButton.setAttribute('hidden', true)
-  } else {
-    previousButton.removeAttribute('hidden')
-    nextButton.removeAttribute('hidden')
-  }
+  showHideArrowButtons(targetSlideIndex)
   /**
    * })
    * }
