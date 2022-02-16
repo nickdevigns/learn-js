@@ -154,18 +154,18 @@ modalCloseButton.addEventListener('click', evt => {
 const modalOverlay = document.querySelector('.modal-overlay')
 
 modalOverlay.addEventListener('click', evt => {
+  /**
   if (evt.target.closest('.modal')) {
     evt.stopPropagation() // Stop event from bubbling - prevent the modal from closing when clicking inside modal
   } else {
     body.classList.remove('modal-is-open') // Close Modal
   }
+  */
 
-  /**
-   * // Easier way to write the code above
-    if (!evt.target.closest('.modal')) {
-      body.classList.remove('modal-is-open')
-    }
-   */
+  // Easier way to write the code above
+  if (!evt.target.closest('.modal')) {
+    body.classList.remove('modal-is-open')
+  }
 })
 
 // Array of oldest to youngest pets
@@ -345,6 +345,8 @@ console.log(people1950)
  *  Your loop here
  * })
  */
+
+// If something cannot be found, index should be -1
 let darwinIndex = -1
 people2.forEach((person, index) => {
   if (person.lastName === 'Darwin') {
@@ -687,9 +689,8 @@ console.log(critters)
 */
 const getContentHeight = accordion => {
   const accordionInner = accordion.querySelector('.accordion__inner')
-  return accordion.classList.contains('is-open')
-    ? 0
-    : accordionInner.getBoundingClientRect().height
+  if (accordion.classList.contains('is-open')) return 0
+  return accordionInner.getBoundingClientRect().height
 }
 const getContentTopPosition = accordion => {
   return accordion.classList.contains('is-open')
@@ -764,21 +765,13 @@ accordionContainer.addEventListener('click', evt => {
    */
 
   // Ternary Operator alternative method from the if/else above
-  // const height = accordion.classList.contains('is-open')
-  //   ? 0
-  //   : accordionInner.getBoundingClientRect().height
+  // const height = accordion.classList.contains('is-open') ? 0 : accordionInner.getBoundingClientRect().height
 
-  // const top = accordion.classList.contains('is-open')
-  //   ? -50
-  //   : 0
+  // const top = accordion.classList.contains('is-open') ? -50 : 0
 
-  // const opacity = accordion.classList.contains('is-open')
-  //   ? 0
-  //   : 1
+  // const opacity = accordion.classList.contains('is-open') ? 0 : 1
 
-  // const left = accordion.classList.contains('is-open')
-  //   ? 150
-  //   : 0
+  // const left = accordion.classList.contains('is-open') ? 150 : 0
 
   // const tl = new TimelineMax({})
   // tl.from(accordion, 0.5, { ease: 'power4.out', opacity: 0 })
@@ -840,10 +833,10 @@ const LORhumanList = LORcharacters.querySelector('.humans')
 // Select all humans with querySelectorAll, starting from.humans
 const LORhumans = LORhumanList.querySelectorAll('li')
 // Select all hobbits with children
-const LORhobbitsList = LORcharacters.querySelector('.hobbits')
-const LORhobbitChildren = LORhobbitsList.children
+const hobbitsList = LORcharacters.querySelector('.hobbits')
+const hobbits = hobbitsList.children
 // Select the Merry(the hobbit)
-const merry = LORhobbitChildren[2]
+const merry = hobbits[2]
 // Select.elves from Merry
 const elves = merry.parentElement.nextElementSibling.nextElementSibling
 // Select Glorfindel from.elves
@@ -855,6 +848,44 @@ const legolas = glorifindel.previousElementSibling
 // Select the characters div from Nazgûl
 const nazgul = document.querySelector('.enemies').children[1]
 const LORcharacterz = nazgul.closest('.characters')
+
+LORcharacters.classList.add('LOR')
+// Change an element’s inner HTML with innerHTML
+LORcharacters.innerHTML =
+  `<ul class="hobbits">
+<li>Frodo Baggins</li>
+<li>Samwise "Sam" Gamgee</li>
+<li>Meriadoc "Merry" Brandybuck</li>
+<li>Peregrin "Pippin" Took</li>
+<li>Bilbo Baggins</li>
+</ul>
+<ul class="humans">
+<li>Gandalf</li>
+<li>Saruman</li>
+<li>Aragorn</li>
+<li>Boromir</li>
+<li>Faramir</li>
+</ul>
+<ul class="elves">
+<li>Legolas</li>
+<li>Glorfindel</li>
+<li>Elrond</li>
+<li>Arwen Evenstar</li>
+</ul>
+<ul class="enemies">
+<li>Sauron</li>
+<li>Nazgûl</li>
+</ul>
+<ul class="jedis">
+<li class="character luke yay" data-type="hero">Luke Skywalker</li>
+<li class="character yoda yay" data-type="master">Yoda</li>
+<li class="character r2d2 yay" data-type="robot">R2D2</li>
+<li class="character badboy nay" data-type="villain">TBD</li>
+</ul>`
+
+// Changing an element’s text with textContent
+const badboy = document.querySelector('.badboy')
+badboy.textContent = 'Darth Vader'
 
 // Tabby
 const tabby = document.querySelector('.tabby')
@@ -890,7 +921,7 @@ const tabsList = tabby.querySelector('.tabs')
 tabsList.addEventListener('click', evt => {
   // 1. Find the clicked tab
   const tab = evt.target
-  // 2. Find the associated tab content
+  // 2. Find the corresponding tab content
   const target = tab.dataset.target
   // 3. Associate the tab content with the tab
   const tabContent = tabby.querySelector('#' + target)
@@ -911,16 +942,39 @@ const carousel = document.querySelector('.carousel')
 const previousButton = carousel.querySelector('.previous-button')
 const nextButton = carousel.querySelector('.next-button')
 const contents = carousel.querySelector('.carousel__contents')
-const dotsContainer = carousel.querySelector('.carousel__dots')
-
-// const dots = Array.from(carousel.querySelectorAll('.carousel__dot'))
-const dots = [...carousel.querySelectorAll('.carousel__dot')] // Using array spread instead
-// const slides = Array.from(carousel.querySelectorAll('.carousel__slide'))
 const slides = [...carousel.querySelectorAll('.carousel__slide')] // Using array spread instead
+const dotsContainer = createDots(slides)
+const dots = [...dotsContainer.children]
+// const dotsContainer = carousel.querySelector('.carousel__dots')
+// const dots = Array.from(carousel.querySelectorAll('.carousel__dot'))
+// const dots = [...carousel.querySelectorAll('.carousel__dot')] // Using array spread instead
+// const slides = Array.from(carousel.querySelectorAll('.carousel__slide'))
 
 // ========================
 // Functions
 // ========================
+
+/**
+ * Creates dots for the carousel
+ * @returns The HTML for dots
+ */
+
+function createDots (slides) {
+  const dotsContainer = document.createElement('div')
+  dotsContainer.classList.add('carousel__dots')
+
+  slides.forEach(slide => {
+    const dot = document.createElement('button')
+    dot.classList.add('carousel__dot')
+
+    if (slide.classList.contains('is-selected')) {
+      dot.classList.add('is-selected')
+    }
+
+    dotsContainer.appendChild(dot)
+  })
+  return dotsContainer
+}
 
 // Positioning the slides
 const setSlidePositions = _ => {
@@ -1048,6 +1102,10 @@ previousButton.addEventListener('click', evt => {
    */
 })
 
+// Adds dots into the DOM
+carousel.appendChild(dotsContainer)
+
+// Listen to dotsContainer
 dotsContainer.addEventListener('click', evt => {
   const dot = evt.target.closest('button')
   if (!dot) return // Using early return instead of if statement below
@@ -1081,7 +1139,7 @@ dotsContainer.addEventListener('click', evt => {
   // Show / hide buttons
   showHideArrowButtons(targetSlideIndex)
   /**
-   * })
+      * })
    * }
    */
 })
