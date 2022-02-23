@@ -1,4 +1,4 @@
-function logger (arg) {
+function logger(arg) {
   console.log("What's up logger " + arg + '?')
 }
 logger('bro')
@@ -16,10 +16,10 @@ const loggerz = (arg) => {
 loggerz("What's up logger")
 
 // Normal Function (with Function expression)
-function addNormalFunction (num1, num2) {
+function addNormalFunction(num1, num2) {
   return num1 + num2
 }
-function multiplyNormalFunction (num1, num2) {
+function multiplyNormalFunction(num1, num2) {
   return num1 * num2
 }
 // Arrow Function with implicit return
@@ -593,7 +593,7 @@ console.log(home.phone)
 
 // Method shorthands
 const house = {
-  lights () { console.log('Turn it on!') }
+  lights() { console.log('Turn it on!') }
 }
 
 // Add two dynamic variables into Javascript with computed property names
@@ -959,7 +959,7 @@ const dots = [...dotsContainer.children]
  * @returns The HTML for dots
  */
 
-function createDots (slides) {
+function createDots(slides) {
   const dotsContainer = document.createElement('div')
   dotsContainer.classList.add('carousel__dots')
 
@@ -1190,3 +1190,349 @@ const listenFor5Clicks = e => {
 }
 const clickButton = document.querySelector('button')
 clickButton.addEventListener('click', listenFor5Clicks)
+
+// Calculator
+const calculator = document.querySelector('.calculator')
+const calculatorButtons = calculator.querySelector('.calculator__keys')
+const display = calculator.querySelector('.calculator__display')
+
+// Creating helper functions
+/**
+ * Gets the displayed value
+ */
+const getDisplayValue = () => {
+  return calculator.querySelector('.calculator__display').textContent
+}
+
+/**
+ * Presses a calculator key
+ * @param {String} key
+ */
+const pressKey = key => {
+  document.querySelector(`[data-key="${key}"]`).click()
+}
+
+/**
+ * Presses calculator keys in sequence
+ * @param  {...any} keys
+ */
+const pressKeys = (...keys) => {
+  keys.forEach(pressKey)
+}
+
+/**
+ * Resets calculator
+ */
+const resetCalculator = _ => {
+  pressKeys('clear', 'clear')
+  console.assert(getDisplayValue() === '0', 'Clear calculator')
+  console.assert(!calculator.dataset.firstValue, 'No first value')
+  console.assert(!calculator.dataset.operator, 'No operator value')
+  console.assert(!calculator.dataset.modifierValue, 'No operator value')
+}
+
+/**
+ * Calculates a value
+ * @param {String} firstValue
+ * @param {String} operator
+ * @param {String} secondValue
+ * @returns {Number}
+ */
+const calculate = (firstValue, operator, secondValue) => {
+  firstValue = parseFloat(firstValue)
+  secondValue = parseFloat(secondValue)
+  if (operator === 'plus') return firstValue + secondValue
+  if (operator === 'minus') return firstValue - secondValue
+  if (operator === 'times') return firstValue * secondValue
+  if (operator === 'divide') return firstValue / secondValue
+}
+
+function handleClearKey(calculator, button) {
+  const { previousButtonType } = calculator.dataset
+
+  // If clear key pressed once, do this.
+  display.textContent = '0'
+  button.textContent = 'AC'
+
+  // If clear key pressed twice, do that.
+  if (button.textContent === 'AC') {
+    delete calculator.dataset.firstValue
+    delete calculator.dataset.operator
+    delete calculator.dataset.modifierValue
+  }
+}
+
+function handleNumberKey(calculator, button) {
+  const { key } = button.dataset // Find the value of the key (value) that was clicked.
+  const { previousButtonType } = calculator.dataset
+  const displayValue = getDisplayValue()
+
+  if (displayValue === '0') {
+    display.textContent = key
+  } else {
+    display.textContent = displayValue + key
+  }
+
+  if (previousButtonType === 'operator') {
+    display.textContent = key
+  }
+
+  if (previousButtonType === 'equal') {
+    resetCalculator()
+    display.textContent = key
+  }
+}
+
+function handleDecimalKey(calculator) {
+  const { previousButtonType } = calculator.dataset
+  const displayValue = getDisplayValue()
+
+  if (!displayValue.includes('.')) {
+    display.textContent = displayValue + '.'
+  }
+
+  if (previousButtonType === 'equal') {
+    resetCalculator()
+    display.textContent = '0.'
+  }
+
+  if (previousButtonType === 'operator') {
+    display.textContent = '0.'
+  }
+}
+
+function handleOperatorKeys(calculator, button) {
+  // const firstValue = calculator.dataset.firstValue
+  // const operator = calculator.dataset.operator
+  const displayValue = getDisplayValue()
+  const { previousButtonType, firstValue, operator } = calculator.dataset
+  const secondValue = displayValue
+
+  button.classList.add('is-pressed')
+
+  if (
+    previousButtonType !== 'operator' &&
+    previousButtonType !== 'equal' &&
+    firstValue &&
+    operator) {
+    const result = calculate(firstValue, operator, secondValue)
+    display.textContent = result
+    calculator.dataset.firstValue = result
+  } else {
+    calculator.dataset.firstValue = displayValue
+  }
+  calculator.dataset.operator = button.dataset.key
+}
+
+function handleEqualKey(calculator) {
+  // const firstValue = calculator.dataset.firstValue
+  // const operator = calculator.dataset.operator
+  // const modifierValue = calculator.dataset.modifierValue
+  const displayValue = getDisplayValue()
+  const { firstValue, operator, modifierValue } = calculator.dataset
+  const secondValue = modifierValue || displayValue
+
+  if (firstValue && operator) {
+    const result = calculate(firstValue, operator, secondValue)
+    display.textContent = result
+    calculator.dataset.firstValue = result
+    calculator.dataset.modifierValue = secondValue
+  } else {
+    display.textContent = parseFloat(displayValue) * 1
+  }
+}
+
+// Listening for keys
+calculatorButtons.addEventListener('click', evt => {
+  if (!evt.target.closest('button')) return
+
+  const button = evt.target
+  const { buttonType } = button.dataset // Find the value of the key (value) or button-type (operator) that was clicked.
+  // const { previousButtonType } = calculator.dataset
+  // const displayValue = display.textContent // Find the current displayed result
+
+  // Release operator key from pressed state
+  const operatorKeys = [...calculatorButtons.children]
+    .filter(button => button.dataset.buttonType === 'operator')
+  operatorKeys.forEach(button => button.classList.remove('is-pressed'))
+
+  if (buttonType !== 'clear') {
+    const clearButton = calculator.querySelector('[data-button-type=clear]')
+    clearButton.textContent = 'CE'
+  }
+
+  switch (buttonType) {
+    case 'clear': handleClearKey(calculator, button); break
+    case 'number': handleNumberKey(calculator, button); break
+    case 'decimal': handleDecimalKey(calculator); break
+    case 'operator': handleOperatorKeys(calculator, button); break
+    case 'equal': handleEqualKey(calculator); break
+  }
+
+  calculator.dataset.previousButtonType = buttonType
+})
+
+// // Testing the calculator to see if '2' was pressed
+// const buttonTwo = calculator.querySelector('[data-key="2"]')
+// buttonTwo.click()
+// const displayVal = display.textContent
+// console.assert(displayVal === '2', 'Number key')
+
+// // To reset the calculator, we press the clear button twice.
+// const clearKey = calculator.querySelector('[data-key="clear"]')
+// clearKey.click()
+// clearKey.click()
+
+// // Test to see if the calculator has been cleared
+// const resultAfterClear = display.textContent
+// console.assert(displayVal === '0', 'Calculator cleared')
+
+// // If truly cleared, test to see if dataset.firstValue and dataset.operator don't exist.
+// console.assert(!calculator.dataset.firstValue, 'No first value')
+// console.assert(!calculator.dataset.operator, 'No operator value')
+
+// Testing
+// =======
+
+/**
+ * Runs a test
+ * @param {Object} test
+ */
+const runTest = test => {
+  pressKeys(...test.keys)
+  console.assert(getDisplayValue() === test.result, test.message)
+  resetCalculator()
+}
+
+const testClearKey = _ => {
+  // Before calculation
+  pressKeys('5', 'clear')
+  console.assert(getDisplayValue() === '0', 'Clear before calculation')
+  console.assert(calculator.querySelector('[data-key="clear"]').textContent === 'AC', 'Clear once, should show AC')
+  resetCalculator()
+
+  // After calculator
+  pressKeys('5', 'times', '9', 'equal', 'clear')
+  const { firstValue, operator } = calculator.dataset
+  console.assert(firstValue, 'Clear once;  should have first value')
+  console.assert(operator, 'Clear once;  should have operator value')
+  resetCalculator()
+}
+
+// Test Suites
+const tests = [
+  // Initial Expressions
+  {
+    message: 'Number key',
+    keys: ['2'],
+    result: '2'
+  }, {
+    message: 'Number Number',
+    keys: ['3', '5'],
+    result: '35'
+  }, {
+    message: 'Number Decimal',
+    keys: ['4', 'decimal'],
+    result: '4.'
+  }, {
+    message: 'Number Decimal Number',
+    keys: ['4', 'decimal', '5'],
+    result: '4.5'
+  },
+
+  // Calculations
+  {
+    message: 'Addition',
+    keys: ['2', 'plus', '5', 'equal'],
+    result: '7'
+  }, {
+    message: 'Subtraction',
+    keys: ['5', 'minus', '9', 'equal'],
+    result: '-4'
+  }, {
+    message: 'Multiplication',
+    keys: ['4', 'times', '8', 'equal'],
+    result: '32'
+  }, {
+    message: 'Division',
+    keys: ['5', 'divide', '1', '0', 'equal'],
+    result: '0.5'
+  },
+
+  // Easy Edge Cases
+  // Number keys first
+  {
+    message: 'Number Equal',
+    keys: ['5', 'equal'],
+    result: '5'
+  }, {
+    message: 'Number Decimal Equal',
+    keys: ['2', 'decimal', '4', '5', 'equal'],
+    result: '2.45'
+  },
+
+  // Decimal keys first
+  {
+    message: 'Decimal key',
+    keys: ['decimal'],
+    result: '0.'
+  }, {
+    message: 'Decimal Decimal',
+    keys: ['2', 'decimal', 'decimal'],
+    result: '2.'
+  }, {
+    message: 'Decimal Decimal',
+    keys: ['2', 'decimal', '5', 'decimal', '5'],
+    result: '2.55'
+  }, {
+    message: 'Decimal Equal',
+    keys: ['2', 'decimal', 'equal'],
+    result: '2'
+  },
+
+  // Equal key first
+  {
+    message: 'Equal',
+    keys: ['equal'],
+    result: '0'
+  }, {
+    message: 'Equal Number',
+    keys: ['equal', '3'],
+    result: '3'
+  }, {
+    message: 'Number Equal Number',
+    keys: ['5', 'equal', '3'],
+    result: '3'
+  }, {
+    message: 'Equal Decimal',
+    keys: ['equal', 'decimal'],
+    result: '0.'
+  }, {
+    message: 'Number Equal Decimal',
+    keys: ['5', 'equal', 'decimal'],
+    result: '0.'
+  }, {
+    message: 'Calculation + Operator',
+    keys: ['1', 'plus', '1', 'equal', 'plus', '1', 'equal'],
+    result: '3'
+  },
+
+  // Operator Keys first
+  {
+    message: 'Operator Decimal',
+    keys: ['times', 'decimal'],
+    result: '0.'
+  }, {
+    message: 'Number Operator Decimal',
+    keys: ['5', 'times', 'decimal'],
+    result: '0.'
+  }, {
+    message: 'Number Operator Equal',
+    keys: ['7', 'divide', 'equal'],
+    result: '1'
+  }
+]
+
+// Runs the tests
+testClearKey()
+tests.forEach(runTest)
