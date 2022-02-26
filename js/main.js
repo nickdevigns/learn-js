@@ -1,4 +1,4 @@
-function logger(arg) {
+function logger (arg) {
   console.log("What's up logger " + arg + '?')
 }
 logger('bro')
@@ -16,10 +16,10 @@ const loggerz = (arg) => {
 loggerz("What's up logger")
 
 // Normal Function (with Function expression)
-function addNormalFunction(num1, num2) {
+function addNormalFunction (num1, num2) {
   return num1 + num2
 }
-function multiplyNormalFunction(num1, num2) {
+function multiplyNormalFunction (num1, num2) {
   return num1 * num2
 }
 // Arrow Function with implicit return
@@ -112,7 +112,7 @@ const toggler = document.querySelector('.toggle')
 toggler.classList.toggle('red')
 
 // Offcanvas and Modal Buttons
-const button = document.querySelector('button')
+const button = document.querySelector('.offcanvas__button')
 const body = document.body
 button.addEventListener('click', evt => {
   console.log('Push the screen!')
@@ -593,7 +593,7 @@ console.log(home.phone)
 
 // Method shorthands
 const house = {
-  lights() { console.log('Turn it on!') }
+  lights () { console.log('Turn it on!') }
 }
 
 // Add two dynamic variables into Javascript with computed property names
@@ -959,7 +959,7 @@ const dots = [...dotsContainer.children]
  * @returns The HTML for dots
  */
 
-function createDots(slides) {
+function createDots (slides) {
   const dotsContainer = document.createElement('div')
   dotsContainer.classList.add('carousel__dots')
 
@@ -1247,7 +1247,7 @@ const calculate = (firstValue, operator, secondValue) => {
   if (operator === 'divide') return firstValue / secondValue
 }
 
-function handleClearKey(calculator, button) {
+function handleClearKey (calculator, button) {
   const { previousButtonType } = calculator.dataset
 
   // If clear key pressed once, do this.
@@ -1262,7 +1262,7 @@ function handleClearKey(calculator, button) {
   }
 }
 
-function handleNumberKey(calculator, button) {
+function handleNumberKey (calculator, button) {
   const { key } = button.dataset // Find the value of the key (value) that was clicked.
   const { previousButtonType } = calculator.dataset
   const displayValue = getDisplayValue()
@@ -1283,7 +1283,7 @@ function handleNumberKey(calculator, button) {
   }
 }
 
-function handleDecimalKey(calculator) {
+function handleDecimalKey (calculator) {
   const { previousButtonType } = calculator.dataset
   const displayValue = getDisplayValue()
 
@@ -1301,7 +1301,7 @@ function handleDecimalKey(calculator) {
   }
 }
 
-function handleOperatorKeys(calculator, button) {
+function handleOperatorKeys (calculator, button) {
   // const firstValue = calculator.dataset.firstValue
   // const operator = calculator.dataset.operator
   const displayValue = getDisplayValue()
@@ -1324,7 +1324,7 @@ function handleOperatorKeys(calculator, button) {
   calculator.dataset.operator = button.dataset.key
 }
 
-function handleEqualKey(calculator) {
+function handleEqualKey (calculator) {
   // const firstValue = calculator.dataset.firstValue
   // const operator = calculator.dataset.operator
   // const modifierValue = calculator.dataset.modifierValue
@@ -1536,3 +1536,108 @@ const tests = [
 // Runs the tests
 testClearKey()
 tests.forEach(runTest)
+
+// Popover
+const popoverTriggers = document.querySelectorAll('.popover-trigger')
+
+const getPopover = popoverTrigger => {
+  return document.querySelector(`#${popoverTrigger.dataset.target}`)
+}
+
+// Calculate the position/parameters of the popover and popover trigger
+const calculatePopoverPosition = (popoverTrigger, popover) => {
+  const popoverTriggerRect = popoverTrigger.getBoundingClientRect()
+  const popoverRect = popover.getBoundingClientRect()
+
+  // calculate the positions
+  const { position } = popover.dataset
+  const space = 20
+
+  if (position === 'top') {
+    return {
+      top: popoverTriggerRect.top - popoverRect.height - space,
+      left: (popoverTriggerRect.left + popoverTriggerRect.right) / 2 - popoverRect.width / 2
+    }
+  }
+
+  if (position === 'left') {
+    return {
+      left: popoverTriggerRect.left - popoverRect.width - space,
+      top: (popoverTriggerRect.top + popoverTriggerRect.bottom) / 2 -
+        (popoverRect.height / 2)
+    }
+  }
+
+  if (position === 'right') {
+    return {
+      left: popoverTriggerRect.right + space,
+      top: (popoverTriggerRect.top + popoverTriggerRect.bottom) / 2 -
+        (popoverRect.height / 2)
+    }
+  }
+
+  if (position === 'bottom') {
+    return {
+      top: popoverTriggerRect.bottom + space,
+      left: (popoverTriggerRect.left + popoverTriggerRect.right) / 2 - popoverRect.width / 2
+    }
+  }
+}
+
+// Create popover w/ JavaScript
+/* <div id="pop-4" class="popover" data-position="bottom">
+   <p>The quick brown fox jumps over the lazy dog.</p>
+   </div > */
+const createPopover = popoverTrigger => {
+  const popover = document.createElement('div')
+  popover.classList.add('popover')
+  popover.dataset.position = popoverTrigger.dataset.popoverPosition
+  popover.id = popoverTrigger.dataset.target
+
+  const p = document.createElement('p')
+  p.textContent = popoverTrigger.dataset.content
+  popover.appendChild(p)
+  // console.log(popover)
+  document.body.appendChild(popover)
+  return document.querySelector(`#${popoverTrigger.dataset.target}`)
+}
+
+const bottomPopoverTrigger = document.querySelector('.popover-trigger[data-popover-position="bottom"]')
+const popover = createPopover(bottomPopoverTrigger)
+
+// ========================
+// Execution
+// ========================
+// Positions popover
+popoverTriggers.forEach(popoverTrigger => {
+  const popover = getPopover(popoverTrigger) || createPopover(popoverTrigger)
+
+  // set the positions
+  const popoverPosition = calculatePopoverPosition(popoverTrigger, popover)
+  popover.style.top = `${popoverPosition.top}px`
+  popover.style.left = `${popoverPosition.left}px`
+
+  // hide the popover
+  popover.setAttribute('hidden', true)
+})
+
+// Show/hide popover when user clicks on the trigger - doing this by using event delegation that listens to the common ancestor, document, for all triggers.
+document.addEventListener('click', evt => {
+  // If trigger clicked, find that trigger.
+  const popoverTrigger = evt.target.closest('.popover-trigger')
+  if (!popoverTrigger) return
+
+  // Check whether the corresponding popover is shown or hidden.
+  const popover = document.querySelector(`#${popoverTrigger.dataset.target}`)
+  if (popover.hasAttribute('hidden')) {
+    popover.removeAttribute('hidden')
+  } else {
+    popover.setAttribute('hidden', true)
+  }
+
+  // Hides popover when user clicks something other than trigger or popover
+  if (!evt.target.closest('.popover') && !evt.target.closest('.popover-trigger')) {
+    const popovers = [...document.querySelectorAll('.popover')]
+    popovers.forEach(popover => popover.setAttribute('hidden', true))
+  }
+})

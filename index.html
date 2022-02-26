@@ -24,16 +24,46 @@
         </nav>
     </div>
 
-
+    <svg style="display: none;">
+        <symbol id="arrow">
+            <path fill="currentColor" fill-rule="evenodd" d="M21.874 1.5l16.448 13.157A3 3 0 0 1 36.448 20H3.552a3 3 0 0 1-1.874-5.343L18.126 1.5a3 3 0 0 1 3.748 0z"></path>
+        </symbol>
+    </svg>
 
     <!-- Main content here -->
     <div class="container">
+
+        <!-- POPOVER TRIGGER -->
+        <button class="popover-trigger" data-target="pop-1" data-popover-position="top">
+            <svg viewBox="0 0 40 20">
+                <use xlink:href="#arrow"></use>
+            </svg>
+        </button>
+        
+        <button class="popover-trigger" data-target="pop-2" data-popover-position="left">
+            <svg viewBox="0 0 40 20">
+                <use xlink:href="#arrow"></use>
+            </svg>
+        </button>
+
+        <button class="popover-trigger" data-target="pop-3" data-popover-position="right">
+            <svg viewBox="0 0 40 20">
+                <use xlink:href="#arrow"></use>
+            </svg>
+        </button>
+
+        <button class="popover-trigger" data-target="pop-4" data-popover-position="bottom"
+        data-content="Hello world!">
+            <svg viewBox="0 0 40 20">
+                <use xlink:href="#arrow"></use>
+            </svg>
+        </button>
+
+        
         <h1>Click the button the open the sidebar!</h1>
         <button class="offcanvas__button">
             <span>Menu</span>
         </button> 
-
-        
         
         <main>
             <div class="wrap">
@@ -94,15 +124,14 @@
             </ul>
         </div>
         
-            <button class="toggler">Click Me</button>
-            <div class="add">Add a "red" class to me!</div>
-            <div class="remove">Remove the class, "remove" from me!</div>
-            <div class="contains1">Do I have a "blue" class?</div>
-            <div class="contains2 blue">Do I have a "blue" class?</div>
-            <div class="toggle">Do I have a "red" class? If yes, remove it. If no, add it.</div>
+        <button class="toggler">Click Me</button>
+        <div class="add">Add a "red" class to me!</div>
+        <div class="remove">Remove the class, "remove" from me!</div>
+        <div class="contains1">Do I have a "blue" class?</div>
+        <div class="contains2 blue">Do I have a "blue" class?</div>
+        <div class="toggle">Do I have a "red" class? If yes, remove it. If no, add it.</div>
 
         <!-- ACCORDION -->
-
         <div class="accordion-container">
             <div class="accordion" data-theme="cheese">
                 <div class="accordion__header">
@@ -229,7 +258,6 @@
             </div>
         </div>
 
-
         <!-- TABBY -->
         <div class="tabby">
             <div class="tabs">
@@ -320,7 +348,6 @@
         </section>
     
         <!-- CALCULATOR -->
-
         <div class="calculator">
             <div class="calculator__display">0</div>
             <div class="calculator__keys">
@@ -345,6 +372,25 @@
         </div>
 
     </div>
+
+    
+    <!-- POPOVER -->
+    <div id="pop-1" class="popover" data-position="top">
+        <p>The quick brown fox jumps over the lazy dog.</p>
+    </div>
+    
+    <div id="pop-2" class="popover" data-position="left">
+        <p>The quick brown fox jumps over the lazy dog.</p>
+    </div>
+
+    <div id="pop-3" class="popover" data-position="right">
+        <p>The quick brown fox jumps over the lazy dog.</p>
+    </div>
+
+    <!-- <div id="pop-4" class="popover" data-position="bottom">
+        <p>The quick brown fox jumps over the lazy dog.</p>
+    </div> -->
+    
 
     <script src="js/all.min.js"></script>
 
