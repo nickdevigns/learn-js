@@ -1,4 +1,4 @@
-function logger (arg) {
+function logger(arg) {
   console.log("What's up logger " + arg + '?')
 }
 logger('bro')
@@ -16,10 +16,10 @@ const loggerz = (arg) => {
 loggerz("What's up logger")
 
 // Normal Function (with Function expression)
-function addNormalFunction (num1, num2) {
+function addNormalFunction(num1, num2) {
   return num1 + num2
 }
-function multiplyNormalFunction (num1, num2) {
+function multiplyNormalFunction(num1, num2) {
   return num1 * num2
 }
 // Arrow Function with implicit return
@@ -593,7 +593,7 @@ console.log(home.phone)
 
 // Method shorthands
 const house = {
-  lights () { console.log('Turn it on!') }
+  lights() { console.log('Turn it on!') }
 }
 
 // Add two dynamic variables into Javascript with computed property names
@@ -959,7 +959,7 @@ const dots = [...dotsContainer.children]
  * @returns The HTML for dots
  */
 
-function createDots (slides) {
+function createDots(slides) {
   const dotsContainer = document.createElement('div')
   dotsContainer.classList.add('carousel__dots')
 
@@ -1247,7 +1247,7 @@ const calculate = (firstValue, operator, secondValue) => {
   if (operator === 'divide') return firstValue / secondValue
 }
 
-function handleClearKey (calculator, button) {
+function handleClearKey(calculator, button) {
   const { previousButtonType } = calculator.dataset
 
   // If clear key pressed once, do this.
@@ -1262,7 +1262,7 @@ function handleClearKey (calculator, button) {
   }
 }
 
-function handleNumberKey (calculator, button) {
+function handleNumberKey(calculator, button) {
   const { key } = button.dataset // Find the value of the key (value) that was clicked.
   const { previousButtonType } = calculator.dataset
   const displayValue = getDisplayValue()
@@ -1283,7 +1283,7 @@ function handleNumberKey (calculator, button) {
   }
 }
 
-function handleDecimalKey (calculator) {
+function handleDecimalKey(calculator) {
   const { previousButtonType } = calculator.dataset
   const displayValue = getDisplayValue()
 
@@ -1301,7 +1301,7 @@ function handleDecimalKey (calculator) {
   }
 }
 
-function handleOperatorKeys (calculator, button) {
+function handleOperatorKeys(calculator, button) {
   // const firstValue = calculator.dataset.firstValue
   // const operator = calculator.dataset.operator
   const displayValue = getDisplayValue()
@@ -1324,7 +1324,7 @@ function handleOperatorKeys (calculator, button) {
   calculator.dataset.operator = button.dataset.key
 }
 
-function handleEqualKey (calculator) {
+function handleEqualKey(calculator) {
   // const firstValue = calculator.dataset.firstValue
   // const operator = calculator.dataset.operator
   // const modifierValue = calculator.dataset.modifierValue
@@ -1538,8 +1538,15 @@ testClearKey()
 tests.forEach(runTest)
 
 // Popover
-const popoverTriggers = document.querySelectorAll('.popover-trigger')
 
+const popoverTriggers = document.querySelectorAll('.popover-trigger')
+// ========================
+// Functions
+// ========================
+/**
+ * Finds a popover from the trigger
+ * @param {HTMLElement} popoverTrigger
+ */
 const getPopover = popoverTrigger => {
   return document.querySelector(`#${popoverTrigger.dataset.target}`)
 }
@@ -1584,7 +1591,11 @@ const calculatePopoverPosition = (popoverTrigger, popover) => {
   }
 }
 
-// Create popover w/ JavaScript
+/**
+ * Creates a popover according to the trigger
+ * @param {HTMLElement} popoverTrigger
+ * @returns {HTMLElement}
+ */
 /* <div id="pop-4" class="popover" data-position="bottom">
    <p>The quick brown fox jumps over the lazy dog.</p>
    </div > */
@@ -1599,11 +1610,8 @@ const createPopover = popoverTrigger => {
   popover.appendChild(p)
   // console.log(popover)
   document.body.appendChild(popover)
-  return document.querySelector(`#${popoverTrigger.dataset.target}`)
+  return popover
 }
-
-const bottomPopoverTrigger = document.querySelector('.popover-trigger[data-popover-position="bottom"]')
-const popover = createPopover(bottomPopoverTrigger)
 
 // ========================
 // Execution
@@ -1640,4 +1648,42 @@ document.addEventListener('click', evt => {
     const popovers = [...document.querySelectorAll('.popover')]
     popovers.forEach(popover => popover.setAttribute('hidden', true))
   }
+})
+
+const form = document.querySelector('form')
+console.log(form.elements)
+
+const textField = form.querySelector('input[type="text"]')
+textField.addEventListener('input', evt => {
+  console.log(evt.target.value)
+})
+textField.addEventListener('focus', evt => {
+  console.log(evt.target.value)
+})
+textField.addEventListener('blur', evt => {
+  console.log(evt.target.value)
+})
+
+form.addEventListener('change', evt => {
+  const checkBoxes = [...form.querySelectorAll('input[type="checkbox"]')]
+  const checkedCheckBoxes = checkBoxes.filter(checkbox => checkbox.checked)
+  console.log(checkedCheckBoxes) // returns checked inputs
+
+
+  const radios = [...form.querySelectorAll('input[type="radio"]')]
+  const radio = radios.find(radio => radio.checked)
+  console.log(radio.value) // returns radio value
+})
+
+
+
+const textArea = form.querySelector('textarea')
+textArea.addEventListener('input', evt => {
+  console.log(evt.target.value)
+})
+textArea.addEventListener('focus', evt => {
+  console.log(evt.target.value)
+})
+textArea.addEventListener('blur', evt => {
+  console.log(evt.target.value)
 })
