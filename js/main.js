@@ -1592,6 +1592,13 @@ const calculatePopoverPosition = (popoverTrigger, popover) => {
 }
 
 /**
+ * Randomly generate a unique ID
+ */
+const generateUniqueString = length => {
+  return Math.random().toString(36).substring(2, 2 + length)
+}
+
+/**
  * Creates a popover according to the trigger
  * @param {HTMLElement} popoverTrigger
  * @returns {HTMLElement}
@@ -1603,7 +1610,10 @@ const createPopover = popoverTrigger => {
   const popover = document.createElement('div')
   popover.classList.add('popover')
   popover.dataset.position = popoverTrigger.dataset.popoverPosition
-  popover.id = popoverTrigger.dataset.target
+  // popover.id = popoverTrigger.dataset.target
+  const id = generateUniqueString(5)
+  popover.id = id
+  popoverTrigger.dataset.target = id
 
   const p = document.createElement('p')
   p.textContent = popoverTrigger.dataset.content
@@ -1669,13 +1679,10 @@ form.addEventListener('change', evt => {
   const checkedCheckBoxes = checkBoxes.filter(checkbox => checkbox.checked)
   console.log(checkedCheckBoxes) // returns checked inputs
 
-
   const radios = [...form.querySelectorAll('input[type="radio"]')]
   const radio = radios.find(radio => radio.checked)
   console.log(radio.value) // returns radio value
 })
-
-
 
 const textArea = form.querySelector('textarea')
 textArea.addEventListener('input', evt => {

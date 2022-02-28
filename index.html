@@ -34,25 +34,28 @@
     <div class="container">
 
         <!-- POPOVER TRIGGER -->
-        <button class="popover-trigger" data-target="pop-1" data-popover-position="top">
+        <button class="popover-trigger" data-popover-position="top"
+        data-content="Hello world!">
             <svg viewBox="0 0 40 20">
                 <use xlink:href="#arrow"></use>
             </svg>
         </button>
         
-        <button class="popover-trigger" data-target="pop-2" data-popover-position="left">
+        <button class="popover-trigger" data-popover-position="left"
+        data-content="Hello world!">
             <svg viewBox="0 0 40 20">
                 <use xlink:href="#arrow"></use>
             </svg>
         </button>
 
-        <button class="popover-trigger" data-target="pop-3" data-popover-position="right">
+        <button class="popover-trigger" data-popover-position="right"
+        data-content="Hello world!">
             <svg viewBox="0 0 40 20">
                 <use xlink:href="#arrow"></use>
             </svg>
         </button>
 
-        <button class="popover-trigger" data-target="pop-4" data-popover-position="bottom"
+        <button class="popover-trigger" data-popover-position="bottom"
         data-content="Hello world!">
             <svg viewBox="0 0 40 20">
                 <use xlink:href="#arrow"></use>
@@ -376,7 +379,7 @@
             <form action="#" method="post">
                 <label for="pets-name">Enter Pet's Name</label>
                 <input type="text" name="pets-name" id="pets-name">
-            
+
                 <p>Chose your color(s):</p>
                 <div class="checkbox">
                     <input type="checkbox" name="gray" id="gray" value="gray">
@@ -398,7 +401,7 @@
                     <input type="checkbox" name="white" id="white" value="white">
                     <label for="white">White</label>
                 </div>
-            
+
                 <p>Chose your breed:</p>
                 <div class="radio">
                     <input type="radio" name="breed" id="american-shorthair" value="american shorthair">
@@ -420,11 +423,11 @@
                     <input type="radio" name="breed" id="siamese" value="siamese">
                     <label for="siamese">Siamese</label>
                 </div>
-            
+
                 <label for="additional-info">Enter additional information</label>
                 <textarea name="additional-info" id="additional-info"></textarea>
-            
-            
+
+
                 <button type="submit"></button>
             </form>
         </div>
@@ -434,19 +437,19 @@
 
     
     <!-- POPOVER -->
-    <div id="pop-1" class="popover" data-position="top">
+    <!-- <div class="popover" data-position="top">
         <p>The quick brown fox jumps over the lazy dog.</p>
     </div>
     
-    <div id="pop-2" class="popover" data-position="left">
+    <div class="popover" data-position="left">
         <p>The quick brown fox jumps over the lazy dog.</p>
     </div>
 
-    <div id="pop-3" class="popover" data-position="right">
+    <div class="popover" data-position="right">
         <p>The quick brown fox jumps over the lazy dog.</p>
-    </div>
-
-    <!-- <div id="pop-4" class="popover" data-position="bottom">
+    </div> 
+    
+    <div id="pop-4" class="popover" data-position="bottom">
         <p>The quick brown fox jumps over the lazy dog.</p>
     </div> -->
     
