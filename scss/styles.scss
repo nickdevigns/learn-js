@@ -119,12 +119,12 @@ html {
 }
 
 body {
-  //   background-color: var(--backgroundColor);
+  background-color: var(--blue-grey-050);
   //   color: var(--textColor);
-  background-image: linear-gradient(135deg, #ffc96a, #ffbfdd);
+  // background-image: linear-gradient(135deg, #ffc96a, #ffbfdd);
   min-height: 100vh;
   padding: 3em;
-  background-color: var(--blue-grey-100);
+  // background-color: var(--blue-grey-100);
   color: var(--blue-grey-900);
   // display: grid;
   // place-items: center;
@@ -1035,15 +1035,16 @@ main {
   color: var(--theme-color);
 }
 
+/*******************
+ ToDoList
+ *******************/
 .todolist {
   max-width: 35em;
   margin-left: auto;
   margin-right: auto;
 }
 
-/*******************
- New Task
- *******************/
+/* New Task */
 .todolist__new-task {
   display: flex;
   justify-content: space-between;
@@ -1133,9 +1134,7 @@ main {
   margin-top: 0.75em;
 }
 
-/*******************
- Task List
- *******************/
+/* Task List */
 .task {
   display: flex;
   align-items: center;
@@ -1240,4 +1239,77 @@ main {
 
 .todolist__tasks:empty + .todolist__empty-state {
   display: block;
+}
+
+/*******************
+ Typeahead
+ *******************/
+.typeahead {
+  position: relative;
+  margin-top: 1rem;
+}
+
+.typeahead > input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--blue-grey-300);
+  background-color: var(--blue-grey-050);
+}
+
+.typeahead > input:focus,
+.typeahead > input:active {
+  border-color: var(--magenta-300);
+  background-color: white;
+  outline: none;
+}
+
+.typeahead > ul {
+  position: absolute;
+  left: 0;
+  right: 0;
+  /* Line height + Padding + Border of input - 1px to overlap broders */
+  top: calc(1.4rem + 1.5rem + 2px - 1px);
+  border: 1px solid var(--blue-grey-300);
+  background-color: white;
+  overflow: hidden;
+}
+
+.typeahead > ul:empty {
+  visibility: hidden;
+}
+
+.typeahead > ul > li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  padding: 0.375em 0.75em;
+  border-left: 0.25em solid transparent;
+}
+
+.typeahead > ul > li:hover,
+.typeahead > ul > li:focus,
+.typeahead > ul > li:active {
+  background-color: var(--magenta-050);
+  border-color: var(--magenta-300);
+}
+
+.typeahead > ul > li > img {
+  max-width: 2.5em;
+  border: 1px solid var(--blue-grey-200);
+}
+
+.typeahead > ul > li > span {
+  margin: 0.25em 0.5em;
+}
+
+@media (max-width: 400px) {
+  .typeahead > ul > li > img {
+    display: none;
+  }
+}
+
+.typeahead > ul > li > span {
+  display: block;
+  flex-grow: 1;
+  margin-right: 0.75em;
 }
