@@ -1,4 +1,4 @@
-function logger(arg) {
+function logger (arg) {
   console.log("What's up logger " + arg + '?')
 }
 logger('bro')
@@ -16,10 +16,10 @@ const loggerz = (arg) => {
 loggerz("What's up logger")
 
 // Normal Function (with Function expression)
-function addNormalFunction(num1, num2) {
+function addNormalFunction (num1, num2) {
   return num1 + num2
 }
-function multiplyNormalFunction(num1, num2) {
+function multiplyNormalFunction (num1, num2) {
   return num1 * num2
 }
 // Arrow Function with implicit return
@@ -593,7 +593,7 @@ console.log(home.phone)
 
 // Method shorthands
 const house = {
-  lights() { console.log('Turn it on!') }
+  lights () { console.log('Turn it on!') }
 }
 
 // Add two dynamic variables into Javascript with computed property names
@@ -959,7 +959,7 @@ const dots = [...dotsContainer.children]
  * @returns The HTML for dots
  */
 
-function createDots(slides) {
+function createDots (slides) {
   const dotsContainer = document.createElement('div')
   dotsContainer.classList.add('carousel__dots')
 
@@ -1247,7 +1247,7 @@ const calculate = (firstValue, operator, secondValue) => {
   if (operator === 'divide') return firstValue / secondValue
 }
 
-function handleClearKey(calculator, button) {
+function handleClearKey (calculator, button) {
   const { previousButtonType } = calculator.dataset
 
   // If clear key pressed once, do this.
@@ -1262,7 +1262,7 @@ function handleClearKey(calculator, button) {
   }
 }
 
-function handleNumberKey(calculator, button) {
+function handleNumberKey (calculator, button) {
   const { key } = button.dataset // Find the value of the key (value) that was clicked.
   const { previousButtonType } = calculator.dataset
   const displayValue = getDisplayValue()
@@ -1283,7 +1283,7 @@ function handleNumberKey(calculator, button) {
   }
 }
 
-function handleDecimalKey(calculator) {
+function handleDecimalKey (calculator) {
   const { previousButtonType } = calculator.dataset
   const displayValue = getDisplayValue()
 
@@ -1301,7 +1301,7 @@ function handleDecimalKey(calculator) {
   }
 }
 
-function handleOperatorKeys(calculator, button) {
+function handleOperatorKeys (calculator, button) {
   // const firstValue = calculator.dataset.firstValue
   // const operator = calculator.dataset.operator
   const displayValue = getDisplayValue()
@@ -1324,7 +1324,7 @@ function handleOperatorKeys(calculator, button) {
   calculator.dataset.operator = button.dataset.key
 }
 
-function handleEqualKey(calculator) {
+function handleEqualKey (calculator) {
   // const firstValue = calculator.dataset.firstValue
   // const operator = calculator.dataset.operator
   // const modifierValue = calculator.dataset.modifierValue
@@ -2025,10 +2025,6 @@ const countries = [
   { name: 'Zimbabwe' }
 ]
 
-// ========================
-// Functions
-// ========================
-
 // Showing a list of predictions
 // 1. Find out what the user typed
 const typeahead = document.querySelector('.typeahead')
@@ -2098,6 +2094,461 @@ const boldSearchTerms = (string, searchTerms) => {
   return `<strong>${toBold}</strong>${restOfString}`
 }
 
+// Date & Time
+
+const today = new Date()
+const day = today.getDate()
+const month = today.getMonth() + 1
+const year = today.getFullYear()
+const monthsInAYear = [
+  { shortname: 'Jan', longname: 'January' },
+  { shortname: 'Feb', longname: 'February' },
+  { shortname: 'Mar', longname: 'March' },
+  { shortname: 'Apr', longname: 'April' },
+  { shortname: 'May', longname: 'May' },
+  { shortname: 'Jun', longname: 'June' },
+  { shortname: 'Jul', longname: 'July' },
+  { shortname: 'Aug', longname: 'August' },
+  { shortname: 'Sep', longname: 'September' },
+  { shortname: 'Oct', longname: 'October' },
+  { shortname: 'Nov', longname: 'November' },
+  { shortname: 'Dec', longname: 'December' }
+]
+const longMonth = monthsInAYear[today.getMonth()].longname // January
+const shortMonth = monthsInAYear[today.getMonth()].shortname // Jan
+const daysInAWeek = [
+  { shortname: 'Sun', longname: 'Sunday' },
+  { shortname: 'Mon', longname: 'Monday' },
+  { shortname: 'Tue', longname: 'Tuesday' },
+  { shortname: 'Wed', longname: 'Wednesday' },
+  { shortname: 'Thu', longname: 'Thursday' },
+  { shortname: 'Fri', longname: 'Friday' },
+  { shortname: 'Sat', longname: 'Saturday' }
+]
+const shortDay = daysInAWeek[today.getDay()].shortname // Wed
+const longDay = daysInAWeek[today.getDay()].longname // Wednesday
+const dateSuffix = {
+  1: 'st',
+  2: 'nd',
+  3: 'rd',
+  4: 'th',
+  5: 'th',
+  6: 'th',
+  7: 'th',
+  8: 'th',
+  9: 'th',
+  10: 'th',
+  11: 'th',
+  12: 'th',
+  13: 'th',
+  14: 'th',
+  15: 'th',
+  16: 'th',
+  17: 'th',
+  18: 'th',
+  19: 'th',
+  20: 'th',
+  21: 'st',
+  22: 'nd',
+  23: 'rd',
+  24: 'th',
+  25: 'th',
+  26: 'th',
+  27: 'th',
+  28: 'th',
+  29: 'th',
+  30: 'th',
+  31: 'st'
+}
+daySuffix = dateSuffix[day]
+
+const dateString1 = `${day}/${month}/${year}`
+const dateString2 = `${month}/${day}/${year}`
+const dateString3 = `${day} ${shortMonth}, ${year}`
+const dateString4 = `${day} ${shortMonth}, ${shortDay}`
+const dateString5 = `${longDay}, ${day} ${longMonth}, ${year}`
+const dateString6 = `${day}${daySuffix} ${longMonth}, ${year}`
+console.log(dateString1)
+console.log(dateString2)
+console.log(dateString3)
+console.log(dateString4)
+console.log(dateString5)
+console.log(dateString6)
+
+const time = new Date()
+const hours = time.getHours()
+const minutes = time.getMinutes()
+const seconds = time.getSeconds()
+const milliseconds = time.getMilliseconds()
+const timeNow = `${hours}:${minutes}:${seconds}.${milliseconds}`
+console.log(timeNow)
+const timeOfDay = {
+  1: 'am',
+  2: 'am',
+  3: 'am',
+  4: 'am',
+  5: 'am',
+  6: 'am',
+  7: 'am',
+  8: 'am',
+  9: 'am',
+  10: 'am',
+  11: 'am',
+  12: 'am',
+  13: 'pm',
+  14: 'pm',
+  15: 'pm',
+  16: 'pm',
+  17: 'pm',
+  18: 'pm',
+  19: 'pm',
+  20: 'pm',
+  21: 'pm',
+  22: 'pm',
+  23: 'pm',
+  24: 'pm'
+}
+const hourSuffix = timeOfDay[hours]
+const timeNow2 = `${hours}:${minutes}${hourSuffix}`
+console.log(timeNow2)
+
+const date = new Date('2019-06-23T08:00')
+console.log(date)
+date.setMinutes(59)
+console.log(date)
+date.setHours(22)
+console.log(date)
+date.setDate(15)
+
+// Exercise
+// Use toLocaleString to create the following date formats:
+const newDate = new Date(2019, 0, 3)
+
+// 1. Thu, 03/01/2019
+const option1 = {
+  weekday: 'short',
+  year: 'numeric',
+  month: '2-digit',
+  day: '2-digit'
+}
+console.log(newDate.toLocaleString('en-GB', option1))
+// 2. January 2019
+const option2 = {
+  month: 'long',
+  year: 'numeric'
+}
+console.log(newDate.toLocaleString('en-GB', option2))
+// 3. 3 January 2019
+const option3 = {
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric'
+}
+console.log(newDate.toLocaleString('en-GB', option3))
+// 4. Jan 3 2019
+const option4 = {
+  month: 'short',
+  day: 'numeric',
+  year: 'numeric'
+}
+console.log(newDate.toLocaleString('en-US', option4))
+// 5. 2019 - 03 - 02
+const option5 = {
+  year: 'numeric',
+  month: '2-digit',
+  day: '2-digit'
+}
+console.log(newDate.toLocaleString('en-GB', option5))
+
+// DATEPICKER
+
+// ========================
+// Variables
+// ========================
+const dpDate = new Date(2019, 1, 13)
+const dpForm = document.querySelector('.dp')
+const dpInput = dpForm.querySelector('input')
+
+// ========================
+// Utility functions
+// ========================
+/**
+ * Converts datetime into a Date object
+ * @param {String} datetime - datetime attribute from <time> element
+ */
+const dateTimeToDate = datetime => {
+  // const [dpYear, dpMonth, dpDay] = datetime.split('-').map(num => parseInt(num))
+  const [dpYear, dpMonth, dpDay = 1] = datetime.split('-')
+    .map(num => parseInt(num))
+  // console.log(dpYear) // 2019
+  // console.log(dpMonth) // 02
+  // console.log(dpDay) // 05
+
+  // return day
+  //   ? new Date(dpYear, dpMonth - 1, dpDay)
+  //   : new Date(dpYear, dpMonth - 1)
+  return new Date(dpYear, dpMonth - 1, dpDay)
+}
+// dateTimeToDate('2019-02-05')
+
+// console.log(dateTimeToDate('2019-02')) // Invalid Date
+// console.log(dateTimeToDate('2019-02-03')) // February 3rd, 2019
+
+/**
+ * Creates a number string with two digits.
+ * @param {Number} number
+ */
+const toTwoDigitString = number => {
+  return number.toString().padStart(2, '0')
+}
+
+/**
+ * Creates the innerHTML for the date grid.
+ * @param {Date} dpDate - Date object
+ * @returns {String}
+ */
+const createDateGridHTML = dpDate => {
+  // return 'HTML string that contains all date buttons'
+  const dateGrid = document.createElement('div')
+  const dpMonth = dpDate.getMonth()
+  const dpYear = dpDate.getFullYear()
+  const dpDay = dpDate.getDate()
+
+  // First day of the month - to get it, use setDate and set the date to 1.
+  // Then use getDay to know which day it is
+  const firstDayOfMonth = new Date(dpDate.setDate(1)).getDay()
+
+  // Number of days in a month
+  const lastDayInMonth = new Date(dpYear, dpMonth + 1, 0)
+  const daysInMonth = lastDayInMonth.getDate()
+  const dpMonthNumber = (dpMonth + 1).toString().padStart(2, '0')
+
+  // Building the date grid
+  // We can use the daysInMonth value to create one button for each day of the month using a for loop
+  for (let day = 1; day <= daysInMonth; day++) {
+    const button = document.createElement('button')
+    button.setAttribute('type', 'button')
+
+    if (day === 1) button.style.setProperty('--firstDayOfMonth', firstDayOfMonth + 1)
+
+    const dateTimeDay = toTwoDigitString(day)
+
+    button.innerHTML = `<time datetime="${dpYear}-${dpMonthNumber}-${dateTimeDay}">${day}</time>`
+
+    dateGrid.appendChild(button)
+  }
+  return dateGrid.innerHTML
+}
+
+/**
+ * Create <time> for the year-month-indicator
+ * @param {Date} dpDate - Date object
+ */
+const createYearMonthIndicatorTimeElement = dpDate => {
+  const monthsInAYear = [
+    { shortname: 'Jan', longname: 'January' },
+    { shortname: 'Feb', longname: 'February' },
+    { shortname: 'Mar', longname: 'March' },
+    { shortname: 'Apr', longname: 'April' },
+    { shortname: 'May', longname: 'May' },
+    { shortname: 'Jun', longname: 'June' },
+    { shortname: 'Jul', longname: 'July' },
+    { shortname: 'Aug', longname: 'August' },
+    { shortname: 'Sep', longname: 'September' },
+    { shortname: 'Oct', longname: 'October' },
+    { shortname: 'Nov', longname: 'November' },
+    { shortname: 'Dec', longname: 'December' }
+  ]
+  // const longMonth = monthsInAYear[dpDate.getMonth()].longname // January
+  // const shortMonth = monthsInAYear[dpDate.getMonth()].shortname // Jan
+  // console.log (longMonth + ' - ' shortMonth)
+
+  // The year-month indicator
+  // Get February from the date. We can get February if we create an array of months (see reference above 'monthsInAYear' )
+  const dpMonth = dpDate.getMonth()
+  const dpMonthName = monthsInAYear[dpMonth]
+  // console.log(dpMonthName.longname)
+
+  // We want to get a 4-digit year. We can use getFullYear.
+  const dpYear = dpDate.getFullYear()
+
+  // Once we know year and monthName, we can create the HTML.
+  // To get the correct month value, we can add 1 to month, then convert to String and use a string method called 'padStart' to make the string length '2' in order to add up to # of characters before the initial value
+  // const dpMonthNumber = (dpMonth + 1).toString().padStart(2, '0')
+  const dpMonthNumber = toTwoDigitString(dpMonth + 1)
+
+  // Update Text content and date time attribute
+  return `
+    <time datetime="${dpYear}-${dpMonthNumber}"> ${dpMonthName.longname} ${dpYear}</time>
+  `
+}
+
+/**
+ * Creates the datepicker
+ * @param {HTMLElement} dpInput - the input element
+ * @param {Date} dpDate - Date object
+ */
+const createDatePicker = (dpInput, dpDate) => {
+  const datepicker = document.createElement('div')
+  datepicker.classList.add('datepicker')
+
+  const previousNextMonthButtons = `
+    <div class="datepicker__buttons">
+      <button type="button" class="datepicker__previous">
+          <svg viewBox="0 0 20 20">
+              <path fill="currentColor" d="M7.05 9.293L6.343 10 12 15.657l1.414-1.414L9.172 10l4.242-4.243L12 4.343z" />
+          </svg>
+      </button>
+      <button type="button" class="datepicker__next">
+          <svg viewBox="0 0 20 20">
+              <path fill="currentColor" d="M12.95 10.707l.707-.707L8 4.343 6.586 5.757 10.828 10l-4.242 4.243L8 15.657l4.95-4.95z" />
+          </svg>
+      </button>
+    </div>
+  `
+  // Building the calendar
+  const calendar = `
+    <!--The month/year indicator-->
+    <div class="datepicker__calendar">
+      <div class="datepicker__year-month">
+        ${createYearMonthIndicatorTimeElement(dpDate)}
+      </div>
+      <div class="datepicker__day-of-week">
+          <div>Su</div>
+          <div>Mo</div>
+          <div>Tu</div>
+          <div>We</div>
+          <div>Th</div>
+          <div>Fr</div>
+          <div>Sa</div>
+      </div>
+      <div class="datepicker__date-grid">
+        ${createDateGridHTML(dpDate)}
+      </div>
+    </div>
+  `
+
+  datepicker.innerHTML = `
+    ${previousNextMonthButtons}
+    ${calendar}
+  `
+  // Hides the Date Picker by default
+  datepicker.setAttribute('hidden', true)
+
+  // Positioning the Date Picker
+  /**
+   *
+  * Vertical Rhythm
+  * If you research into design, you may have come across a term called Vertical Rhythm. It’s a way to make your website look clean and professional.
+  *
+  * The idea is you create whitespace that are consistent with your typography. And you use this multiple across your site. This uses the rule of repetition to create a sense of harmony and familiarity.
+  *
+  * Read more about Vertical Rhythm in this article: https://zellwk.com/blog/why-vertical-rhythms/ (and I even wrote a course about Typography - https://mastering-responsive-typography.com/ that covers what you need to know in detail).
+  *
+  * In this case, the font-size of this page is 20px. If we want to follow Vertical Rhythm, we can get and use this size from the page.
+  *
+  * We’ll do this with getComputedStyle.
+  */
+  const styles = getComputedStyle(document.body)
+  const fontSize = parseFloat(styles['font-size'])
+  console.log(fontSize) // 20px => 20
+
+  const dpInputRect = dpInput.getBoundingClientRect()
+  datepicker.style.left = `${dpInputRect.left}px`
+  // datepicker.style.top = `${dpInputRect.bottom + 20}px`
+  datepicker.style.top = `${dpInputRect.bottom + fontSize}px`
+
+  const previousNextButtons = datepicker.querySelector('.datepicker__buttons')
+  const dategrid = datepicker.querySelector('.datepicker__date-grid')
+
+  // ========================
+  // Functions
+  // ========================
+  /**
+     * Gets a Date object from the Year Month indicator
+     * @returns {Date}
+     */
+  const getDateFromYearMonthIndicator = _ => {
+    // Find out the currently selected month and return
+    const time = datepicker.querySelector('.datepicker__year-month').firstElementChild
+    const datetime = time.getAttribute('datetime')
+    // console.log(datetime) // returns 2019-02
+    // currentDate = new Date(datetime)
+    // console.log(currentDate) // returns Thu Jan 31 2019 19:00:00 GMT-0500 (Eastern Standard Time)
+    // const currentDate = dateTimeToDate(datetime)
+    return dateTimeToDate(datetime)
+  }
+
+  // ========================
+  // Event listeners
+  // ========================
+
+  // Changing the year-month indicator
+  previousNextButtons.addEventListener('click', evt => {
+    if (!evt.target.matches('button')) return
+    const currentDate = getDateFromYearMonthIndicator()
+
+    const dpYear = currentDate.getFullYear()
+    const dpMonth = currentDate.getMonth()
+
+    // Finds the previous of next month
+    const targetDate = evt.target.matches('.datepicker__previous')
+      ? new Date(dpYear, dpMonth - 1)
+      : new Date(dpYear, dpMonth + 1)
+
+    // Update the date-grid
+    // const dategrid = datepicker.querySelector('.datepicker__date-grid')
+    const yearMonthIndicator = datepicker.querySelector('.datepicker__year-month')
+    yearMonthIndicator.innerHTML = createYearMonthIndicatorTimeElement(targetDate)
+    dategrid.innerHTML = createDateGridHTML(targetDate)
+  })
+
+  dategrid.addEventListener('click', evt => {
+    // Highlighting the selected date
+    if (!evt.target.matches('button')) return // using the event delegation pattern to listen for only when a button is clicked
+    const button = evt.target
+    const buttons = [...button.parentElement.children]
+
+    // Showing the highlighted class on the clicked button and removing class from all others
+    buttons.forEach(button => button.classList.remove('is-selected'))
+    button.classList.add('is-selected')
+
+    // Figuring out what date is selected
+    const time = button.firstElementChild
+    const datetime = time.getAttribute('datetime')
+    const selectedDate = dateTimeToDate(datetime)
+    // console.log(selectedDate) // Returns Wed Feb 27 2019 00:00:00 GMT-0500 (Eastern Standard Time)
+
+    // Formatting the input field to print to MM/DD/YYYY
+    const year = selectedDate.getFullYear()
+    const month = toTwoDigitString(selectedDate.getMonth() + 1)
+    const day = toTwoDigitString(selectedDate.getDate())
+    const formatted = `${month}/${day}/${year}`
+    // console.log(formatted) // // 02/27/2019
+
+    // Displaying the formatted date
+    dpInput.value = formatted
+  })
+
+  // Shows the Datepicker
+  dpInput.addEventListener('click', evt => {
+    datepicker.removeAttribute('hidden')
+  })
+
+  // Hides the Datepicker
+  document.addEventListener('click', evt => {
+    if (evt.target.closest('.datepicker')) return
+    if (evt.target.closest('input') === dpInput) return
+    datepicker.setAttribute('hidden', true)
+  })
+
+  return datepicker
+}
+
 // ========================
 // Execution
 // ========================
+
+// Add the datepicker into the DOM
+// dpForm.appendChild(createDatePicker(dpInput, dpDate))
+document.body.appendChild(createDatePicker(dpInput, dpDate))
