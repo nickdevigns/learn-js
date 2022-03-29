@@ -104,7 +104,7 @@ html {
   font-size: 125%;
   line-height: 1.4;
   font-weight: 400;
-  color: var(--blue-grey-900);
+  color: var(--indigo-100);
 }
 
 body {
@@ -1380,6 +1380,59 @@ input::placeholder {
 .datepicker__date-grid button.is-selected {
   background-color: var(--teal-100);
   color: var(--teal-900);
+}
+
+/*******************
+ * Countdown Timer
+ *******************/
+.countdown {
+  display: grid;
+  grid-template-columns: minmax(auto, 40em);
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  padding: 2rem;
+  background: var(--blue-300);
+  min-height: 10vh;
+}
+
+.countdown > h1 {
+  font-size: 2.5rem;
+  line-height: 1.2;
+  font-weight: 300;
+  margin: auto;
+  text-align: center;
+}
+
+.countdown > h1 + * {
+  margin-top: 2rem;
+}
+
+.countdown__timer {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(6em, 1fr));
+  grid-gap: 0.75em;
+}
+
+.timer__box {
+  display: grid;
+  place-items: center;
+}
+
+.timer__number {
+  font-size: 2rem;
+  line-height: 1.2;
+  font-weight: 300;
+}
+
+/* Displaying years, months, etc
+ * without manually typing them in HTML
+ */
+.timer__box::after {
+  font-size: 0.75rem;
+  content: attr(data-unit);
+  font-variant: small-caps;
+  letter-spacing: 0.225em;
 }
 
 /*# sourceMappingURL=styles.css.map */

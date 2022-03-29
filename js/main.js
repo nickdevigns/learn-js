@@ -2552,3 +2552,197 @@ const createDatePicker = (dpInput, dpDate) => {
 // Add the datepicker into the DOM
 // dpForm.appendChild(createDatePicker(dpInput, dpDate))
 document.body.appendChild(createDatePicker(dpInput, dpDate))
+
+// COUNTDOWN TIMER
+
+// ========================
+// Variables
+// ========================
+
+const date1 = new Date(2019, 0, 6, 1, 10, 20)
+const date2 = new Date(2019, 0, 1, 0, 0, 0)
+
+// ========================
+// Functions
+// ========================
+
+const toMilliseconds = (unit) => {
+  const seconds = 1000
+  // 1 second is 1000 milliseconds
+  const minutes = seconds * 60
+  // 1 minute is 1000 * 60 = 60000 milliseconds
+  const hours = minutes * 60
+  // 1 hour is 1000 * 60 * 60 = 3600000 milliseconds
+  const days = hours * 24
+  // 1 day is 1000 * 60 * 60 * 24 = 8640000 milliseconds
+
+  if (unit === 'seconds') return seconds
+  if (unit === 'minutes') return minutes
+  if (unit === 'hours') return hours
+  if (unit === 'days') return days
+}
+
+console.log(toMilliseconds('seconds')) // 1000
+console.log(toMilliseconds('minutes')) // 60000
+console.log(toMilliseconds('hours')) // 360000
+console.log(toMilliseconds('days')) // 8640000
+
+// Check for a leap year
+const isLeapYear = (year) => {
+  const feb29 = new Date(year, 1, 29)
+  return feb29.getDate() === 29
+}
+console.log(isLeapYear(2019)) // false
+console.log(isLeapYear(2020)) // true
+
+// Get the Number of Days in a year
+const getDaysInYear = (year) => {
+  return isLeapYear(year)
+    ? 366
+    : 365
+}
+console.log(getDaysInYear(2019)) // 365
+console.log(getDaysInYear(2020)) // 366
+
+const getYearDiff = (endDate, startDate) => {
+  let yearDiff = endDate.getFullYear() - startDate.getFullYear()
+
+  // Check if there's full years of difference
+  const d = new Date(endDate)
+  d.setFullYear(endDate.getFullYear() - yearDiff)
+  if (d < startDate) yearDiff = yearDiff - 1
+
+  const dayDiff = Array.from({ length: yearDiff })
+    .map((value, index) => {
+      const d = new Date(startDate)
+      d.setFullYear(d.getFullYear() + index)
+
+      const year = d.getFullYear()
+      const month = d.getMonth()
+
+      const isAfterMarch = month > 1
+
+      return isAfterMarch
+        ? getDaysInYear(year + 1)
+        : getDaysInYear(year)
+    })
+    .reduce((sum, v) => sum + v, 0)
+
+  return {
+    years: yearDiff,
+    days: dayDiff,
+    ms: dayDiff * toMilliseconds('days')
+  }
+}
+
+const getDaysInMonth = (date) => {
+  const year = date.getFullYear()
+  const month = date.getMonth()
+  const lastDayOfMonth = new Date(year, month + 1, 0)
+  return lastDayOfMonth.getDate()
+}
+
+const getMonthDiff = (endDate, startDate) => {
+  const yearDiff = endDate.getFullYear() - startDate.getFullYear()
+  let monthDiff = endDate.getMonth() + yearDiff * 12 - startDate.getMonth()
+
+  // Check if there's a full month of difference
+  const d = new Date(endDate)
+  d.setMonth(endDate.getMonth() - monthDiff)
+  if (d < startDate) monthDiff = monthDiff - 1
+
+  const dayDiff = Array.from({ length: monthDiff })
+    .map((v, index) => {
+      const d = new Date(startDate)
+      d.setMonth(startDate.getMonth() + index)
+      return getDaysInMonth(d)
+    })
+    .reduce((acc, v) => acc + v, 0)
+
+  return {
+    months: monthDiff,
+    days: dayDiff,
+    ms: dayDiff * toMilliseconds('days')
+  }
+}
+
+const getCountdown = (endDate, startDate) => {
+  const yearDiff = getYearDiff(endDate, startDate)
+  const d = new Date(startDate)
+  d.setFullYear(d.getFullYear() + yearDiff.years)
+
+  // const monthDiff = getMonthDiff(endDate, startDate)
+  const monthDiff = getMonthDiff(endDate, d)
+  // const difference = endDate - startDate - monthDiff.ms
+  const difference = endDate - startDate - yearDiff.ms - monthDiff.ms
+
+  const days = Math.floor(difference / toMilliseconds('days'))
+  const hours = Math.floor(difference % toMilliseconds('days') / toMilliseconds('hours'))
+  const minutes = Math.floor(difference % toMilliseconds('hours') / toMilliseconds('minutes'))
+  const seconds = Math.floor(difference % toMilliseconds('minutes') / toMilliseconds('seconds'))
+
+  return {
+    years: yearDiff.years,
+    months: monthDiff.months,
+    days,
+    hours,
+    minutes,
+    seconds
+  }
+}
+
+// Updating the countdown boxes
+const updateBoxes = (endDate) => {
+  const now = new Date()
+  // const values = getCountdown(date1, date2)
+  const values = getCountdown(endDate, now)
+  // Populate the countdown component
+  const boxes = document.querySelectorAll('.timer__box')
+
+  boxes.forEach(box => {
+    const unit = box.dataset.unit
+    const value = values[unit]
+    box.firstElementChild.textContent = value
+  })
+}
+
+// Updating the countdown target and datetime attribute
+const setCountdownTarget = (date) => {
+  const target = document.querySelector('.countdown__target')
+  target.textContent = `
+  ${date.toLocaleString('en-GB', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  })}
+`
+
+  target.dataset.datetime = date.toLocaleString('en-GB', { year: 'numeric' }) +
+    '-' + date.toLocaleString('en-GB', { month: '2-digit' }) +
+    '-' + date.toLocaleString('en-GB', { day: '2-digit' })
+}
+
+// Execution
+const now = new Date()
+// End of the month
+const nextMonth = new Date(
+  now.getFullYear(),
+  now.getMonth() + 1,
+  1
+)
+// End of this year
+const nextYear = new Date(now.getFullYear() + 6, 0, 1)
+
+// Update Countdown (end of this month)
+// updateBoxes(nextMonth)
+// setInterval(updateBoxes, 1000, nextMonth)
+
+// Update Countdown target (end of this month)
+// setCountdownTarget(nextMonth)
+
+// Update Countdown (end of this year)
+updateBoxes(nextYear)
+setInterval(updateBoxes, 1000, nextYear)
+
+// Update Countdown target (end of this year)
+setCountdownTarget(nextYear)
