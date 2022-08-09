@@ -1,4 +1,4 @@
-function logger (arg) {
+function logger(arg) {
   console.log("What's up logger " + arg + '?')
 }
 logger('bro')
@@ -16,10 +16,10 @@ const loggerz = (arg) => {
 loggerz("What's up logger")
 
 // Normal Function (with Function expression)
-function addNormalFunction (num1, num2) {
+function addNormalFunction(num1, num2) {
   return num1 + num2
 }
-function multiplyNormalFunction (num1, num2) {
+function multiplyNormalFunction(num1, num2) {
   return num1 * num2
 }
 // Arrow Function with implicit return
@@ -134,7 +134,7 @@ modalCloseButton.addEventListener('click', evt => {
 const modalOverlay = document.querySelector('.modal-overlay')
 
 modalOverlay.addEventListener('click', evt => {
-  if (evt.target.closest('.modal')) {
+  if (evt.target.closest('.modal')) { // Check whether the modal is an ancestor
     evt.stopPropagation() // Stop event from bubbling - prevent the modal from closing when clicking inside modal
   } else {
     body.classList.remove('modal-is-open') // Close Modal
