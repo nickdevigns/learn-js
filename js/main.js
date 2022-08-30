@@ -597,7 +597,7 @@ console.log(home.phone)
 
 // Method shorthands
 const house = {
-  lights () { console.log('Turn it on!') }
+  lights() { console.log('Turn it on!') }
 }
 
 // Add two dynamic variables into Javascript with computed property names
@@ -963,7 +963,7 @@ const dots = [...dotsContainer.children]
  * @returns The HTML for dots
  */
 
-function createDots (slides) {
+function createDots(slides) {
   const dotsContainer = document.createElement('div')
   dotsContainer.classList.add('carousel__dots')
 
@@ -1251,7 +1251,7 @@ const calculate = (firstValue, operator, secondValue) => {
   if (operator === 'divide') return firstValue / secondValue
 }
 
-function handleClearKey (calculator, button) {
+function handleClearKey(calculator, button) {
   const { previousButtonType } = calculator.dataset
 
   // If clear key pressed once, do this.
@@ -1266,7 +1266,7 @@ function handleClearKey (calculator, button) {
   }
 }
 
-function handleNumberKey (calculator, button) {
+function handleNumberKey(calculator, button) {
   const { key } = button.dataset // Find the value of the key (value) that was clicked.
   const { previousButtonType } = calculator.dataset
   const displayValue = getDisplayValue()
@@ -1287,7 +1287,7 @@ function handleNumberKey (calculator, button) {
   }
 }
 
-function handleDecimalKey (calculator) {
+function handleDecimalKey(calculator) {
   const { previousButtonType } = calculator.dataset
   const displayValue = getDisplayValue()
 
@@ -1305,7 +1305,7 @@ function handleDecimalKey (calculator) {
   }
 }
 
-function handleOperatorKeys (calculator, button) {
+function handleOperatorKeys(calculator, button) {
   // const firstValue = calculator.dataset.firstValue
   // const operator = calculator.dataset.operator
   const displayValue = getDisplayValue()
@@ -1328,7 +1328,7 @@ function handleOperatorKeys (calculator, button) {
   calculator.dataset.operator = button.dataset.key
 }
 
-function handleEqualKey (calculator) {
+function handleEqualKey(calculator) {
   // const firstValue = calculator.dataset.firstValue
   // const operator = calculator.dataset.operator
   // const modifierValue = calculator.dataset.modifierValue
